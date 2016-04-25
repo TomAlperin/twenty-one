@@ -1,0 +1,44 @@
+<div class="hello" style=" background: url(images/felt.jpg); ">
+  <md-toolbar style="background: black">
+    <div class="md-toolbar-tools">
+      <span>Tech Tom's 21</span>&nbsp;<span>Log-in</span>
+    </div>
+  </md-toolbar>
+  <div layout="row" flex>
+    <div layout="column" layout-align="center center" style="padding: 10px" flex>
+      <div><span>Dealer</span></div>
+      <div layout="row" style="width: 80%" layout-align="start start" flex>
+        <div ng-repeat="test in twentyone.tests" style="transform: rotate({{twentyone.rotate()}}deg)">
+          <img src="images/card.png" alt="Card" style="background: url(images/cards.png) {{twentyone.card(test)}}; background-size: 1370%; height:30vh"/>
+        </div>
+      </div>
+      <div><span>Player</span></div>
+      <div layout="row"  style="width: 80%" layout-align="start start" flex>
+        <div ng-repeat="test in twentyone.tests" style="transform: rotate({{twentyone.rotate()}}deg)">
+          <img src="images/card.png" alt="Card" style="background: url(images/cards.png) {{twentyone.card(test)}}; background-size: 1370%; height: 30vh"/>
+        </div>
+      </div>
+    </div>
+    <md-sidenav
+      class="md-sidenav-right md-whiteframe-2dp"
+      md-component-id="right"
+      md-is-locked-open="true"
+      md-disable-backdrop
+      md-whiteframe="4"
+      layout="column"
+      layout-align="start center"
+      style="width: 85px; background: url(images/wood.jpg)"
+      >
+      <md-button class="md-fab md-primary" style=" padding-top: 5px; background: url(images/chip.png); background-size: cover;">
+      </md-button>
+      <md-button class="md-fab md-primary" style=" padding-top: 5px; background: url(images/chip.png) 17%; background-size: cover;">
+      </md-button>
+      <md-button class="md-fab md-primary" style=" padding-top: 5px; background: url(images/chip.png) 33.5%; background-size: cover;">
+      </md-button>
+      <md-button class="md-fab md-primary" style=" padding-top: 5px; background: url(images/chip.png) 50.5%; background-size: cover;">
+      </md-button>
+      <md-button class="md-fab md-primary" style=" padding-top: 5px; background: url(images/chip.png) 66.7%; background-size: cover;">
+      </md-button>
+    </md-sidenav>
+  </div>
+</div>

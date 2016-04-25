@@ -1,10 +1,12 @@
 angular.module('app', [
     'templates',
     'ui.router',
-    'welcome'
+    'ngMaterial',
+    'ngMdIcons',
+    'twentyone'
   ])
   .config(function ($urlRouterProvider, $stateProvider) {
-    $urlRouterProvider.otherwise('/welcome');
+    $urlRouterProvider.otherwise('/twentyone');
   })
   .run(function () {
 

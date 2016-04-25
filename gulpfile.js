@@ -69,7 +69,11 @@ gulp.task('scripts', function () {
 gulp.task('js-deps', function () {
   gulp.src([
       './node_modules/angular/angular.min.js',
-      './node_modules/angular-ui-router/release/angular-ui-router.min.js'
+      './node_modules/angular-ui-router/release/angular-ui-router.min.js',
+      './node_modules/angular-aria/angular-aria.js',
+      './node_modules/angular-animate/angular-animate.js',
+      './node_modules/angular-material/angular-material.min.js',
+      './node_modules/angular-material-icons/angular-material-icons.min.js'
       //Add your scripts here
     ])
     .pipe(concat('deps.js'))
@@ -94,7 +98,9 @@ gulp.task('copy-img', function () {
 gulp.task('css-deps', function () {
   gulp.src([
       './node_modules/bootstrap/dist/css/bootstrap.min.css',
-      './node_modules/fontawesome/css/font-awesome.min.css'
+      './node_modules/fontawesome/css/font-awesome.min.css',
+      './node_modules/angular-material/angular-material.css',
+      './node_modules/angular-material-icons/angular-material-icons.css'
       //Add your third party styles here
     ])
     .pipe(concat('deps.css'))

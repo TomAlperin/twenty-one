@@ -18,7 +18,7 @@ app.use(cookieParser());
 app.get('/', function (req, res) {
   res.render('index', {welcome: 'Bitwise says hello.'});
 });
-
+app.use(express.static(__dirname + '/images'));
 app.listen(process.env.PORT || 3000, function () {
   console.log(`Server up and running at http://localhost:${process.env.PORT || 3000}`);
 });
