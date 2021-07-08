@@ -1,0 +1,70 @@
+.blackjack {
+  top: 106px;
+  position: fixed;
+  left: 100%;
+  width: 57vw;
+  height: 11vw;
+  will-change: transform, -webkit-transform, -moz-transform;
+}
+.geeBee {
+  background: url("/assets/img/geebee.png") no-repeat 0;
+  height: 100%;
+  background-size: auto 100%;
+  width: 98.5%;
+  float: left;
+}
+.GBZoom {
+  transform: translateX(-175vw);
+  -webkit-transform: translateX(-175vw);
+  -moz-transform: translateX(-175vw);
+  transition: 6s;
+  -webkit-transition: 6s;
+  -moz-transition: 6s;
+  transition-timing-function: ease-out;
+  -webkit-transition-timing-function: ease-out;
+  -moz-transition-timing-function: ease-out;
+}
+.prop {
+  height: 100%;
+  width: 1.5%;
+  position: relative;
+  float: left;
+  background: url("/assets/img/prop.png") no-repeat;
+  background-size: auto 100%;
+}
+.prop1 {
+  background: url("/assets/img/prop.png") no-repeat 52% 0;
+  background-size: auto 100%;
+}
+.prop2 {
+  background: url("/assets/img/prop.png") no-repeat 100% 0;
+  background-size: auto 100%;
+}
+
+@media (orientation: portrait) {
+  .blackjack {
+    height: 22vw;
+    width: 112vw;
+  }
+  .GBZoom {
+    transform: translateX(-300vw);
+    -webkit-transform: translateX(-300vw);
+    -moz-transform: translateX(-300vw);
+    transition: 6s;
+    -webkit-transition: 6s;
+    -moz-transition: 6s;
+    transition-timing-function: ease-out;
+    -webkit-transition-timing-function: ease-out;
+    -moz-transition-timing-function: ease-out;
+  }
+  .prop1 {
+    background-position: 52% 0;
+  }
+  .prop2 {
+    background-position: 100% 0;
+  }
+  .insurance {
+    height: 45px;
+    width: 45px;
+  }
+}

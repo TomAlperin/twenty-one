@@ -4,12 +4,9 @@ import { FourOFourComponent } from './four-o-four/four-o-four.component';
 
 
 const routes: Routes = [
-  { path: '', loadChildren: () => import('./diff-cleaner/diff-cleaner.module').then(m => m.DiffCleanerModule) },
-  // {
-  //   path: '',
-  //   component: FourOFourComponent,
-  //   children: []
-  // },
+  { path: '', redirectTo: 'twenty-one', pathMatch: 'full'},
+  { path: 'diff-cleaner', loadChildren: () => import('./diff-cleaner/diff-cleaner.module').then(m => m.DiffCleanerModule) },
+  { path: 'twenty-one', loadChildren: () => import('./twenty-one/twenty-one.module').then(m => m.TwentyOneModule) },
   {
     path: '404',
     component: FourOFourComponent,
@@ -25,7 +22,7 @@ const routes: Routes = [
   }];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

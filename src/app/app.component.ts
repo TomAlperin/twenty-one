@@ -1,13 +1,13 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { get as _get } from 'lodash';
-import { slideLeftAnimation } from './animations';
+import { routeAnimation } from './animations';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
   encapsulation: ViewEncapsulation.None,
-  animations: [slideLeftAnimation]
+  animations: [routeAnimation]
 })
 export class AppComponent {
 

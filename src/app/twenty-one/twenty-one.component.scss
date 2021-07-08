@@ -1,0 +1,529 @@
+.twenty-one-container {
+  background: url("/assets/img/felt.jpg");
+  height: 100%;
+  min-width: 320px;
+  min-height: 320px;
+  position: relative;
+
+  nav {
+    height: 35px;
+    font-size: 1rem;
+    color: white;
+    font-weight: bold;
+    text-transform: uppercase;
+    z-index: 20;
+    position: relative;
+    background: url("/assets/img/wood.jpg");
+
+    .wp-link {
+      position: relative;
+      float: left;
+      cursor: pointer;
+      padding: 5px 10px;
+    }
+    h1 {
+      padding: 9px 9px;
+      margin: 0;
+      font-size: 1rem;
+      line-height: 1rem;
+    }
+  }
+  .game-container {
+    height: 100%;
+    padding-right: 98px;
+    padding-top: 40px;
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 100%;
+  }
+
+  .player-has-split {
+    width: 50%;
+    float: left;
+  }
+
+  .player-split {
+    position: relative;
+    float: left;
+    width: 50%;
+    margin: 2% 2% 0 2%;
+    border-radius: 5px;
+    h3 {
+      right: 0;
+      width: calc(94% - 85px);
+    }
+  }
+  .dealer {
+    position: relative;
+    padding: 0 15px;
+    margin-bottom: 10px;
+  }
+  .player {
+    position: relative;
+    padding: 0 15px 0 15px;
+    margin-bottom: 10px;
+  }
+  .hand {
+    color: white;
+    margin-bottom: 14px;
+    font-size: 1.5em;
+    line-height: 1.6rem;
+  }
+  .score {
+    list-style-type: none;
+    position: absolute;
+    color: #ffff00;
+    font-weight: bold;
+    font-size: 1.3rem;
+    right: 0;
+    top: -1px;
+    border: 1px solid white;
+    border-radius: 30px 0 0 30px;
+    height: 28px;
+    width: calc(100% - 104px);
+    background-color: black;
+    padding: 2px 8px;
+    text-align: right;
+    line-height: 23px;
+
+    img {
+      height: 26px;
+      top: -2px;
+      position: relative;
+    }
+  }
+  .bank {
+    border-radius: 0 0 0 33px;
+    height: 30px;
+    top: -5px;
+    border-top: 0;
+    font-size: 1.5rem;
+    font-family: courier, monospace;
+    padding: 0 6px;
+    line-height: 28px;
+
+    .settings-btn {
+      background: none;
+      border: none;
+      float: none;
+      margin: 0;
+      height: auto;
+      width: auto;
+      float: left;
+
+      .settings-img {
+        padding: 2px 1px 1px 1px;
+        margin-left: 22px;
+        height: 32px;
+        background: none;
+      }
+    }
+    .stats-btn {
+      background: none;
+      border: none;
+      float: none;
+      margin: 0;
+      height: auto;
+      width: auto;
+      float: left;
+
+      .settings-img {
+        padding: 2px 1px 1px 1px;
+        margin-left: 5px;
+        height: 32px;
+        background: none;
+      }
+    }
+  }
+
+  .insurance {
+    height: 62px;
+    width: 62px;
+    background-size: cover;
+    position: absolute;
+    left: 15px;
+    top: 45px;
+    cursor: pointer;
+    background: url("/assets/img/chip.png") no-repeat 83.4% 0;
+  }
+  .a-button {
+    background: url("/assets/img/chip.png") no-repeat 66.75% 0;
+    background-size: cover;
+  }
+  .chip10 {
+    background: url("/assets/img/chip.png") no-repeat;
+    background-size: cover;
+  }
+  .chip50 {
+    background: url("/assets/img/chip.png") no-repeat 16.7% 0;
+    background-size: cover;
+  }
+  .chip100 {
+    background: url("/assets/img/chip.png") no-repeat 33.3% 0;
+    background-size: cover;
+  }
+  .chip500 {
+    background: url("/assets/img/chip.png") no-repeat 50.3% 0;
+    background-size: cover;
+  }
+  .insure {
+    background: url("/assets/img/chip.png") no-repeat 83.4% 0;
+  }
+  .insured {
+    background: url("/assets/img/chip.png") no-repeat 99.9% 0;
+  }
+  .surrender {
+    font-size: 10px;
+  }
+  .player-bet,
+  .split-bet {
+    font-size: 1.4rem;
+    color: #033c00;
+    margin-bottom: 0;
+    position: absolute;
+    bottom: 0;
+    text-align: right;
+    right: 0;
+    padding: 5px 5px 5px 40px;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    border-radius: 50px 0 0 0;
+    background-color: rgba(144, 238, 144, 0.45);
+
+    h4 {
+      margin: 0;
+    }
+  }
+
+  .blackjack {
+    top: 106px;
+    position: fixed;
+    left: 100%;
+    width: 57vw;
+    height: 11vw;
+    will-change: transform;
+  }
+  .geeBee {
+    background: url("/assets/img/geebee.png") no-repeat 0;
+    height: 100%;
+    background-size: auto 100%;
+    width: 98.5%;
+    float: left;
+  }
+  .GBZoom {
+    transform: translateX(-175vw);
+    -webkit-transform: translateX(-175vw);
+    -moz-transform: translateX(-175vw);
+    transition: 6s;
+    -webkit-transition: 6s;
+    -moz-transition: 6s;
+    transition-timing-function: ease-out;
+    -webkit-transition-timing-function: ease-out;
+    -moz-transition-timing-function: ease-out;
+  }
+  .prop {
+    height: 100%;
+    width: 1.5%;
+    position: relative;
+    float: left;
+    background: url("/assets/img/prop.png") no-repeat;
+    background-size: auto 100%;
+  }
+  .prop1 {
+    background: url("/assets/img/prop.png") no-repeat 52% 0;
+    background-size: auto 100%;
+  }
+  .prop2 {
+    background: url("/assets/img/prop.png") no-repeat 100% 0;
+    background-size: auto 100%;
+  }
+}
+.up {
+  background-color: rgba(76, 161, 9, 0.36);
+  box-shadow: 0 0 20px 16px rgba(255, 236, 5, 0.15);
+  -webkit-box-shadow: 0 0 20px 16px rgba(255, 236, 5, 0.15);
+  -moz-box-shadow: 0 0 20px 16px rgba(255, 236, 5, 0.15);
+
+  .hand {
+    color: #ffff00;;
+  }
+}
+
+.card-container {
+  margin-left: 200px;
+  margin-right: 100px;
+}
+
+.control-panel {
+  position: absolute;
+  width: 85px;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  height: 100%;
+  background-image: url("/assets/img/wood.jpg");
+  box-shadow: 22px 0 10px -10px rgba(0, 0, 0, 0.5) inset;
+}
+.controls {
+  right: 0;
+  height: 389px;
+  bottom: 0;
+  width: 75px;
+  position: absolute;
+}
+button {
+  font-family: Helvetica, sans-serif;
+  cursor: pointer;
+  color: #2f3145;
+  font-weight: bold;
+  width: 56px;
+  height: 56px;
+  font-size: 12px;
+  border-radius: 60px;
+  margin: 7px 7px;
+  background: repeating-linear-gradient(
+    135deg,
+    #8585c7,
+    rgba(219, 219, 214, 1) 50%,
+    #61613f 100%
+  );
+  border-width: 3px;
+  float: right;
+  text-align: center;
+  padding: 0;
+  &:focus-visible {
+    outline: none;
+  }
+  &[disabled] {
+    cursor: default;
+  }
+  &:hover {
+    &:not([disabled]) {
+      &:not(:active) {
+        border: 3px inset #60a3e2c5;
+      }
+    }
+  }
+  &:focus,
+  &:focus-visible {
+    &:not([disabled]) {
+      filter: contrast(1.5);
+    }
+  }
+  &:active {
+    &:not([disabled]) {
+      border-width: 5px;
+      border-style: inset;
+    }
+  }
+}
+
+@media (orientation: portrait) {
+  .twenty-one-container {
+    .game-container {
+      padding-right: 0 !important;
+    }
+    .split-clear {
+      clear: both;
+    }
+    .dealer,
+    .player,
+    .player-split {
+      position: relative;
+      width: 95%;
+      margin-left: 2%;
+      height: calc(33% - 37px);
+    }
+    .control-panel {
+      width: 100%;
+      height: auto;
+      top: auto;
+      bottom: -5px;
+      position: absolute;
+      box-shadow: 0 15px 10px -10px rgba(0, 0, 0, 0.81) inset;
+      border-radius: 100% 100% 0 0;
+    }
+    .controls {
+      height: 95px;
+      position: relative;
+      left: calc(50% - 180px);
+      width: 360px;
+    }
+    button {
+      width: 62px;
+      height: 62px;
+      border-width: 4px;
+      margin: 23px 5px 0 5px;
+      font-size: 13px;
+      float: left;
+    }
+    .insurance {
+      height: 45px;
+      width: 45px;
+    }
+  }
+}
+@media (orientation: landscape) /* Mobile Landscape */ and (max-height: 400px) {
+  .twenty-one-container {
+    .player-bet,
+    .split-bet {
+      font-size: 95%;
+      height: 18px;
+      padding: 3px 3px 3px 40px;
+      border: 1px solid rgba(255, 255, 255, 0.5);
+    }
+    .controls {
+      height: 320px;
+      bottom: auto;
+      top: 0;
+    }
+    button {
+      margin: 3px 12px 0 10px;
+      width: 50px;
+      height: 50px;
+      font-size: 9px;
+    }
+  }
+}
+@media (orientation: portrait) /* Mobile Portrait */ and (max-device-height: 480px) {
+  html,
+  body,
+  #wrapper {
+    min-height: 372px;
+  }
+}
+
+@media (min-width: 900px) {
+  .play {
+    -webkit-column-count: 2;
+    -moz-column-count: 2;
+    column-count: 2;
+    -webkit-column-gap: 15px;
+    -moz-column-gap: 15px;
+    column-gap: 15px;
+  }
+}
+@media (min-width: 1300px) {
+  .play {
+    -webkit-column-count: 3;
+    -moz-column-count: 3;
+    column-count: 3;
+    -webkit-column-gap: 15px;
+    -moz-column-gap: 15px;
+    column-gap: 15px;
+  }
+}
+@media only screen /* iPhone 4 Portrait*/ and (orientation: portrait) and (device-width: 320px) and (device-height: 480px) {
+  .hand {
+    font-size: 100%;
+  }
+  .bank {
+    font-size: 100%;
+    height: 18px;
+    padding: 4px;
+  }
+  .score {
+    font-size: 95%;
+    height: 18px;
+  }
+  .player-bet,
+  .split-bet {
+    font-size: 95%;
+    height: 18px;
+    padding: 3px 3px 3px 40px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+  }
+  .control-panel {
+    border-radius: 0;
+  }
+  .controls {
+    height: 81px;
+    left: 0;
+    width: 320px;
+  }
+  button {
+    margin: 10px 5px 0 5px;
+    width: 54px;
+    height: 54px;
+    font-size: 9px;
+  }
+}
+@media only screen /* iPhone 4 Landscape*/ and (orientation: landscape) and (device-height: 480px) and (device-width: 320px) {
+  .hand {
+    font-size: 100%;
+  }
+  bank {
+    font-size: 100%;
+    height: 18px;
+    padding: 4px;
+  }
+  .score {
+    font-size: 95%;
+    height: 18px;
+  }
+  .player-bet,
+  .split-bet {
+    font-size: 95%;
+    height: 18px;
+    padding: 3px 3px 3px 40px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+  }
+  .controls {
+    height: 320px;
+    bottom: auto;
+    top: 0;
+  }
+  button {
+    margin: 3px 12px 0 10px;
+    width: 50px;
+    height: 50px;
+    font-size: 9px;
+  }
+}
+@media only screen /* iPad in Landscape */ and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: landscape) {
+  .controls {
+    bottom: auto;
+  }
+}
+@media (orientation: portrait) and (-webkit-max-device-pixel-ratio: 2) and (max-width: 440px) {
+  .control-panel {
+    border-radius: 0;
+  }
+  .controls {
+    height: 70px;
+    width: 320px;
+    left: calc(50% - 160px);
+  }
+  button {
+    margin: 7px 5px 0 5px;
+    width: 54px;
+    height: 54px;
+    font-size: 9px;
+  }
+}
+@media (max-width: 440px) and (-webkit-max-device-pixel-ratio: 2) {
+  .hand {
+    font-size: 100%;
+  }
+  .bank {
+    font-size: 100%;
+    padding: 5px;
+    height: 17px;
+  }
+  .score {
+    font-size: 95%;
+    height: 18px;
+  }
+  .player-bet,
+  .split-bet {
+    font-size: 95%;
+    height: 18px;
+    padding: 3px 3px 3px 40px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+  }
+}
+@media only screen /* iPhone 6 Plus Landscape */ and (min-device-width: 414px) and (max-device-width: 736px) and (orientation: landscape) and (-webkit-min-device-pixel-ratio: 3) {
+  .controls {
+    bottom: auto;
+  }
+}

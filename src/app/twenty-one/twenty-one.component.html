@@ -1,0 +1,156 @@
+<div class="twenty-one-container">
+  <nav class="d-flex justify-content-between">
+    <a href="http://www.technicallytom.com" target="_blank">
+      <img
+        class="wp-link"
+        alt="technicallytom.com"
+        src="/assets/img/logo.png?v=1"
+      />
+    </a>
+    <h1>Blackjack</h1>
+  </nav>
+  <div class="game-container">
+    <div class="position-relative h-100">
+      <div class="dealer" [style.height]="height + 'px'">
+        <h2 class="hand">Dealer</h2>
+        <h3 class="bank score">
+          <button type="button" (click)="openSettings()" class="settings-btn">
+            <img
+              src="/assets/img/settings.svg"
+              alt="Settings"
+              class="settings-img"
+            />
+          </button>
+          <button type="button" (click)="openStats()" class="stats-btn">
+            <img
+              src="/assets/img/stats.svg"
+              alt="Settings"
+              class="settings-img"
+            />
+          </button>
+          {{ game.bank | currency: "USD":"symbol":"1.0" }}
+        </h3>
+        <div class="d-flex justify-content-between card-container">
+          <app-card
+            *ngFor="
+              let dealerCard of game.dealerCards;
+              let i = index;
+              trackBy: trackByFn
+            "
+            [card]="dealerCard"
+            [cardSound]="cardSound"
+            [animate]="animate"
+            [flip]="i === 1 && flip"
+            [height]="height"
+          ></app-card>
+          <app-card
+            *ngFor="
+              let card of placeholders.slice(game.dealerCards.length);
+              trackBy: trackByFn
+            "
+            [card]="0"
+            [height]="height"
+          ></app-card>
+          <img
+            *ngIf="game | actionCheck: 'canInsure'"
+            (click)="insure()"
+            src="/assets/img/card.png"
+            alt="Insurance"
+            class="insurance"
+            [ngClass]="{ insured: game.insured }"
+          />
+        </div>
+      </div>
+      <div
+        *ngIf="game.split"
+        class="player player-has-split"
+        [ngClass]="{
+          up: this.game.split && this.game.state === 'hit-on-split' && !disabled
+        }"
+        [style.height]="height + 'px'"
+      >
+        <h2 class="hand">Split 1</h2>
+        <h3 class="score">
+          <img
+            *ngIf="game.splitIcon"
+            src="/assets/img/{{ game.splitIcon }}.svg"
+            [alt]="game.splitIcon"
+          />
+          {{ game.splitResult }}
+        </h3>
+        <div class="d-flex justify-content-between card-container">
+          <app-card
+            *ngFor="let userCard of game.splitCards; trackBy: trackByFn"
+            [card]="userCard"
+            [cardSound]="cardSound"
+            [animate]="animate"
+            [height]="height"
+          ></app-card>
+          <app-card
+            *ngFor="
+              let card of placeholders.slice(game.splitCards.length);
+              trackBy: trackByFn
+            "
+            [card]="0"
+            [height]="height"
+          ></app-card>
+        </div>
+        <div class="player-bet">
+          <h4>{{ game.splitBet | currency: "USD":"symbol":"1.0" }}</h4>
+        </div>
+      </div>
+      <div
+        class="player"
+        [ngClass]="{
+          'player-has-split': game.split,
+          up: this.game.split && this.game.state === 'hit' && !disabled
+        }"
+        [style.height]="height + 'px'"
+      >
+        <h2 class="hand">{{ game.split ? "Split 2" : "Player" }}</h2>
+        <h3 class="score">
+          <img
+            *ngIf="game.icon"
+            src="/assets/img/{{ game.icon }}.svg"
+            [alt]="game.icon"
+          />
+          {{ game.result }}
+        </h3>
+        <div class="d-flex justify-content-between card-container">
+          <app-card
+            *ngFor="let userCard of game.userCards; trackBy: trackByFn"
+            [card]="userCard"
+            [cardSound]="cardSound"
+            [animate]="animate"
+            [height]="height"
+          ></app-card>
+          <app-card
+            *ngFor="
+              let card of placeholders.slice(game.userCards.length);
+              trackBy: trackByFn
+            "
+            [card]="0"
+            [height]="height"
+          ></app-card>
+        </div>
+        <div class="player-bet">
+          <h4>{{ game.bet | currency: "USD":"symbol":"1.0" }}</h4>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="control-panel">
+    <div class="controls">
+      <ng-container *ngFor="let control of controls; trackBy: trackByFn">
+        <button
+          *ngIf="control.states.includes(game.state)"
+          [disabled]="!(game | actionCheck: control.condition) || disabled"
+          [class]="control.class"
+          (click)="do(control.action, control.value)"
+        >
+          {{ (game | actionCheck: control.condition) ? control.label : "" }}
+        </button>
+      </ng-container>
+    </div>
+  </div>
+</div>

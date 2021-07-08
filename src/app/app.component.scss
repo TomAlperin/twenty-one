@@ -1,7 +1,14 @@
 main {
   height: 100%;
 }
-app-four-o-four, app-diff-cleaner {
+body {
+  background: #222;
+}
+app-four-o-four,
+app-diff-cleaner {
   display: block;
   padding: 20px;
+}
+.mat-radio-label-content {
+  padding: 8px 0 8px 8px;
 }

@@ -1,0 +1,83 @@
+<div class="modal fade" [ngClass]="{ show: show }">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Settings</h5>
+        <button
+          (click)="close()"
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="form-container">
+          <form [formGroup]="form">
+            <section class="section">
+              <mat-radio-group
+                color="primary"
+                formControlName="alignment"
+                aria-label="Select a sound option"
+              >
+                <mat-radio-button value="natural"
+                  >Natural Cards</mat-radio-button
+                >&nbsp;
+                <mat-radio-button value="neat">Aligned Cards</mat-radio-button
+                >&nbsp;
+              </mat-radio-group>
+            </section>
+            <section class="section">
+              <mat-checkbox formControlName="cardSize" color="primary"
+                >Always show "Big Cards"</mat-checkbox
+              >
+            </section>
+            <section class="section">
+              <mat-radio-group
+                color="primary"
+                formControlName="sounds"
+                aria-label="Select a sound option"
+              >
+                <mat-radio-button value="classic"
+                  >Classic Sounds</mat-radio-button
+                >&nbsp;
+                <mat-radio-button value="stank">Stanky Sounds</mat-radio-button
+                >&nbsp;
+                <mat-radio-button value="off">Sounds Off</mat-radio-button>
+              </mat-radio-group>
+            </section>
+            <section class="section">
+              <mat-form-field appearance="fill">
+                <mat-label>Deck Count</mat-label>
+                <mat-select formControlName="deckCount">
+                  <mat-select-trigger>
+                    {{ form.value.deckCount || "" }}
+                  </mat-select-trigger>
+                  <mat-option [value]="1">1 Deck</mat-option>
+                  <mat-option [value]="2">2 Decks</mat-option>
+                  <mat-option [value]="3">3 Decks</mat-option>
+                  <mat-option [value]="4">4 Decks</mat-option>
+                  <mat-option [value]="5">5 Decks</mat-option>
+                  <mat-option [value]="6">6 Decks</mat-option>
+                  <mat-option [value]="7">7 Decks</mat-option>
+                  <mat-option [value]="8">8 Decks</mat-option>
+                  <mat-option [value]="9">8 Decks</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </section>
+          </form>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button (click)="close()" type="button" class="btn btn-primary">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div
+  (click)="close()"
+  class="modal-backdrop fade"
+  [ngClass]="{ show: show }"
+></div>

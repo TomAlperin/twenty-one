@@ -1,0 +1,24 @@
+<div class="flip-container" [ngClass]="{ flip: flip }">
+  <img
+    src="/assets/img/card.png"
+    [height]="height - 55"
+    alt="Card"
+    [ngClass]="{
+      hide: card === 0,
+      'card-size': cardSize
+    }"
+    class="card"
+    [ngStyle]="cardStyles"
+  />
+  <img
+    src="/assets/img/card.png"
+    [height]="height - 55"
+    alt="Card"
+    [ngClass]="{
+      hide: card === 0,
+      'card-size': cardSize
+    }"
+    class="card"
+    [ngStyle]="backCardStyles"
+  />
+</div>

@@ -15,11 +15,11 @@ const slideLeft = [
 ];
 
 export const routeAnimation =
-trigger('routerAnimation', [
-  transition('* <=> *', fadeIn)
-]);
+  trigger('routerAnimation', [
+    transition('* <=> *', fadeIn)
+  ]);
 
 export const slideLeftAnimation =
-trigger('routerAnimation', [
-  transition('* <=> *', slideLeft)
-]);
+  trigger('routerAnimation', [
+    transition('* <=> *', slideLeft)
+  ]);
