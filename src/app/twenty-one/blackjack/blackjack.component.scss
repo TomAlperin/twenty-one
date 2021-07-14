@@ -13,13 +13,13 @@
   width: 98.5%;
   float: left;
 }
-.GBZoom {
+.gb-zoom {
   transform: translateX(-175vw);
   -webkit-transform: translateX(-175vw);
   -moz-transform: translateX(-175vw);
-  transition: 6s;
-  -webkit-transition: 6s;
-  -moz-transition: 6s;
+  transition: 8s;
+  -webkit-transition: 8s;
+  -moz-transition: 8s;
   transition-timing-function: ease-out;
   -webkit-transition-timing-function: ease-out;
   -moz-transition-timing-function: ease-out;
@@ -46,7 +46,7 @@
     height: 22vw;
     width: 112vw;
   }
-  .GBZoom {
+  .gb-zoom {
     transform: translateX(-300vw);
     -webkit-transform: translateX(-300vw);
     -moz-transform: translateX(-300vw);

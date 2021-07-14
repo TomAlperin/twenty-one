@@ -1,9 +1,6 @@
 main {
   height: 100%;
 }
-body {
-  background: #222;
-}
 app-four-o-four,
 app-diff-cleaner {
   display: block;
@@ -11,4 +8,18 @@ app-diff-cleaner {
 }
 .mat-radio-label-content {
   padding: 8px 0 8px 8px;
+}
+.tab-loop {
+  position: absolute;
+  top: -100000px;
+  left: -100000px;
+  height: 0;
+  width: 0;
+  text-align: left;
+  overflow: hidden;
+}
+.mat-tooltip {
+  font-size: 20px;
+  line-height: 30px;
+  text-align: center;
 }

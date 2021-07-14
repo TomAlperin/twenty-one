@@ -1,0 +1,371 @@
+.nav-bar {
+  background-color: rgba(131, 141, 161, 0.51);
+  border-top: 1px solid rgba(0, 0, 0, 0.51);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.51);
+  width: 100%;
+  height: 32px;
+  -moz-box-shadow: inset 0 16px 16px -7px rgba(242, 245, 253, 0.47);
+  -webkit-box-shadow: inset 0 16px 16px -7px rgba(242, 245, 253, 0.47);
+  box-shadow: inset 0 16px 16px -7px rgba(242, 245, 253, 0.47);
+  z-index: 100;
+}
+.nav-bar ul {
+  margin: 0 auto;
+  padding: 0;
+  height: 30px;
+  width: 300px;
+}
+.nav-bar li {
+  width: 100px;
+  list-style-type: none;
+  float: left;
+  text-align: center;
+  position: relative;
+  cursor: pointer;
+  padding: 5px 0;
+}
+.nav-bar li:hover {
+  background-color: rgb(182, 186, 226);
+}
+.about {
+  height: 100%;
+  width: 100%;
+  min-width: 320px;
+  min-height: 320px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  margin: 0 auto 0 auto;
+  text-align: center;
+  z-index: 10;
+  background-color: rgb(50, 50, 50);
+  transition: 1s;
+  -webkit-transition: 1s;
+  -moz-transition: 1s;
+}
+.about h1 {
+  font-size: 20px;
+  line-height: 22px;
+  padding: 5px;
+  margin: 0;
+  background-color: rgb(93, 91, 82);
+}
+.about p,
+.myLists li {
+  padding-bottom: 10px;
+  font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  letter-spacing: 1px;
+}
+.about h2 {
+  font-family: Trebuchet MS, sans-serif;
+  font-weight: normal;
+}
+.work h2 {
+  font-size: 3.6vw;
+  color: white;
+  padding: 1% 8%;
+}
+.play h2 {
+  color: black;
+  text-align: center;
+}
+.art {
+  background-image: url("/assets/img/art.jpg");
+  background-size: 100vw;
+  width: 100%;
+}
+.art:before {
+  content: "";
+  display: block;
+  padding-top: 18%; /*sets ratio*/
+}
+.keyboard {
+  width: 100%;
+  background: url("/assets/img/kb.jpg");
+  background-size: 120%;
+}
+.keyboard:before {
+  content: "";
+  display: block;
+  padding-top: 18%; /*sets ratio*/
+}
+.divKB {
+  margin-top: 20px;
+}
+.left {
+  text-align: left;
+}
+.right {
+  text-align: right;
+}
+.about button {
+  margin: 1% auto;
+  position: relative;
+  float: none;
+}
+.work {
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  text-align: justify;
+  font-weight: lighter;
+  padding-top: 20px;
+}
+.play {
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  text-align: justify;
+  margin: 5px auto;
+}
+.work p {
+  padding: 0 35px 15px 35px;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+  -moz-hyphens: auto;
+  color: #282828;
+  font-size: 20px;
+  line-height: 38px;
+}
+.play p {
+  padding: 0 10px 10px 5px;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+  -moz-hyphens: auto;
+  color: #282828;
+}
+.work ul,
+.play ul {
+  /*list-style: none;*/
+  width: 80%;
+  margin: 0 auto;
+  padding: 0 10px 10px 5px;
+}
+.work li .play li {
+  text-indent: -1.7em;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+  -moz-hyphens: auto;
+}
+.work p,
+.work li {
+  color: white;
+}
+.play p,
+.play li {
+  color: #282828;
+}
+.tom {
+  border-radius: 50%;
+  padding: 3px;
+  margin: 10px;
+  background: white;
+  width: 70px;
+  border: 2px solid darkgreen;
+  float: left;
+  transition: 1s;
+  -webkit-transition: 1s;
+  -moz-transition: 1s;
+}
+.egg {
+  position: absolute;
+  bottom: -14px;
+  right: 3%;
+  height: 80px;
+  cursor: pointer;
+}
+.gee-bee {
+  background: url("/assets/img/geebee.png") no-repeat 0;
+  height: 100%;
+  background-size: auto 100%;
+  width: 98.5%;
+  float: left;
+}
+.heading {
+  margin: 10px auto;
+  position: static;
+  width: 310px;
+  height: 59px;
+}
+.prop {
+  background: url("/assets/img/prop.png") no-repeat;
+}
+.prop1 {
+  background: url("/assets/img/prop.png") no-repeat 52% 0;
+}
+.prop2 {
+  background: url("/assets/img/prop.png") no-repeat 100% 0;
+}
+.h-prop {
+  height: 100%;
+  width: 1.5%;
+  position: relative;
+  float: left;
+  background-size: auto 100%;
+}
+.a-container {
+  position: fixed;
+  perspective: 1500px;
+  -webkit-perspective: 1500px;
+  -moz-perspective: 1500px;
+  transform-style: preserve-3d;
+  top: 63px;
+  bottom: 35px;
+}
+/* flip the pane when class=flip */
+.a-container.flip .a-flipper {
+  transform: rotateY(180deg);
+  -webkit-transform: rotateY(180deg);
+  -moz-transform: rotateY(180deg);
+  height: 100%;
+  .a-back {
+    z-index: 100;
+  }
+}
+.a-back {
+  padding: 25px;
+  background-color: #fff;
+  font-size: 18px;
+  line-height: 28px;
+}
+.a-container,
+.a-front,
+.a-back {
+  position: fixed;
+  width: 100vw;
+  margin: 0 auto;
+}
+/* hide back of pane during swap */
+.a-front,
+.a-back {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+  position: absolute;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+.a-flipper {
+  transition: 1s;
+  -webkit-transition: 1s;
+  -moz-transition: 1s;
+  transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
+  position: relative;
+  height: 100%;
+}
+
+/* front pane, placed above back */
+.a-front {
+  z-index: 11;
+  /* for firefox 31 */
+  transform: rotateY(0deg);
+  -webkit-transform: rotateY(0deg);
+  -moz-transform: rotateY(0deg);
+}
+/* back, initially hidden pane */
+.a-back {
+  transform: rotateY(180deg);
+  -webkit-transform: rotateY(180deg);
+  -moz-transform: rotateY(180deg);
+}
+/* entire container, keeps perspective */
+.flip-container {
+  perspective: 1000px;
+  -webkit-perspective: 1000px;
+  -moz-perspective: 1000px;
+  transform-style: preserve-3d;
+  left: 12.4%;
+  height: calc(93% - 28px);
+  /*max-width: 130px;*/
+}
+.flip-container.flip .flipper {
+  transform: rotateY(180deg);
+  -webkit-transform: rotateY(180deg);
+  -moz-transform: rotateY(180deg);
+}
+
+.flip-container,
+.front,
+.back {
+  position: absolute;
+}
+/* flip speed goes here */
+.flipper {
+  transition: 0.4s;
+  -webkit-transition: 0.4s;
+  -moz-transition: 0.4s;
+  transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
+  position: relative;
+  height: 100%;
+}
+/* hide back of pane during swap */
+.front,
+.back {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+  position: absolute;
+  top: 0;
+  height: 100%;
+}
+/* front pane, placed above back */
+.front {
+  z-index: 2;
+  /* for firefox 31 */
+  transform: rotateY(0deg);
+  -webkit-transform: rotateY(0deg);
+  -moz-transform: rotateY(0deg);
+}
+/* back, initially hidden pane */
+.back {
+  transform: rotateY(180deg);
+  -webkit-transform: rotateY(180deg);
+  -moz-transform: rotateY(180deg);
+  position: absolute;
+}
+.footer {
+  height: 37px;
+  width: 100%;
+  background: #5d5b52;
+  position: fixed;
+  bottom: 0;
+}
+.wp-link {
+  position: relative;
+  float: left;
+  cursor: pointer;
+  padding: 5px 10px;
+}
+
+@media (orientation: portrait) {
+  .play {
+    width: 96%;
+  }
+}
+@media (orientation: portrait) /* Mobile Portrait*/ and (max-device-height: 480px) {
+  html,
+  body {
+    min-height: 372px;
+  }
+}
+
+@media (min-width: 900px) {
+  .about h2 {
+    font-size: 28px;
+  }
+}
+@media (min-width: 1300px) {
+  .art {
+    background-size: 50vw;
+  }
+  .art:before {
+    content: "";
+    display: block;
+    padding-top: 9%;
+  }
+}

@@ -1,10 +1,32 @@
 .card {
-  position: fixed;
-  left: 50%;
-  top: 50%;
+  position: absolute;
+  left: 20px;
+  top: 20px;
   width: 260px;
-  margin-left: -130px;
-  margin-top: -50px;
   text-align: center;
   padding: 15px;
+  z-index: 10000;
+  height: 300px;
+  text-align: center;
+  will-change: opacity;
+  opacity: 0;
+  -webkit-transition: opacity 0.3s ease-in-out;
+  -moz-transition: opacity 0.3s ease-in-out;
+  -o-transition: opacity 0.3s ease-in-out;
+  transition: opacity 0.3s ease-in-out;
+  pointer-events: none;
+  background-color: rgba(0, 0, 0, 0.75);
+  border-radius: 10px;
+  border: 1px solid #fff31a;
+
+  &.show {
+    opacity: 1;
+  }
+
+  h2 {
+    color: #fff31a;
+  }
+  .hand {
+    padding-left: 50px;
+  }
 }

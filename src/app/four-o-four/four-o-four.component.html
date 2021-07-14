@@ -1,1 +1,20 @@
-<mat-card><p>four-o-four works!</p></mat-card>
+<div class="four-o-four-container">
+  <mat-card>
+    <div class="d-flex justify-content-left">
+      <div>
+        <h1>4 0 4<br />What's the Deal?</h1>
+        <button routerLink="/" type="button" mat-raised-button color="primary">
+          Home
+        </button>
+      </div>
+      <ng-container *ngFor="let card of hand">
+        <app-card
+          [card]="card"
+          [height]="250"
+          [cardSound]="false"
+          [animate]="true"
+        ></app-card>
+      </ng-container>
+    </div>
+  </mat-card>
+</div>

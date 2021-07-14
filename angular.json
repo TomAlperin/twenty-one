@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "quad-logic": {
+    "twenty-one": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,14 +17,14 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/quad-logic",
+            "outputPath": "dist/twenty-one",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
-            "aot": true,
             "assets": [
               "src/favicon.ico",
+              "src/assets/img/blackjack.png",
               "src/assets",
               "src/manifest.webmanifest"
             ],
@@ -33,7 +33,13 @@
             ],
             "scripts": [],
             "serviceWorker": true,
-            "ngswConfigPath": "ngsw-config.json"
+            "ngswConfigPath": "ngsw-config.json",
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "buildOptimizer": false,
+            "sourceMap": true,
+            "optimization": false,
+            "namedChunks": true
           },
           "configurations": {
             "production": {
@@ -63,23 +69,24 @@
                 }
               ]
             }
-          }
+          },
+          "defaultConfiguration": ""
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "quad-logic:build"
+            "browserTarget": "twenty-one:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "quad-logic:build:production"
+              "browserTarget": "twenty-one:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "quad-logic:build"
+            "browserTarget": "twenty-one:build"
           }
         },
         "test": {
@@ -117,15 +124,16 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "quad-logic:serve"
+            "devServerTarget": "twenty-one:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "quad-logic:serve:production"
+              "devServerTarget": "twenty-one:serve:production"
             }
           }
         }
       }
-    }},
-  "defaultProject": "quad-logic"
+    }
+  },
+  "defaultProject": "twenty-one"
 }

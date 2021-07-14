@@ -1,11 +1,11 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Game } from '../models/game';
+import { TwentyoneGame } from '../models/twentyone-game';
 
 @Pipe({
   name: 'actionCheck'
 })
 export class ActionCheckPipe implements PipeTransform {
-  transform(game: Game, condition: string) {
+  transform(game: TwentyoneGame, condition: string) {
     switch (condition) {
       case 'canDouble':
         return game.bet <= game.bank && game.userCards.length <= 2;

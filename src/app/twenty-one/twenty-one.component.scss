@@ -1,9 +1,16 @@
 .twenty-one-container {
   background: url("/assets/img/felt.jpg");
   height: 100%;
+  width: 100%;
   min-width: 320px;
   min-height: 320px;
-  position: relative;
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  .card-container {
+    padding-right: 120px;
+  }
 
   nav {
     height: 35px;
@@ -11,10 +18,9 @@
     color: white;
     font-weight: bold;
     text-transform: uppercase;
-    z-index: 20;
     position: relative;
     background: url("/assets/img/wood.jpg");
-
+    padding-right: 90px;
     .wp-link {
       position: relative;
       float: left;
@@ -140,12 +146,13 @@
   .insurance {
     height: 62px;
     width: 62px;
-    background-size: cover;
     position: absolute;
     left: 15px;
     top: 45px;
+    z-index: 20;
     cursor: pointer;
     background: url("/assets/img/chip.png") no-repeat 83.4% 0;
+    background-size: cover;
   }
   .a-button {
     background: url("/assets/img/chip.png") no-repeat 66.75% 0;
@@ -169,9 +176,11 @@
   }
   .insure {
     background: url("/assets/img/chip.png") no-repeat 83.4% 0;
+    background-size: cover;
   }
   .insured {
     background: url("/assets/img/chip.png") no-repeat 99.9% 0;
+    background-size: cover;
   }
   .surrender {
     font-size: 10px;
@@ -194,64 +203,16 @@
       margin: 0;
     }
   }
-
-  .blackjack {
-    top: 106px;
-    position: fixed;
-    left: 100%;
-    width: 57vw;
-    height: 11vw;
-    will-change: transform;
-  }
-  .geeBee {
-    background: url("/assets/img/geebee.png") no-repeat 0;
-    height: 100%;
-    background-size: auto 100%;
-    width: 98.5%;
-    float: left;
-  }
-  .GBZoom {
-    transform: translateX(-175vw);
-    -webkit-transform: translateX(-175vw);
-    -moz-transform: translateX(-175vw);
-    transition: 6s;
-    -webkit-transition: 6s;
-    -moz-transition: 6s;
-    transition-timing-function: ease-out;
-    -webkit-transition-timing-function: ease-out;
-    -moz-transition-timing-function: ease-out;
-  }
-  .prop {
-    height: 100%;
-    width: 1.5%;
-    position: relative;
-    float: left;
-    background: url("/assets/img/prop.png") no-repeat;
-    background-size: auto 100%;
-  }
-  .prop1 {
-    background: url("/assets/img/prop.png") no-repeat 52% 0;
-    background-size: auto 100%;
-  }
-  .prop2 {
-    background: url("/assets/img/prop.png") no-repeat 100% 0;
-    background-size: auto 100%;
-  }
 }
 .up {
-  background-color: rgba(76, 161, 9, 0.36);
-  box-shadow: 0 0 20px 16px rgba(255, 236, 5, 0.15);
-  -webkit-box-shadow: 0 0 20px 16px rgba(255, 236, 5, 0.15);
-  -moz-box-shadow: 0 0 20px 16px rgba(255, 236, 5, 0.15);
+  background-color: rgb(76 161 9 / 25%);
+  box-shadow: 0 0 20px 16px rgb(76 161 9 / 25%);
+  -webkit-box-shadow: 0 0 20px 16px rgb(76 161 9 / 25%);
+  -moz-box-shadow: 0 0 20px 16px rgb(76 161 9 / 25%);
 
   .hand {
-    color: #ffff00;;
+    color: #ffff00;
   }
-}
-
-.card-container {
-  margin-left: 200px;
-  margin-right: 100px;
 }
 
 .control-panel {
@@ -320,6 +281,9 @@ button {
 
 @media (orientation: portrait) {
   .twenty-one-container {
+    nav {
+      padding-right: 0;
+    }
     .game-container {
       padding-right: 0 !important;
     }
@@ -414,70 +378,88 @@ button {
   }
 }
 @media only screen /* iPhone 4 Portrait*/ and (orientation: portrait) and (device-width: 320px) and (device-height: 480px) {
-  .hand {
-    font-size: 100%;
-  }
-  .bank {
-    font-size: 100%;
-    height: 18px;
-    padding: 4px;
-  }
-  .score {
-    font-size: 95%;
-    height: 18px;
-  }
-  .player-bet,
-  .split-bet {
-    font-size: 95%;
-    height: 18px;
-    padding: 3px 3px 3px 40px;
-    border: 1px solid rgba(255, 255, 255, 0.5);
-  }
-  .control-panel {
-    border-radius: 0;
-  }
-  .controls {
-    height: 81px;
-    left: 0;
-    width: 320px;
-  }
-  button {
-    margin: 10px 5px 0 5px;
-    width: 54px;
-    height: 54px;
-    font-size: 9px;
+  .twenty-one-container {
+    .hand {
+      font-size: 100%;
+    }
+    .bank {
+      font-size: 14px;
+      line-height: 10px;
+      height: 18px;
+      .settings-btn {
+        .settings-img {
+          margin-left: 7px;
+        }
+      }
+      .settings-btn,
+      .stats-btn {
+        .settings-img {
+          height: 18px;
+        }
+      }
+    }
+    .score {
+      font-size: 14px;
+      height: 18px;
+      img {
+        height: 16px;
+      }
+    }
+    .player-bet,
+    .split-bet {
+      font-size: 95%;
+      height: 18px;
+      padding: 3px 3px 3px 40px;
+      border: 1px solid rgba(255, 255, 255, 0.5);
+    }
+    .control-panel {
+      border-radius: 0;
+    }
+    .controls {
+      height: 81px;
+      left: 0;
+      width: 320px;
+    }
+    button {
+      margin: 10px 5px 0 5px;
+      width: 54px;
+      height: 54px;
+      font-size: 9px;
+    }
   }
 }
 @media only screen /* iPhone 4 Landscape*/ and (orientation: landscape) and (device-height: 480px) and (device-width: 320px) {
-  .hand {
-    font-size: 100%;
-  }
-  bank {
-    font-size: 100%;
-    height: 18px;
-    padding: 4px;
-  }
-  .score {
-    font-size: 95%;
-    height: 18px;
-  }
-  .player-bet,
-  .split-bet {
-    font-size: 95%;
-    height: 18px;
-    padding: 3px 3px 3px 40px;
-    border: 1px solid rgba(255, 255, 255, 0.5);
-  }
-  .controls {
-    height: 320px;
-    bottom: auto;
-    top: 0;
-  }
-  button {
-    margin: 3px 12px 0 10px;
-    width: 50px;
-    height: 50px;
-    font-size: 9px;
+  .twenty-one-container {
+    .hand {
+      font-size: 100%;
+    }
+    .bank {
+      font-size: 100%;
+      height: 18px;
+      padding: 4px;
+    }
+    .score {
+      font-size: 14px;
+      height: 18px;
+    }
+    .player-bet,
+    .split-bet {
+      font-size: 95%;
+      height: 18px;
+      padding: 3px 3px 3px 40px;
+      border: 1px solid rgba(255, 255, 255, 0.5);
+    }
+    .controls {
+      height: 320px;
+      bottom: auto;
+      top: 0;
+    }
+    button {
+      margin: 3px 12px 0 10px;
+      width: 50px;
+      height: 50px;
+      font-size: 9px;
+    }
   }
 }
 @media only screen /* iPad in Landscape */ and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: landscape) {
@@ -486,40 +468,61 @@ button {
   }
 }
 @media (orientation: portrait) and (-webkit-max-device-pixel-ratio: 2) and (max-width: 440px) {
-  .control-panel {
-    border-radius: 0;
-  }
-  .controls {
-    height: 70px;
-    width: 320px;
-    left: calc(50% - 160px);
-  }
-  button {
-    margin: 7px 5px 0 5px;
-    width: 54px;
-    height: 54px;
-    font-size: 9px;
+  .twenty-one-container {
+    .control-panel {
+      border-radius: 0;
+    }
+    .controls {
+      height: 70px;
+      width: 320px;
+      left: calc(50% - 160px);
+    }
+    button {
+      margin: 7px 5px 0 5px;
+      width: 54px;
+      height: 54px;
+      font-size: 9px;
+    }
   }
 }
 @media (max-width: 440px) and (-webkit-max-device-pixel-ratio: 2) {
-  .hand {
-    font-size: 100%;
-  }
-  .bank {
-    font-size: 100%;
-    padding: 5px;
-    height: 17px;
-  }
-  .score {
-    font-size: 95%;
-    height: 18px;
-  }
-  .player-bet,
-  .split-bet {
-    font-size: 95%;
-    height: 18px;
-    padding: 3px 3px 3px 40px;
-    border: 1px solid rgba(255, 255, 255, 0.5);
+  .twenty-one-container {
+    .hand {
+      font-size: 100%;
+    }
+    .bank {
+      font-size: 100%;
+      padding: 1px 5px;
+      height: 17px;
+      line-height: 17px;
+      .settings-btn {
+        .settings-img {
+          margin-left: 7px;
+        }
+      }
+      .settings-btn,
+      .stats-btn {
+        .settings-img {
+          height: 18px;
+        }
+      }
+    }
+    .score {
+      font-size: 14px;
+      line-height: 12px;
+      height: 18px;
+      img {
+        height: 16px;
+      }
+    }
+    .player-bet,
+    .split-bet {
+      font-size: 11px;
+      line-height: 11px;
+      height: 18px;
+      padding: 3px 3px 3px 40px;
+      border: 1px solid rgba(255, 255, 255, 0.5);
+    }
   }
 }
 @media only screen /* iPhone 6 Plus Landscape */ and (min-device-width: 414px) and (max-device-width: 736px) and (orientation: landscape) and (-webkit-min-device-pixel-ratio: 3) {

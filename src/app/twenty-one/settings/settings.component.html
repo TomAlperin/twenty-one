@@ -1,29 +1,41 @@
-<div class="modal fade" [ngClass]="{ show: show }">
-  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+<div (click)="close()" class="modal fade" [ngClass]="{ show: show }">
+  <div
+    (click)="$event.stopPropagation()"
+    class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
+  >
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">Settings</h5>
+        <a href="#" (focus)="last.focus()" class="tab-loop">to last</a>
         <button
+          #first
           (click)="close()"
           type="button"
           class="btn-close"
           data-bs-dismiss="modal"
           aria-label="Close"
+          mdAutoFocus
         ></button>
       </div>
       <div class="modal-body">
         <div class="form-container">
           <form [formGroup]="form">
             <section class="section">
+              <mat-checkbox formControlName="toolTips" color="primary"
+                >Tool tips on</mat-checkbox
+              >
+            </section>
+            <section class="section">
               <mat-radio-group
                 color="primary"
                 formControlName="alignment"
                 aria-label="Select a sound option"
               >
-                <mat-radio-button value="natural"
+                <mat-radio-button #natural value="natural"
                   >Natural Cards</mat-radio-button
                 >&nbsp;
-                <mat-radio-button value="neat">Aligned Cards</mat-radio-button
+                <mat-radio-button #neat value="neat"
+                  >Straight Cards</mat-radio-button
                 >&nbsp;
               </mat-radio-group>
             </section>
@@ -38,46 +50,76 @@
                 formControlName="sounds"
                 aria-label="Select a sound option"
               >
-                <mat-radio-button value="classic"
+                <mat-radio-button value="blackjack"
                   >Classic Sounds</mat-radio-button
                 >&nbsp;
-                <mat-radio-button value="stank">Stanky Sounds</mat-radio-button
+                <mat-radio-button value="stanky">Stanky Sounds</mat-radio-button
                 >&nbsp;
                 <mat-radio-button value="off">Sounds Off</mat-radio-button>
               </mat-radio-group>
             </section>
-            <section class="section">
-              <mat-form-field appearance="fill">
-                <mat-label>Deck Count</mat-label>
-                <mat-select formControlName="deckCount">
-                  <mat-select-trigger>
-                    {{ form.value.deckCount || "" }}
-                  </mat-select-trigger>
-                  <mat-option [value]="1">1 Deck</mat-option>
-                  <mat-option [value]="2">2 Decks</mat-option>
-                  <mat-option [value]="3">3 Decks</mat-option>
-                  <mat-option [value]="4">4 Decks</mat-option>
-                  <mat-option [value]="5">5 Decks</mat-option>
-                  <mat-option [value]="6">6 Decks</mat-option>
-                  <mat-option [value]="7">7 Decks</mat-option>
-                  <mat-option [value]="8">8 Decks</mat-option>
-                  <mat-option [value]="9">8 Decks</mat-option>
-                </mat-select>
-              </mat-form-field>
-            </section>
+            <div class="row">
+              <div class="col-md-6">
+                <mat-form-field appearance="fill">
+                  <mat-label>Deck Count</mat-label>
+                  <mat-select formControlName="deckCount">
+                    <mat-select-trigger>
+                      {{ form.value.deckCount || "" }}
+                    </mat-select-trigger>
+                    <mat-option [value]="1">1 Deck</mat-option>
+                    <mat-option [value]="2">2 Decks</mat-option>
+                    <mat-option [value]="3">3 Decks</mat-option>
+                    <mat-option [value]="4">4 Decks</mat-option>
+                    <mat-option [value]="5">5 Decks</mat-option>
+                    <mat-option [value]="6">6 Decks</mat-option>
+                    <mat-option [value]="7">7 Decks</mat-option>
+                    <mat-option [value]="8">8 Decks</mat-option>
+                    <mat-option [value]="9">9 Decks</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col-md-6"></div>
+              <div class="col-md-6 d-flex justify-content-center">
+                <button
+                  #last
+                  (click)="shuffle()"
+                  type="button"
+                  mat-stroked-button
+                  color="primary"
+                  class="align-self-center w-100"
+                >
+                  Shuffle Cards
+                </button>
+              </div>
+              <div class="col-md-6 d-flex justify-content-center">
+                <button
+                  #last
+                  (click)="resetStats()"
+                  type="button"
+                  mat-stroked-button
+                  color="warn"
+                  class="align-self-center w-100"
+                >
+                  Reset Stats
+                </button>
+              </div>
+            </div>
           </form>
         </div>
       </div>
       <div class="modal-footer">
-        <button (click)="close()" type="button" class="btn btn-primary">
+        <button
+          #last
+          (click)="close()"
+          type="button"
+          mat-stroked-button
+          color="primary"
+        >
           Close
         </button>
+        <a href="#" (focus)="first.focus()" class="tab-loop">to last</a>
       </div>
     </div>
   </div>
 </div>
-<div
-  (click)="close()"
-  class="modal-backdrop fade"
-  [ngClass]="{ show: show }"
-></div>
+<div class="modal-backdrop fade" [ngClass]="{ show: show }"></div>

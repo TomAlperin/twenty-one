@@ -1,0 +1,144 @@
+<div (click)="close()" class="modal fade" [ngClass]="{ show: show }">
+  <div
+    (click)="$event.stopPropagation()"
+    class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl"
+  >
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Stats</h5>
+        <a href="#" (focus)="last.focus()" class="tab-loop">to last</a>
+        <button
+          #first
+          (click)="close()"
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+          mdAutoFocus
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="row d-flex justify-content-center">
+          <div
+            *ngFor="let deck of stats | keyvalue; trackBy: trackByFn"
+            class="col-lg-6 col-xl-4"
+          >
+            <h2>{{ deck.key }}</h2>
+            <table class="table table-sm w-100">
+              <tbody>
+                <tr *ngFor="let row of rows; trackBy: trackByFn">
+                  <td>{{ row.name }}</td>
+                  <td>{{ row.value(deck) }}</td>
+                </tr>
+              </tbody>
+            </table>
+            <label>Win $$ vs Lost $$</label>
+            <div class="progress">
+              <div
+                class="progress-bar bg-success"
+                [style.width]="
+                  deck.value.totalWon /
+                    (deck.value.totalWon + deck.value.totalLost) | percent
+                "
+                role="progressbar"
+                aria-valuenow="0"
+                aria-valuemin="0"
+                aria-valuemax="100"
+              >
+                Won:
+                {{
+                  deck.value.totalWon /
+                    (deck.value.totalWon + deck.value.totalLost) | percent
+                }}
+              </div>
+              <div
+                class="progress-bar bg-warning"
+                [style.width]="
+                  deck.value.totalLost /
+                    (deck.value.totalWon + deck.value.totalLost) | percent
+                "
+                role="progressbar"
+                aria-valuenow="0"
+                aria-valuemin="0"
+                aria-valuemax="100"
+              >
+                Lost:
+                {{
+                  deck.value.totalLost /
+                    (deck.value.totalWon + deck.value.totalLost) | percent
+                }}
+              </div>
+            </div>
+
+            <label>Wins vs Losses</label>
+            <div class="progress">
+              <div
+                class="progress-bar bg-info"
+                [style.width]="
+                  deck.value.totalWins /
+                    (deck.value.totalWins + deck.value.totalLosses) | percent
+                "
+                role="progressbar"
+                aria-valuenow="0"
+                aria-valuemin="0"
+                aria-valuemax="100"
+              >
+                Won:
+                {{
+                  deck.value.totalWins /
+                    (deck.value.totalWins + deck.value.totalLosses) | percent
+                }}
+              </div>
+              <div
+                class="progress-bar bg-danger"
+                [style.width]="
+                  deck.value.totalLosses /
+                    (deck.value.totalWins + deck.value.totalLosses) | percent
+                "
+                role="progressbar"
+                aria-valuenow="0"
+                aria-valuemin="0"
+                aria-valuemax="100"
+              >
+                Lost:
+                {{
+                  deck.value.totalLosses /
+                    (deck.value.totalWins + deck.value.totalLosses) | percent
+                }}
+              </div>
+            </div>
+
+            <label>Wins : Best Winning Streak</label>
+            <div class="progress">
+              <div
+                class="progress-bar {{
+                  deck.value.wins / deck.value.maxWins | appPercentBar
+                }}"
+                [style.width]="deck.value.wins / deck.value.maxWins | percent"
+                role="progressbar"
+                aria-valuenow="0"
+                aria-valuemin="0"
+                aria-valuemax="100"
+              >
+                {{ deck.value.wins }} : {{ deck.value.maxWins }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button
+          #last
+          (click)="close()"
+          type="button"
+          mat-stroked-button
+          color="primary"
+        >
+          Close
+        </button>
+        <a href="#" (focus)="first.focus()" class="tab-loop">to last</a>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-backdrop fade" [ngClass]="{ show: show }"></div>

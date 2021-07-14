@@ -1,4 +1,4 @@
-<div class="twenty-one-container">
+<div class="twenty-one-container noselect">
   <nav class="d-flex justify-content-between">
     <a href="http://www.technicallytom.com" target="_blank">
       <img
@@ -7,7 +7,7 @@
         src="/assets/img/logo.png?v=1"
       />
     </a>
-    <h1>Blackjack</h1>
+    <h1>Twenty One</h1>
   </nav>
   <div class="game-container">
     <div class="position-relative h-100">
@@ -21,7 +21,12 @@
               class="settings-img"
             />
           </button>
-          <button type="button" (click)="openStats()" class="stats-btn">
+          <button
+            *ngIf="hasStats"
+            type="button"
+            (click)="openStats()"
+            class="stats-btn"
+          >
             <img
               src="/assets/img/stats.svg"
               alt="Settings"
@@ -30,18 +35,19 @@
           </button>
           {{ game.bank | currency: "USD":"symbol":"1.0" }}
         </h3>
-        <div class="d-flex justify-content-between card-container">
+        <div class="d-flex justify-content-around card-container">
           <app-card
             *ngFor="
               let dealerCard of game.dealerCards;
-              let i = index;
+              let dealerIndex = index;
               trackBy: trackByFn
             "
-            [card]="dealerCard"
+            [card]="dealerCard | appFlipMask: dealerIndex !== 1 || !flip"
             [cardSound]="cardSound"
             [animate]="animate"
-            [flip]="i === 1 && flip"
+            [flip]="dealerIndex === 1 && flip"
             [height]="height"
+            [style.zIndex]="dealerIndex + 3"
           ></app-card>
           <app-card
             *ngFor="
@@ -50,6 +56,7 @@
             "
             [card]="0"
             [height]="height"
+            [style.zIndex]="-1"
           ></app-card>
           <img
             *ngIf="game | actionCheck: 'canInsure'"
@@ -65,7 +72,7 @@
         *ngIf="game.split"
         class="player player-has-split"
         [ngClass]="{
-          up: this.game.split && this.game.state === 'hit-on-split' && !disabled
+          up: this.game.split && this.game.state === 'hit-on-split'
         }"
         [style.height]="height + 'px'"
       >
@@ -78,13 +85,18 @@
           />
           {{ game.splitResult }}
         </h3>
-        <div class="d-flex justify-content-between card-container">
+        <div class="d-flex justify-content-around card-container">
           <app-card
-            *ngFor="let userCard of game.splitCards; trackBy: trackByFn"
+            *ngFor="
+              let userCard of game.splitCards;
+              trackBy: trackByFn;
+              let splitIndex = index
+            "
             [card]="userCard"
             [cardSound]="cardSound"
             [animate]="animate"
             [height]="height"
+            [style.zIndex]="splitIndex + 3"
           ></app-card>
           <app-card
             *ngFor="
@@ -93,17 +105,18 @@
             "
             [card]="0"
             [height]="height"
+            [style.zIndex]="-1"
           ></app-card>
         </div>
         <div class="player-bet">
-          <h4>{{ game.splitBet | currency: "USD":"symbol":"1.0" }}</h4>
+          <div>{{ game.splitBet | currency: "USD":"symbol":"1.0" }}</div>
         </div>
       </div>
       <div
         class="player"
         [ngClass]="{
           'player-has-split': game.split,
-          up: this.game.split && this.game.state === 'hit' && !disabled
+          up: this.game.state === 'hit'
         }"
         [style.height]="height + 'px'"
       >
@@ -116,13 +129,18 @@
           />
           {{ game.result }}
         </h3>
-        <div class="d-flex justify-content-between card-container">
+        <div class="d-flex justify-content-around card-container">
           <app-card
-            *ngFor="let userCard of game.userCards; trackBy: trackByFn"
+            *ngFor="
+              let userCard of game.userCards;
+              trackBy: trackByFn;
+              let userIndex = index
+            "
             [card]="userCard"
             [cardSound]="cardSound"
             [animate]="animate"
             [height]="height"
+            [style.zIndex]="userIndex + 3"
           ></app-card>
           <app-card
             *ngFor="
@@ -131,10 +149,11 @@
             "
             [card]="0"
             [height]="height"
+            [style.zIndex]="-1"
           ></app-card>
         </div>
         <div class="player-bet">
-          <h4>{{ game.bet | currency: "USD":"symbol":"1.0" }}</h4>
+          <div>{{ game.bet | currency: "USD":"symbol":"1.0" }}</div>
         </div>
       </div>
     </div>
@@ -147,6 +166,8 @@
           [disabled]="!(game | actionCheck: control.condition) || disabled"
           [class]="control.class"
           (click)="do(control.action, control.value)"
+          [matTooltip]="settings.toolTips ? control.tooltip : null"
+          [matTooltipPosition]="position"
         >
           {{ (game | actionCheck: control.condition) ? control.label : "" }}
         </button>

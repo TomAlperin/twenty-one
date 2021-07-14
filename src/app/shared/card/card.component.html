@@ -1,11 +1,15 @@
-<div class="flip-container" [ngClass]="{ flip: flip }">
+<div
+  class="flipper"
+  [ngClass]="{ flip: flip || hoverFlip }"
+  [ngStyle]="{ position: pos }"
+>
   <img
     src="/assets/img/card.png"
     [height]="height - 55"
     alt="Card"
     [ngClass]="{
       hide: card === 0,
-      'card-size': cardSize
+      'card-size': settings.cardSize
     }"
     class="card"
     [ngStyle]="cardStyles"
@@ -16,7 +20,7 @@
     alt="Card"
     [ngClass]="{
       hide: card === 0,
-      'card-size': cardSize
+      'card-size': settings.cardSize
     }"
     class="card"
     [ngStyle]="backCardStyles"

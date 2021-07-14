@@ -1,0 +1,222 @@
+<div class="about" [style.background]="aboutColor">
+  <header>
+    <h1 [style.color]="titleColor">Tom Alperin</h1>
+    <div class="nav-bar">
+      <ul>
+        <li (click)="play()" class="menu-item" [style.background]="menuColor1">
+          Work
+        </li>
+        <li (click)="work()" class="menu-item" [style.background]="menuColor2">
+          Play
+        </li>
+        <li
+          (click)="back()"
+          class="menu-item"
+          [matTooltip]="settings.toolTips ? 'Back to the game.' : null"
+        >
+          Back
+        </li>
+      </ul>
+    </div>
+  </header>
+  <div class="clear"></div>
+  <div class="a-container" [ngClass]="{ flip: flip }">
+    <div class="a-flipper">
+      <div class="a-front">
+        <article #aboutFront (scroll)="onScroll()" class="work">
+          <div>
+            <div
+              class="art"
+              [style.backgroundPosition]="backgroundPosition"
+            ></div>
+            <h2 class="left">Traditional artistry...</h2>
+          </div>
+          <div>
+            <p>
+              Traditional artists use a variety of media including oil paints,
+              watercolors, pen, pencil, and pastels. They use a wide variety of
+              brushes, and tools to achieve the desired effect, mixing different
+              media types if necessary to create their masterpieces. Multiple
+              tools and techniques are seamlessly blended together to achieve
+              their final goal. To be a true artist, many disciplines must be
+              mastered.
+            </p>
+            <p>
+              Modern web design has its box of tools. PHP, JavaScript, HTML, and
+              CSS work together to create an immersive user experience.
+              Frameworks like Bootstrap and Angular JS help to quickly develop a
+              website that is interactive, immersive, and ready for the mobile
+              device generation.
+            </p>
+            <p></p>
+          </div>
+          <div class="divKB">
+            <div
+              #keyboard
+              class="keyboard"
+              [style.backgroundPosition]="keyboardBackground"
+            ></div>
+            <h2 class="right">...meets the modern skill set.</h2>
+          </div>
+          <div>
+            <p>
+              If the repair man you called shows up with only a hammer to do a
+              complicated job, you probably don't want to let him in. If your
+              doctor insists he can cure any problem with one medication, you
+              should seek a second opinion. If your surgeon swears he can do the
+              entire operation with only a scalpel, get another surgeon. Complex
+              jobs require diverse skill sets. You want people with the
+              necessary tools and skills. You want them to be able to understand
+              and communicate with the rest of the team and knowing how the rest
+              of the team works makes that easier.
+            </p>
+            <p>
+              You want your team to have access to all the modern tools. Combine
+              them with some traditional tools and amazing things can be
+              achieved.
+            </p>
+            <p></p>
+          </div>
+        </article>
+      </div>
+      <div class="a-back">
+        <article (scroll)="onScroll()" class="play">
+          <div class="heading">
+            <div class="h-prop {{ prop }}"></div>
+            <div class="gee-bee"></div>
+          </div>
+          <img src="/assets/img/Tom.jpg" class="tom" alt="Tom" />
+          <p>
+            &#8220;Play&#8221; suggests recreation, but some of the most
+            challenging coding sometimes involves creating a computer game. My
+            name is Tom Alperin. This game was originally written in vanilla JavaScript
+            with the only code not my own being
+            <a
+              href="http://goldfirestudios.com/blog/104/howler.js-Modern-Web-Audio-Javascript-Library"
+              target="_blank"
+              >howler.js</a
+            >
+            written by James Simpson. My choice to do this was so the page could
+            demonstrate my understanding of &#8220;Vanilla JavaScript&#8221;,
+            but also to hopefully achieve a little better performance. This version is 
+            however written using Angular, Ng Bootstrap, Angular Material and other libraries 
+            commonly used in Angular projects.
+          </p>
+          <p>
+            Animations have been expanded in this version using Angular animations combined with other CSS animations as well
+            as some javaScript driven animations. Some techniques used to optimize performance include:
+          </p>
+          <ul class="myLists">
+            <li>
+              Use of sprite sheets to arrange graphics and reduce web site load
+              times.
+            </li>
+            <li>3D CSS animation to show the flipping of the dealers card.</li>
+            <li>
+              Responsive web design. Buttons are placed differently for portrait
+              and landscape. In landscape, buttons are also placed differently
+              for mobile and desktop.
+            </li>
+            <li>
+              Smaller mobile screens will display a different set of cards that
+              is easier to read at the reduced size. These can now be permanently turned on
+              from a settings modal that is triggered by the gear icon.
+            </li>
+            <li>
+              <a href="http://diveintohtml5.info/storage.html" target="_blank"
+                >LocalStorage</a
+              >
+              not only holds the players score, but every stage of the game. It
+              is possible for the player to close the game and return to exactly
+              where they left off. Saving the game is done automatically on each
+              move. Statistics about the game are also stored and display of this 
+              has been expanded to include sections based on how many decks the player
+              has chosen for each shuffle.
+            </li>
+            <li>
+              The game has been updated to use Angular to dynamically display content. some 
+              animations are actually built into the card component so it automatically animates
+              when it is added to the page. The animations have been expanded to include the cards
+              spinning and dropping down.
+            </li>
+          </ul>
+          <p>
+            I have not done much to prevent cheating for someone familiar with
+            JavaScript. It's your fake money, so have at it!  If you want to cheat, you
+            are going to have to learn a little JavaScript and figure things
+            out.
+          </p>
+          <p>
+            My intentions for writing this page were to not only refresh my
+            programming skills, but to also make a fun game my friends and
+            relatives could play. It has grown from a single page with JavaScript 
+            to an Angular Web App that includes service workers which should allow
+            more reliable offline play when added to a moble phone home screen. As with
+            the original version, adding the page to some phone screens will remove
+            the url bar making it look almost like a native App.
+          </p>
+          <h2>Rules</h2>
+          <p>
+            Try to achieve highest hand with a value of 21 or less. Face cards
+            have a value of 10. Aces have a value of 11 unless they cause the
+            hand value to exceed 21 in which case they have a value of 1. All
+            other cards have a value equal to the cards value. Player wins if
+            their hand value exceeds the dealers hand and they have not "busted"
+            by going over 21. Player also wins if they have not "busted" and the
+            dealer has "busted."
+          </p>
+          <ul class="myLists">
+            <li>Win pays 1:1 players bet.</li>
+            <li>
+              Player hand value of 21, "blackjack" with only two cards pays 3:2.
+            </li>
+            <li>
+              All ties are called a push and results in the players bet being
+              returned to the player.
+            </li>
+            <li>
+              "Surrender" returns half the players bet and is only available as
+              first choice in hand.
+            </li>
+            <li>
+              Player hand value of 21, "blackjack" with only two cards pays 3:2.
+            </li>
+            <li>
+              "Double" increases the bet to twice its original value and draws
+              only one more card. This is only available after the initial deal
+            </li>
+            <li>
+              The Player may also "Split" a hand into two independent hands if
+              the two initial cards are of the same value.
+            </li>
+            <li>Splitting is only allowed once per hand.</li>
+            <li>Split hands may be "Doubled."</li>
+            <li>This game is dealt from two decks by default but is not configurable from 1 
+              to 9 decks. Game staticsts will be stored for every varition the user plays at leat
+              one game with.</li>
+          </ul>
+          <p>Click the egg to return to the game.</p>
+          <p></p>
+        </article>
+      </div>
+    </div>
+  </div>
+  <div class="footer">
+    <a href="http://www.technicallytom.com" target="_blank">
+      <img
+        class="wp-link"
+        alt="technicallytom.com"
+        src="/assets/img/logo.png?v=1"
+      />
+    </a>
+    <img
+      (click)="back()"
+      [matTooltip]="settings.toolTips ? 'Back to the game.' : null"
+      id="hideAbout"
+      class="egg"
+      alt="Easter Egg"
+      src="/assets/img/egg.png"
+      title="Click me!"
+    />
+  </div>
+</div>

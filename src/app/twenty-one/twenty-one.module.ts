@@ -10,13 +10,19 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatRadioModule } from '@angular/material/radio';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { StatsComponent } from './stats/stats.component';
+import { PercentBarPipe } from './stats/percent-bar.pipe';
+import { FlipMaskPipe } from './flip-mask.pipe';
 
 @NgModule({
   declarations: [
     TwentyOneComponent,
     ActionCheckPipe,
     BlackjackComponent,
-    SettingsComponent
+    FlipMaskPipe,
+    SettingsComponent,
+    PercentBarPipe,
+    StatsComponent
   ],
   imports: [
     CommonModule,
@@ -29,7 +35,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
   ],
   entryComponents: [
     BlackjackComponent,
-    SettingsComponent
+    SettingsComponent,
+    StatsComponent,
   ],
 })
 export class TwentyOneModule { }

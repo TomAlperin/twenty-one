@@ -1,5 +1,8 @@
-export class Game {
-  public state: 'bet' | 'deal' | 'hit' | 'split' | 'hit-on-split' = 'bet';
+export type State = 'bet' | 'deal' | 'hit' | 'split' | 'hit-on-split';
+export type Result = 'bet' | 'card-sound' | 'win' | 'lose' | 'tie' | 'blackjack' | 'bank-reset' | 'reset';
+
+export class TwentyoneGame {
+  public state: State = 'bet';
   public bank = 1000;
   public bet = 0;
   public splitBet = 0;

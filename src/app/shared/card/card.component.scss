@@ -17,7 +17,7 @@
 }
 
 /* entire container, keeps perspective */
-.flip-container {
+.flipper {
   perspective: 1000px;
   -webkit-perspective: 1000px;
   -moz-perspective: 1000px;
@@ -27,15 +27,13 @@
   -moz-transition: 0.4s;
   transform-style: preserve-3d;
   -webkit-transform-style: preserve-3d;
-  margin: 0 -200px;
 }
-.flip-container.flip {
+.flipper.flip {
   transform: rotateY(180deg) !important;
   -webkit-transform: rotateY(180deg) !important;
   -moz-transform: rotateY(180deg) !important;
 }
 
-.flip-container,
 .front,
 .back {
   position: absolute;

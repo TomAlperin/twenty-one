@@ -1,15 +1,19 @@
 import { Component, ComponentFactoryResolver, HostListener, OnDestroy, OnInit, Renderer2, ViewContainerRef } from '@angular/core';
 import { Howl } from 'howler';
-import { Game } from '../models/game';
+import { Result, TwentyoneGame } from '../models/twentyone-game';
 import { TwentyOneService } from '../services/twenty-one.service';
 import { BlackjackComponent } from './blackjack/blackjack.component';
 import * as _ from 'lodash';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { SettingsComponent } from './settings/settings.component';
-import { Settings } from '../models/settings';
+import { TwentyoneSettings } from '../models/twentyone-settings';
+import { Router } from '@angular/router';
+import { StatsComponent } from './stats/stats.component';
+import { TwentyoneStats } from '../models/twentyone-stats';
+import { SafeUrl } from '@angular/platform-browser';
 // tslint:disable-next-line:no-string-literal
-const hasLocalStorage = 'localStorage' in window && window['localStorage'] !== null;
+const mobile = typeof window.orientation !== 'undefined';
 
 @Component({
   selector: 'app-twenty-one',
@@ -19,48 +23,62 @@ const hasLocalStorage = 'localStorage' in window && window['localStorage'] !== n
 export class TwentyOneComponent implements OnInit, OnDestroy {
   controls = [];
   betControls = [
-    { class: 'chip10', action: 'bet', value: 10, states: ['bet', 'deal'] },
-    { class: 'chip50', action: 'bet', value: 50, states: ['bet', 'deal'] },
-    { class: 'chip100', action: 'bet', value: 100, states: ['bet', 'deal'] },
-    { class: 'chip500', action: 'bet', value: 500, states: ['bet', 'deal'] },
-    { class: 'deal-cards', action: 'deal', label: 'Deal', states: ['deal'] },
-    { class: 'deal-cards', action: 'hit', value: 'userCards', label: 'Hit', states: ['hit'] },
-    { class: 'deal-cards', action: 'stand', value: 'userCards', label: 'Stand', states: ['hit'] },
-    { class: 'deal-cards', action: 'double', value: 'userCards', label: 'Double', states: ['hit'], condition: 'canDouble' },
-    { class: 'deal-cards', action: 'hit', value: 'splitCards', label: 'Hit', states: ['hit-on-split'] },
-    { class: 'deal-cards', action: 'stand', value: 'splitCards', label: 'Stand', states: ['hit-on-split'] },
-    { class: 'deal-cards', action: 'double', value: 'splitCards', label: 'Double', states: ['hit-on-split'], condition: 'canDoubleSplit' },
-    { class: 'deal-cards', action: 'split', label: 'Split', states: ['hit', 'hit-on-split'], condition: 'canSplit' },
-    { class: 'surrender', action: 'surrender', label: 'Surrender', states: ['hit', 'hit-on-split'], condition: 'canSurrender' },
-    { class: 'a-button', states: ['bet'] }
+    { class: 'chip10', action: 'bet', value: 10, states: ['bet', 'deal'], tooltip: 'Bet $10' },
+    { class: 'chip50', action: 'bet', value: 50, states: ['bet', 'deal'], tooltip: 'Bet $50' },
+    { class: 'chip100', action: 'bet', value: 100, states: ['bet', 'deal'], tooltip: 'Bet $100' },
+    { class: 'chip500', action: 'bet', value: 500, states: ['bet', 'deal'], tooltip: 'Bet $500' },
+    { class: 'deal-cards', action: 'deal', label: 'Deal', states: ['deal'], tooltip: 'Deal Cards' },
+    { class: 'deal-cards', action: 'hit', value: 'userCards', label: 'Hit', states: ['hit'], tooltip: 'Hit' },
+    { class: 'deal-cards', action: 'stand', value: 'userCards', label: 'Stand', states: ['hit'], tooltip: 'Stand' },
+    {
+      class: 'deal-cards', action: 'double', value: 'userCards', label: 'Double', states: ['hit'],
+      condition: 'canDouble', tooltip: 'Double your bet and draw only one more card.'
+    },
+    { class: 'deal-cards', action: 'hit', value: 'splitCards', label: 'Hit', states: ['hit-on-split'], tooltip: 'Hit' },
+    { class: 'deal-cards', action: 'stand', value: 'splitCards', label: 'Stand', states: ['hit-on-split'], tooltip: 'Stand' },
+    {
+      class: 'deal-cards', action: 'double', value: 'splitCards', label: 'Double', states: ['hit-on-split'],
+      condition: 'canDoubleSplit', tooltip: 'Double your bet and draw only one more card.'
+    },
+    {
+      class: 'deal-cards', action: 'split', label: 'Split', states: ['hit', 'hit-on-split'],
+      condition: 'canSplit', tooltip: 'Split and play two hands. Doubles bet.'
+    },
+    {
+      class: 'surrender', action: 'surrender', label: 'Surrender', states: ['hit', 'hit-on-split'],
+      condition: 'canSurrender', tooltip: 'Give up and recover half your bet.'
+    },
+    { class: 'a-button', action: 'about', states: ['bet'], tooltip: 'About' }
   ];
   dealControl = { class: 'deal-cards', action: 'deal', label: 'Deal' };
-  game = new Game();
+  game = new TwentyoneGame();
   placeholders = Array.apply(null, Array(7));
   disabled = false;
   cardSound = false;
   animate = false;
   flip = true;
   height = 100;
-  settings = new Settings();
+  hasStats = false;
+  settings = new TwentyoneSettings();
   destroyed$ = new Subject();
+  position: 'above' | 'left' = 'left';
 
   constructor(
     private viewContainerRef: ViewContainerRef,
     private componentFactoryResolver: ComponentFactoryResolver,
     private renderer: Renderer2,
     private twentyone: TwentyOneService,
+    private router: Router,
   ) {
     this.subscribeToGame();
     this.subscribeToSettings();
-    this.setHeight();
-    // init saved game state
-    const gameState = localStorage.gameState;
-    if (gameState) {
-      this.game = JSON.parse(atob(gameState));
-    } else {
-      this.twentyone.shuffleCards(this.game);
+    this.subscribeToStats();
+
+    if (this.game.state === 'bet') {
+      this.flip = false;
     }
+
+    this.setHeight();
 
     setTimeout(() => this.animate = true, 0);
 
@@ -78,13 +96,25 @@ export class TwentyOneComponent implements OnInit, OnDestroy {
     this.controls = this.betControls;
   }
 
+  @HostListener('window:orientationchange')
+  orientationChange() {
+    this.setHeight();
+  }
+
   @HostListener('window:resize')
+  resize() {
+    if (!mobile) {
+      this.setHeight();
+    }
+  }
   setHeight() {
     const height = window.innerHeight;
     const width = window.innerWidth;
 
+    this.position = height < width ? 'left' : 'above';
+
     if (height < width) {
-      this.height = Math.min((height / 2) - 30, 400);
+      this.height = Math.min((height / 2) - 30, 350);
     } else {
       this.height = (height / 3) - 52;
     }
@@ -99,7 +129,7 @@ export class TwentyOneComponent implements OnInit, OnDestroy {
   subscribeToSettings() {
     this.twentyone.settings$
       .pipe(takeUntil(this.destroyed$))
-      .subscribe((settings: Settings) => {
+      .subscribe((settings: TwentyoneSettings) => {
         this.settings = settings;
 
         if (this.settings.sounds !== 'off') {
@@ -107,6 +137,19 @@ export class TwentyOneComponent implements OnInit, OnDestroy {
         }
       });
   }
+
+  subscribeToStats() {
+    this.twentyone.gameStats$
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe((stats: TwentyoneStats) => {
+        this.hasStats = !_.isEmpty(stats);
+
+        if (this.settings.sounds !== 'off') {
+          this.cardSound = true;
+        }
+      });
+  }
+
 
   do(action: string, value?: number) {
     if (value) {
@@ -119,13 +162,13 @@ export class TwentyOneComponent implements OnInit, OnDestroy {
   bet(value: number) {
     const pick = ['bank', 'deck'];
     if (this.game.state === 'bet') {
-      this.game = new Game(_.pick(this.game, pick));
+      this.game = new TwentyoneGame(_.pick(this.game, pick));
       this.flip = true;
     }
     if (this.game.bank >= value) {
       this.game.bet += value;
       this.game.bank -= value;
-      this.playSound('clink');
+      this.playSound('bet');
     }
     this.game.state = 'deal';
     this.twentyone.saveGame(this.game);
@@ -155,16 +198,21 @@ export class TwentyOneComponent implements OnInit, OnDestroy {
     }
     await this.getCard(this.game[hand], 0);
 
-    const playerTot = this.checkTotal(this.game[hand]);
-    if (playerTot > 21) {
-      await new Promise((resolve) => setTimeout(resolve, 400));
+    const playerTot = this.twentyone.checkTotal(this.game[hand]);
+    if (playerTot > 21 || this.game[hand].length === 7) {
       if (this.game.state === 'hit-on-split') {
         this.game.state = 'hit';
+        const dealerTot = this.twentyone.checkTotal(this.game.dealerCards);
+        const splitTot = this.twentyone.checkTotal(this.game.splitCards);
+        await new Promise((resolve) => setTimeout(resolve, 400));
+        await this.checkWinning(this.game.splitCards.length, splitTot, dealerTot, 'splitResult');
+        this.twentyone.saveGame(this.game);
       } else {
-        this.doDealer();
+        await this.doDealer();
       }
+    } else {
+      this.twentyone.saveGame(this.game);
     }
-    this.twentyone.saveGame(this.game);
     this.disabled = false;
   }
 
@@ -197,6 +245,7 @@ export class TwentyOneComponent implements OnInit, OnDestroy {
     this.game.bank -= this.game.bet;
     this.game.splitBet = this.game.bet;
     this.game.splitCards.push(...this.game.userCards.splice(0));
+    this.game.state = 'hit-on-split';
     this.game.split = true;
 
     await new Promise((resolve) => setTimeout(resolve, 200));
@@ -206,14 +255,13 @@ export class TwentyOneComponent implements OnInit, OnDestroy {
     this.game.userCards.push(this.game.splitCards.pop());
     await this.getCard(this.game.splitCards, 400);
     await this.getCard(this.game.userCards, 400);
-    this.game.state = 'hit-on-split';
     this.twentyone.saveGame(this.game);
     this.disabled = false;
   }
 
   insure() {
     if (!this.game.insured) {
-      this.playSound('clink');
+      this.playSound('bet');
       this.game.insured = true;
       this.game.bank -= this.game.bet / 2;
       this.twentyone.saveGame(this.game);
@@ -221,8 +269,8 @@ export class TwentyOneComponent implements OnInit, OnDestroy {
   }
 
   async surrender() {
-    const dealerTot = this.checkTotal('dealerCards');
-    let snd: 'clink' | 'win' | 'lose' | 'blackjack';
+    const dealerTot = this.twentyone.checkTotal(this.game.dealerCards);
+    let snd: Result;
     let msg: string;
     let icon: string;
     let newBank: number;
@@ -231,7 +279,7 @@ export class TwentyOneComponent implements OnInit, OnDestroy {
     await new Promise((resolve) => setTimeout(resolve, 400));
 
     this.flip = false;
-    this.playSound('cardSound');
+    this.playSound('card-sound');
 
     if (this.game.dealerCards.length === 2 && dealerTot === 21) {
       snd = 'lose';
@@ -243,15 +291,15 @@ export class TwentyOneComponent implements OnInit, OnDestroy {
       newBank = this.game.bank + this.game.bet / 2;
       msg = 'Surrendered';
     }
-    setTimeout(() => {
-      this.endHand(snd, msg, icon, 'result', newBank);
-    }, 400);
+    setTimeout(() => this.endHand(snd, msg, icon, 'result', newBank), 400);
     this.game.state = 'bet';
     this.twentyone.saveGame(this.game);
     this.disabled = false;
   }
 
-  stand(hand: string) {
+  async stand(hand: string) {
+    this.disabled = true;
+
     if (!this.game.insured) {
       this.game.canInsure = false;
     }
@@ -260,57 +308,33 @@ export class TwentyOneComponent implements OnInit, OnDestroy {
       this.game.state = 'hit';
       this.twentyone.saveGame(this.game);
     } else {
-      // document.getElementById("pt").style.color = "white";
-      this.doDealer();
+      await this.doDealer();
     }
+
+    this.disabled = false;
   }
 
 
   async getCard(hand, t) {
     if (this.game.deck.length === 0) {
-      this.twentyone.shuffleCards(this.game);
+      this.twentyone.shuffleCards();
     }
     const card = this.game.deck.pop();
     await new Promise((resolve) => setTimeout(resolve, t));
     hand.push(card);
   }
 
-  checkTotal(hand) {                              // Check the value of a hand
-    let total = 0;
-    for (const card of hand) {
-      if (Math.floor(card / 4) > 10) {            // Cards over 10 worth 10
-        total += 10;
-      }
-      else if (Math.floor(card / 4) === 1) {      // Aces are worth 11
-        total += 11;
-      } else {
-        total += Math.floor(card / 4);
-      }
-    }
-
-    let i = 0;
-    while (total > 21 && i < hand.length) {       // Subtract 10 for every ace
-      if (Math.floor(hand[i] / 4) === 1) {        // just until under 22
-        total -= 10;
-      }
-      i++;
-    }
-    return total;
-  }
-
-  async doDealer(doubled = false) {
-    const suit = this.game.dealerCards[1] % 4;
-    const value = Math.floor(this.game.dealerCards[1] / 4);
-    const playerTot = this.checkTotal(this.game.userCards);
-    const splitTot = this.checkTotal(this.game.splitCards);
-    let dealerTot = this.checkTotal(this.game.dealerCards);
+  async doDealer() {
+    const playerTot = this.twentyone.checkTotal(this.game.userCards);
+    const splitTot = this.twentyone.checkTotal(this.game.splitCards);
+    let dealerTot = this.twentyone.checkTotal(this.game.dealerCards);
 
     this.disabled = true;
 
     await new Promise((resolve) => setTimeout(resolve, 400));
     // show dealers hidden card
     this.flip = false;
-    this.playSound('cardSound');
+    this.playSound('card-sound');
 
     if (
       ((splitTot !== 0 && splitTot < 22) && (this.game.splitCards.length !== 7)) ||
@@ -322,22 +346,23 @@ export class TwentyOneComponent implements OnInit, OnDestroy {
       ) {
         while (dealerTot < 17 && this.game.dealerCards.length < 7) {
           await this.getCard(this.game.dealerCards, 400);
-          dealerTot = this.checkTotal(this.game.dealerCards);
+          dealerTot = this.twentyone.checkTotal(this.game.dealerCards);
         }
       }
     }
     await new Promise((resolve) => setTimeout(resolve, 400));
 
+    if (splitTot !== 0 && splitTot < 22) {
+      await this.checkWinning(this.game.splitCards.length, splitTot, dealerTot, 'splitResult');
+    }
+
     await this.checkWinning(this.game.userCards.length, playerTot, dealerTot, 'result');
 
-    if (this.game.insured && this.game.dealerCards.length === 2 && this.checkTotal(this.game.dealerCards) === 21) {
+    if (this.game.insured && this.game.dealerCards.length === 2 && this.twentyone.checkTotal(this.game.dealerCards) === 21) {
       this.game.bank += this.game.bet * 1.5;
       this.game.bank += this.game.splitBet * 1.5;
     }
 
-    if (splitTot !== 0 && splitTot < 22) {
-      await this.checkWinning(this.game.splitCards.length, splitTot, dealerTot, 'splitResult');
-    }
 
     this.game.state = 'bet';
     this.disabled = false;
@@ -345,13 +370,13 @@ export class TwentyOneComponent implements OnInit, OnDestroy {
   }
 
   reset() {
-    this.game = new Game({ deck: this.game.deck });
+    this.game = new TwentyoneGame(_.pick(this.game, ['deck', 'result', 'icon', 'splitResult', 'splitIcon']));
   }
 
   async checkWinning(length, playerTot, dealerTot, hand) {                         // Check to see who won
     let odds = 1;
     let icon: string;
-    let result: 'clink' | 'win' | 'lose' | 'blackjack';
+    let result: Result;
     let message = '';
     let newBank: number = this.game.bank;
 
@@ -366,7 +391,7 @@ export class TwentyOneComponent implements OnInit, OnDestroy {
       if (this.game.dealerCards.length === 2 && dealerTot === 21) {
         if (this.game.splitCards.length === 0) {                               // Blackjack tie
           newBank = this.game.bank + this.game.bet;
-          result = 'clink';
+          result = 'tie';
           message = 'Push on Blackjack.';
           icon = 'neutral';
         } else {                                                             // Dealer blackjack
@@ -405,7 +430,7 @@ export class TwentyOneComponent implements OnInit, OnDestroy {
       icon = 'happy';
     } else if (playerTot === dealerTot) {                                    // It's a tie
       newBank = this.game.bank + this.game.bet;
-      result = 'clink';
+      result = 'tie';
       message = 'Push ' + playerTot + ' to ' + dealerTot;
       icon = 'neutral';
     } else {                                                                 // Dealer wins
@@ -415,11 +440,11 @@ export class TwentyOneComponent implements OnInit, OnDestroy {
     }
 
     await this.endHand(result, message, icon, hand, newBank);
-    // setStats(result, (bet * odds));
+    this.twentyone.stats = { game: this.game, result, odds };
   }
 
   async endHand(
-    snd: 'clink' | 'win' | 'lose' | 'blackjack',
+    snd: Result,
     msg: string,
     icon: string,
     hand: 'result' | 'splitResult',
@@ -440,14 +465,15 @@ export class TwentyOneComponent implements OnInit, OnDestroy {
     this.disabled = false;
   }
 
-  playSound(snd: 'cardSound' | 'clink' | 'win' | 'lose' | 'blackjack') {
+  playSound(snd: Result) {
     if (this.settings.sounds !== 'off') {
       this.cardSound = true;
       const sound = new Howl({
-        src: ['/assets/snd/blackjack.mp3'],
+        src: [`/assets/snd/${this.settings.sounds}.mp3`],
         sprite: {
-          cardSound: [0, 800],
-          clink: [1000, 800],
+          'card-sound': [0, 800],
+          bet: [1000, 800],
+          tie: [1000, 800],
           win: [2000, 2800],
           lose: [5000, 2800],
           blackjack: [8500, 12000]
@@ -465,7 +491,11 @@ export class TwentyOneComponent implements OnInit, OnDestroy {
   }
 
   openStats() {
+    this.twentyone.loadComponent(StatsComponent);
+  }
 
+  about() {
+    this.router.navigate(['about']);
   }
 
   trackByFn = (index: number) => index;

@@ -1,7 +1,6 @@
-
 // Custom Theming for Angular Material
 // For more information: https://material.angular.io/guide/theming
-@import '~@angular/material/theming';
+@import "~@angular/material/theming";
 // Plus imports for other components in your app.
 
 // Include the common styles for Angular Material. We include this here so that you only
@@ -12,32 +11,33 @@
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
-$quad-logic-primary: mat-palette($mat-indigo);
-$quad-logic-accent: mat-palette($mat-pink, A200, A100, A400);
+$twenty-one-primary: mat-palette($mat-indigo);
+$twenty-one-accent: mat-palette($mat-pink, A200, A100, A400);
 
 // The warn palette is optional (defaults to red).
-$quad-logic-warn: mat-palette($mat-red);
+$twenty-one-warn: mat-palette($mat-red);
 
 // Create the theme object. A theme consists of configurations for individual
 // theming systems such as "color" or "typography".
-$quad-logic-theme: mat-light-theme((
-  color: (
-    primary: $quad-logic-primary,
-    accent: $quad-logic-accent,
-    warn: $quad-logic-warn,
+$twenty-one-theme: mat-light-theme(
+  (
+    color: (
+      primary: $twenty-one-primary,
+      accent: $twenty-one-accent,
+      warn: $twenty-one-warn,
+    ),
   )
-));
+);
 
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
-@include angular-material-theme($quad-logic-theme);
+@include angular-material-theme($twenty-one-theme);
 
-
-@import '~bootstrap/dist/css/bootstrap.min.css';
+@import "~bootstrap/dist/css/bootstrap.min.css";
 // Custom Theming for Angular Material
 // For more information: https://material.angular.io/guide/theming
-@import '~@angular/material/theming';
+@import "~@angular/material/theming";
 // Plus imports for other components in your app.
 
 // Include the common styles for Angular Material. We include this here so that you only
@@ -48,25 +48,154 @@ $quad-logic-theme: mat-light-theme((
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
-$quad-logic-primary: mat-palette($mat-indigo);
-$quad-logic-accent: mat-palette($mat-pink, A200, A100, A400);
+$twenty-one-primary: mat-palette($mat-indigo);
+$twenty-one-accent: mat-palette($mat-pink, A200, A100, A400);
 
 // The warn palette is optional (defaults to red).
-$quad-logic-warn: mat-palette($mat-red);
+$twenty-one-warn: mat-palette($mat-red);
 
 // Create the theme object (a Sass map containing all of the palettes).
-$quad-logic-theme: mat-light-theme($quad-logic-primary, $quad-logic-accent, $quad-logic-warn);
+$twenty-one-theme: mat-light-theme(
+  $twenty-one-primary,
+  $twenty-one-accent,
+  $twenty-one-warn
+);
 
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
-@include angular-material-theme($quad-logic-theme);
+@include angular-material-theme($twenty-one-theme);
 
 /* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+  height: 100%;
+  background: #000;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+/* preload images for blackjack animation */
+body::after {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  z-index: -1;
+  content: url("/assets/img/geebee.png") url("/assets/img/prop.png"); // load images
+}
+
+.noselect {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
 
 .cdk-overlay-container {
   z-index: 2000;
+}
+
+.row {
+  margin-left: -0.7rem;
+  margin-right: -0.7rem;
+}
+.col-xs-1,
+.col-sm-1,
+.col-md-1,
+.col-lg-1,
+.col-xs-2,
+.col-sm-2,
+.col-md-2,
+.col-lg-2,
+.col-xs-3,
+.col-sm-3,
+.col-md-3,
+.col-lg-3,
+.col-xs-4,
+.col-sm-4,
+.col-md-4,
+.col-lg-4,
+.col-xs-5,
+.col-sm-5,
+.col-md-5,
+.col-lg-5,
+.col-xs-6,
+.col-sm-6,
+.col-md-6,
+.col-lg-6,
+.col-xs-7,
+.col-sm-7,
+.col-md-7,
+.col-lg-7,
+.col-xs-8,
+.col-sm-8,
+.col-md-8,
+.col-lg-8,
+.col-xs-9,
+.col-sm-9,
+.col-md-9,
+.col-lg-9,
+.col-xs-10,
+.col-sm-10,
+.col-md-10,
+.col-lg-10,
+.col-xs-11,
+.col-sm-11,
+.col-md-11,
+.col-lg-11,
+.col-xs-12,
+.col-sm-12,
+.col-md-12,
+.col-lg-12 {
+  padding-left: 0.7rem;
+  padding-right: 0.7rem;
+  padding-bottom: 0.7rem;
+}
+
+.modal {
+  display: block;
+  transition-duration: 0.08s;
+  will-change: opacity;
+
+  &.fade {
+    .modal-dialog {
+      transition: transform 0.08s ease-out;
+      transition-property: transform;
+      transition-duration: 0.08s;
+      transition-timing-function: ease-out;
+      transition-delay: 0s;
+      will-change: translate;
+    }
+  }
+
+  h5 {
+    font-size: 2rem;
+    margin: 0;
+  }
+
+  .modal-body {
+    padding: 1.4rem;
+  }
+
+  .modal-footer {
+    padding: 0.5rem;
+  }
+}
+.fade {
+  transition: opacity 0.08s linear;
+}
+.section {
+  display: flex;
+  align-content: center;
+  align-items: center;
+  min-height: 60px;
+}
+mat-form-field {
+  width: 100%;
 }

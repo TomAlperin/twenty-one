@@ -1,8 +1,9 @@
 
-export class Settings {
+export class TwentyoneSettings {
+  public toolTips = true;
   public alignment: 'natural' | 'neat' = 'natural';
   public cardSize = false;
-  public sounds: 'classic' | 'stanky' | 'off' = 'classic';
+  public sounds: 'blackjack' | 'stanky' | 'off' = 'blackjack';
   public deckCount = 2;
 
   constructor(game: any = {}) {
