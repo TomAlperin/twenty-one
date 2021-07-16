@@ -119,6 +119,7 @@
   -webkit-overflow-scrolling: touch;
   text-align: justify;
   margin: 5px auto;
+  padding: 25px;
 }
 .work p {
   padding: 0 35px 15px 35px;
@@ -175,6 +176,7 @@
   right: 3%;
   height: 80px;
   cursor: pointer;
+  z-index: 10;
 }
 .gee-bee {
   background: url("/assets/img/geebee.png") no-repeat 0;
@@ -225,7 +227,6 @@
   }
 }
 .a-back {
-  padding: 25px;
   background-color: #fff;
   font-size: 18px;
   line-height: 28px;

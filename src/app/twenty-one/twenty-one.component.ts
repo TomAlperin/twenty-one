@@ -55,7 +55,6 @@ export class TwentyOneComponent implements OnInit, OnDestroy {
   placeholders = Array.apply(null, Array(7));
   disabled = false;
   cardSound = false;
-  animate = false;
   flip = true;
   height = 100;
   hasStats = false;
@@ -80,7 +79,7 @@ export class TwentyOneComponent implements OnInit, OnDestroy {
 
     this.setHeight();
 
-    setTimeout(() => this.animate = true, 0);
+    setTimeout(() => this.twentyone.animate = true, 0);
 
     this.twentyone.component$
       .pipe(takeUntil(this.destroyed$))
@@ -161,10 +160,16 @@ export class TwentyOneComponent implements OnInit, OnDestroy {
 
   bet(value: number) {
     const pick = ['bank', 'deck'];
+
     if (this.game.state === 'bet') {
       this.game = new TwentyoneGame(_.pick(this.game, pick));
       this.flip = true;
     }
+
+    if (this.game.new) {
+      delete this.game.new;
+    }
+
     if (this.game.bank >= value) {
       this.game.bet += value;
       this.game.bank -= value;
@@ -236,7 +241,7 @@ export class TwentyOneComponent implements OnInit, OnDestroy {
 
   async split() {
     this.disabled = true;
-    this.animate = false;
+    this.twentyone.animate = false;
 
     if (!this.game.insured) {
       this.game.canInsure = false;
@@ -249,7 +254,7 @@ export class TwentyOneComponent implements OnInit, OnDestroy {
     this.game.split = true;
 
     await new Promise((resolve) => setTimeout(resolve, 200));
-    this.animate = true;
+    this.twentyone.animate = true;
     await new Promise((resolve) => setTimeout(resolve, 200));
 
     this.game.userCards.push(this.game.splitCards.pop());
@@ -503,5 +508,6 @@ export class TwentyOneComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.destroyed$.next();
     this.destroyed$.complete();
+    this.twentyone.animate = false;
   }
 }

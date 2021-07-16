@@ -53,15 +53,9 @@ export class CardComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnInit(): void {
-    if (this.card === 'back') {
-      this.cardStyles.backgroundPosition = cardValues[1] + '% ' + cardSuits[4] + '%';
-    } else {
-      this.suit = this.card % 4;
-      this.value = Math.floor(this.card / 4);
-      this.cardStyles.backgroundPosition = cardValues[this.value] + '% ' + cardSuits[this.suit] + '%';
-    }
+    this.setCard();
 
-    if (this.animate) {
+    if (this.twentyone.animate || this.animate) {
       const metadata = this.slideIn();
       const factory = this.builder.build(metadata);
       const player = factory.create(this.el.nativeElement);
@@ -77,6 +71,16 @@ export class CardComponent implements OnInit, OnChanges, OnDestroy {
 
         setTimeout(() => sound.play('card-sound'), 100);
       }
+    }
+  }
+
+  setCard() {
+    if (this.card === 'back') {
+      this.cardStyles.backgroundPosition = cardValues[1] + '% ' + cardSuits[4] + '%';
+    } else {
+      this.suit = this.card % 4;
+      this.value = Math.floor(this.card / 4);
+      this.cardStyles.backgroundPosition = cardValues[this.value] + '% ' + cardSuits[this.suit] + '%';
     }
   }
 
@@ -99,6 +103,10 @@ export class CardComponent implements OnInit, OnChanges, OnDestroy {
         this.value = Math.floor(this.card / 4);
         this.cardStyles.backgroundPosition = cardValues[this.value] + '% ' + cardSuits[this.suit] + '%';
       }
+    }
+
+    if (changes.card) {
+      this.setCard();
     }
   }
 

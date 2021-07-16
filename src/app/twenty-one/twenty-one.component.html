@@ -44,7 +44,6 @@
             "
             [card]="dealerCard | appFlipMask: dealerIndex !== 1 || !flip"
             [cardSound]="cardSound"
-            [animate]="animate"
             [flip]="dealerIndex === 1 && flip"
             [height]="height"
             [style.zIndex]="dealerIndex + 3"
@@ -94,7 +93,6 @@
             "
             [card]="userCard"
             [cardSound]="cardSound"
-            [animate]="animate"
             [height]="height"
             [style.zIndex]="splitIndex + 3"
           ></app-card>
@@ -138,7 +136,6 @@
             "
             [card]="userCard"
             [cardSound]="cardSound"
-            [animate]="animate"
             [height]="height"
             [style.zIndex]="userIndex + 3"
           ></app-card>

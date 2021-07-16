@@ -59,10 +59,6 @@ export class StatsComponent implements OnInit, OnDestroy {
     {
       name: 'Total Games Lost',
       value: (element: { key: string, value: CountStats }) => `${element.value.totalLosses}`
-    },
-    {
-      name: 'Total Hands Played',
-      value: (element: { key: string, value: CountStats }) => `${element.value.totalWon + element.value.totalLost}`
     }
   ];
 

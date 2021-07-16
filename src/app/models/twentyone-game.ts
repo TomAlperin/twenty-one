@@ -19,12 +19,10 @@ export class TwentyoneGame {
   public icon: string = null;
   public splitResult = '';
   public splitIcon: string = null;
+  public new?: boolean;
 
   constructor(game: any = {}) {
-    Object.keys(this).forEach(key => {
-      if (game[key] !== undefined) {
-        this[key] = game[key];
-      }
-    });
+    this.new = true;
+    Object.assign(this, game);
   }
 }

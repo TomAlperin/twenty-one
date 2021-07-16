@@ -17,12 +17,14 @@ export class TwentyOneService {
   private settings = new BehaviorSubject<TwentyoneSettings>(new TwentyoneSettings());
   public settings$ = this.settings.asObservable();
 
-  private gameStats = new BehaviorSubject<TwentyoneStats>(new TwentyoneStats());
+  public gameStats = new BehaviorSubject<TwentyoneStats>(new TwentyoneStats());
   public gameStats$ = this.gameStats.asObservable();
-
 
   private component = new Subject();
   public component$ = this.component.asObservable();
+
+  private animation = new BehaviorSubject<boolean>(false);
+  public animation$ = this.animation.asObservable();
 
   constructor() {
     const gameState = localStorage['twentyone-gamestate'];
@@ -54,6 +56,18 @@ export class TwentyOneService {
     return this.game.getValue();
   }
 
+  public set gameState(game) {
+    this.saveGame(game);
+  }
+
+  public set animate(value: boolean) {
+    this.animation.next(value);
+  }
+
+  public get animate() {
+    return this.animation.getValue();
+  }
+
   saveGame(game: TwentyoneGame) {
     game = Object.assign({}, game);
 
@@ -72,6 +86,14 @@ export class TwentyOneService {
     }
 
     this.settings.next(settings);
+  }
+
+  set allStats(allStats: TwentyoneStats) {
+    this.gameStats.next(allStats);
+
+    if (hasLocalStorage) {
+      localStorage['twentyone-stats'] = btoa(JSON.stringify(allStats));
+    }
   }
 
   set stats({ game, result, odds }: { game?: TwentyoneGame, result: Result, odds?: number }) {

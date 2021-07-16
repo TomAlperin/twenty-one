@@ -6,11 +6,7 @@ export class TwentyoneSettings {
   public sounds: 'blackjack' | 'stanky' | 'off' = 'blackjack';
   public deckCount = 2;
 
-  constructor(game: any = {}) {
-    Object.keys(this).forEach(key => {
-      if (game[key] !== undefined) {
-        this[key] = game[key];
-      }
-    });
+  constructor(settings: any = {}) {
+    Object.assign(this, settings);
   }
 }

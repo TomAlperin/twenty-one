@@ -66,41 +66,71 @@
                     <mat-select-trigger>
                       {{ form.value.deckCount || "" }}
                     </mat-select-trigger>
-                    <mat-option [value]="1">1 Deck</mat-option>
-                    <mat-option [value]="2">2 Decks</mat-option>
-                    <mat-option [value]="3">3 Decks</mat-option>
-                    <mat-option [value]="4">4 Decks</mat-option>
-                    <mat-option [value]="5">5 Decks</mat-option>
-                    <mat-option [value]="6">6 Decks</mat-option>
-                    <mat-option [value]="7">7 Decks</mat-option>
-                    <mat-option [value]="8">8 Decks</mat-option>
-                    <mat-option [value]="9">9 Decks</mat-option>
+                    <mat-option
+                      *ngFor="
+                        let deck of decks;
+                        let first = first;
+                        trackBy: trackByFn
+                      "
+                      [value]="deck"
+                      >{{ deck }} Deck<ng-container *ngIf="!first"
+                        >s</ng-container
+                      >
+                    </mat-option>
                   </mat-select>
                 </mat-form-field>
               </div>
-              <div class="col-md-6"></div>
-              <div class="col-md-6 d-flex justify-content-center">
+              <div class="col-md-6">
+                <p>
+                  Games are saved for each deck count variation. Selecting an
+                  unused deck count will generate a new game however your other
+                  game will be saved under that deck count selection.
+                </p>
+              </div>
+              <div class="col-md-6 d-flex justify-content-center btn-container">
                 <button
-                  #last
-                  (click)="shuffle()"
+                  (click)="resetGame = !resetGame; resetAll = false"
                   type="button"
                   mat-stroked-button
-                  color="primary"
+                  [color]="resetGame ? '' : 'primary'"
                   class="align-self-center w-100"
                 >
-                  Shuffle Cards
+                  {{ resetGame ? "Cancel" : "Reset This game" }}
                 </button>
               </div>
-              <div class="col-md-6 d-flex justify-content-center">
+              <div class="col-md-6 d-flex justify-content-center btn-container">
                 <button
-                  #last
-                  (click)="resetStats()"
+                  *ngIf="resetGame"
+                  (click)="gameReset()"
                   type="button"
-                  mat-stroked-button
+                  mat-raised-button
                   color="warn"
                   class="align-self-center w-100"
                 >
-                  Reset Stats
+                  Confirm Reset Game
+                </button>
+              </div>
+              <div class="col-md-6 d-flex justify-content-center btn-container">
+                <button
+                  (click)="resetAll = !resetAll; resetGame = false"
+                  type="button"
+                  mat-stroked-button
+                  [color]="resetAll ? '' : 'warn'"
+                  class="align-self-center w-100"
+                >
+                  {{ resetAll ? "Cancel" : "Reset All Games" }}
+                </button>
+              </div>
+              <div class="col-md-6 d-flex justify-content-center btn-container">
+                <button
+                  *ngIf="resetAll"
+                  (click)="allReset()"
+                  type="button"
+                  mat-raised-button
+                  color="warn"
+                  class="align-self-center w-100"
+                >
+                  Confirm Reset All
                 </button>
               </div>
             </div>
