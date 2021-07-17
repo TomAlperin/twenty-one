@@ -1,7 +1,7 @@
 <div
   (click)="close()"
   class="modal fade"
-  [ngClass]="{ show: show, sidebar: this.form.value.sidebar }"
+  [ngClass]="{ show: show, sidebar: form.value.sidebar }"
 >
   <div
     (click)="$event.stopPropagation()"
@@ -20,18 +20,20 @@
         >
           <img
             src="/assets/img/{{
-              sidebar ? 'dice-1.svg' : 'arrow-right-square.svg'
+              form.value.sidebar ? 'dice-1.svg' : 'arrow-right-square.svg'
             }}"
             height="25px"
             alt="Window Resize"
           />
         </a>
-        <button
+        <a
           (click)="close()"
           type="button"
-          class="btn-close"
           aria-label="Close"
-        ></button>
+          class="button-close"
+        >
+          <img src="/assets/img/close.svg" height="25px" alt="Window Resize" />
+        </a>
       </div>
       <div class="modal-body">
         <div class="form-container">
@@ -108,7 +110,6 @@
                   (slide)="gameReset()"
                   label="Slide to Reset Game"
                   btnLabel="Reset"
-                  btnColor="warn"
                 ></app-slider>
               </div>
               <div class="col-md-6 btn-container">
@@ -116,6 +117,7 @@
                   (slide)="allReset()"
                   label="Slide to Reset All"
                   btnLabel="Reset"
+                  btnColor="warn"
                 ></app-slider>
               </div>
             </div>

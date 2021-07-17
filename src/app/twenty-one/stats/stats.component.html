@@ -8,6 +8,10 @@
     class="modal-dialog modal-dialog-centered modal-dialog-scrollable{{
       settings.sidebar ? '' : ' modal-xl'
     }}"
+    [ngClass]="{
+      'modal-xl': !settings.sidebar && (stats | keyvalue).length > 2,
+      'modal-lg': !settings.sidebar && (stats | keyvalue).length > 1
+    }"
   >
     <div class="modal-content">
       <div class="modal-header">
@@ -28,20 +32,24 @@
             alt="Window Resize"
           />
         </a>
-        <button
+        <a
           (click)="close()"
           type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
           aria-label="Close"
-          mdAutoFocus
-        ></button>
+          class="button-close"
+        >
+          <img src="/assets/img/close.svg" height="25px" alt="Window Resize" />
+        </a>
       </div>
       <div class="modal-body">
         <div class="row d-flex justify-content-center">
           <div
             *ngFor="let deck of stats | keyvalue; trackBy: trackByFn"
-            class="{{ settings?.sidebar ? 'col-sm-12' : 'col-lg-6 col-xl-4' }}"
+            class="col-sm-12"
+            [ngClass]="{
+              'col-lg-6': !settings?.sidebar && (stats | keyvalue).length > 1,
+              'col-xl-4': !settings?.sidebar && (stats | keyvalue).length > 2
+            }"
           >
             <h2>{{ deck.key }}</h2>
             <table class="table table-sm w-100">
