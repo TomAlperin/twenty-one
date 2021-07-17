@@ -1,4 +1,8 @@
-<div (click)="close()" class="modal fade" [ngClass]="{ show: show }">
+<div
+  (click)="close()"
+  class="modal fade"
+  [ngClass]="{ show: show, sidebar: this.form.value.sidebar }"
+>
   <div
     (click)="$event.stopPropagation()"
     class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
@@ -7,14 +11,26 @@
       <div class="modal-header">
         <h5 class="modal-title">Settings</h5>
         <a href="#" (focus)="last.focus()" class="tab-loop">to last</a>
-        <button
+        <a
           #first
+          (click)="setSidebar()"
+          mdAutoFocus
+          type="button"
+          class="btn-resize"
+        >
+          <img
+            src="/assets/img/{{
+              sidebar ? 'dice-1.svg' : 'arrow-right-square.svg'
+            }}"
+            height="25px"
+            alt="Window Resize"
+          />
+        </a>
+        <button
           (click)="close()"
           type="button"
           class="btn-close"
-          data-bs-dismiss="modal"
           aria-label="Close"
-          mdAutoFocus
         ></button>
       </div>
       <div class="modal-body">
@@ -87,51 +103,20 @@
                   game will be saved under that deck count selection.
                 </p>
               </div>
-              <div class="col-md-6 d-flex justify-content-center btn-container">
-                <button
-                  (click)="resetGame = !resetGame; resetAll = false"
-                  type="button"
-                  mat-stroked-button
-                  [color]="resetGame ? '' : 'primary'"
-                  class="align-self-center w-100"
-                >
-                  {{ resetGame ? "Cancel" : "Reset This game" }}
-                </button>
+              <div class="col-md-6 btn-container">
+                <app-slider
+                  (slide)="gameReset()"
+                  label="Slide to Reset Game"
+                  btnLabel="Reset"
+                  btnColor="warn"
+                ></app-slider>
               </div>
-              <div class="col-md-6 d-flex justify-content-center btn-container">
-                <button
-                  *ngIf="resetGame"
-                  (click)="gameReset()"
-                  type="button"
-                  mat-raised-button
-                  color="warn"
-                  class="align-self-center w-100"
-                >
-                  Confirm Reset Game
-                </button>
-              </div>
-              <div class="col-md-6 d-flex justify-content-center btn-container">
-                <button
-                  (click)="resetAll = !resetAll; resetGame = false"
-                  type="button"
-                  mat-stroked-button
-                  [color]="resetAll ? '' : 'warn'"
-                  class="align-self-center w-100"
-                >
-                  {{ resetAll ? "Cancel" : "Reset All Games" }}
-                </button>
-              </div>
-              <div class="col-md-6 d-flex justify-content-center btn-container">
-                <button
-                  *ngIf="resetAll"
-                  (click)="allReset()"
-                  type="button"
-                  mat-raised-button
-                  color="warn"
-                  class="align-self-center w-100"
-                >
-                  Confirm Reset All
-                </button>
+              <div class="col-md-6 btn-container">
+                <app-slider
+                  (slide)="allReset()"
+                  label="Slide to Reset All"
+                  btnLabel="Reset"
+                ></app-slider>
               </div>
             </div>
           </form>

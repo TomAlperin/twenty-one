@@ -11,7 +11,7 @@ import * as _ from 'lodash';
 @Component({
   selector: 'app-settings',
   templateUrl: './settings.component.html',
-  styleUrls: ['./settings.component.scss']
+  styleUrls: ['./settings.component.scss'],
 })
 export class SettingsComponent implements OnInit, AfterViewInit {
   show = false;
@@ -19,30 +19,30 @@ export class SettingsComponent implements OnInit, AfterViewInit {
   currentDeckCount: number;
   destroyed$ = new Subject();
   decks = Array.from({ length: 8 }, (n, i) => i + 1);
-  resetGame = false;
-  resetAll = false;
+  sidebar = false;
   @ViewChild('natural') public natural: MatRadioButton;
   @ViewChild('neat') public neat: MatRadioButton;
 
   constructor(
-    private renderer: Renderer2,
-    private elRef: ElementRef,
+    private el: ElementRef,
     private fb: FormBuilder,
+    private renderer: Renderer2,
     private twentyone: TwentyOneService
-  ) { }
-
-  ngOnInit(): void {
+  ) {
     this.form = this.fb.group({
       toolTips: [false],
       alignment: ['natural'],
       cardSize: [false],
       sounds: ['blackjack'],
-      deckCount: [2]
+      deckCount: [2],
+      sidebar: false
     });
 
     this.currentDeckCount = this.twentyone.gameSettings.deckCount;
     this.form.patchValue(this.twentyone.gameSettings);
+  }
 
+  ngOnInit(): void {
     this.form.valueChanges
       .pipe(takeUntil(this.destroyed$))
       .subscribe(settings => {
@@ -81,32 +81,33 @@ export class SettingsComponent implements OnInit, AfterViewInit {
     this[this.form.value.alignment].focus();
   }
 
+  setSidebar() {
+    const control = this.form.get('sidebar');
+    control.setValue(!this.form.value.sidebar);
+  }
+
   gameReset() {
     this.twentyone.gameState = new TwentyoneGame();
     const allStats = this.twentyone.gameStats.getValue();
     const key = `${this.form.value.deckCount} Deck${this.form.value.deckCount !== 1 ? 's' : ''}`;
     delete allStats[key];
     this.twentyone.allStats = allStats;
-    this.resetGame = false;
   }
 
   allReset() {
     this.twentyone.gameState = new TwentyoneGame();
     this.twentyone.allStats = new TwentyoneStats();
-    this.resetAll = false;
   }
 
   close() {
     this.show = false;
+    this.destroyed$.next();
+    this.destroyed$.complete();
+
     setTimeout(() => {
-      this.renderer.removeChild(document.body, this.elRef.nativeElement);
-    }, 180);
+      this.renderer.removeChild(document.body, this.el.nativeElement);
+    }, 500);
   }
 
   trackByFn = (index: number) => index;
-
-  ngOnDestroyed() {
-    this.destroyed$.next();
-    this.destroyed$.complete();
-  }
 }

@@ -1,0 +1,33 @@
+<button
+  *ngIf="!showSlider"
+  appFadeIn
+  (click)="showSlider = true"
+  type="button"
+  mat-stroked-button
+  [color]="btnColor"
+  class="align-self-center w-100"
+>
+  {{ label }}
+</button>
+<div
+  *ngIf="showSlider"
+  appFadeIn
+  #slider
+  class="slider"
+  [ngClass]="{
+    sliding: sliding,
+    slid: slid()
+  }"
+>
+  {{ label }}
+  <button
+    (mousedown)="setSliding()"
+    (touchstart)="setSliding()"
+    type="button"
+    mat-flat-button
+    color="warn"
+    [style.right]="btnLeft + 'px'"
+  >
+    {{ btnLabel }}
+  </button>
+</div>

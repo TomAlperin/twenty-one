@@ -1,5 +1,7 @@
-import { Component, ElementRef, OnDestroy, OnInit, Renderer2 } from '@angular/core';
+import { Component, ElementRef, OnInit, Renderer2 } from '@angular/core';
 import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { TwentyoneSettings } from 'src/app/models/twentyone-settings';
 import { TwentyoneStats, CountStats } from 'src/app/models/twentyone-stats';
 import { TwentyOneService } from 'src/app/services/twenty-one.service';
 
@@ -8,7 +10,7 @@ import { TwentyOneService } from 'src/app/services/twenty-one.service';
   templateUrl: './stats.component.html',
   styleUrls: ['./stats.component.scss']
 })
-export class StatsComponent implements OnInit, OnDestroy {
+export class StatsComponent implements OnInit {
   show: boolean;
   stats: TwentyoneStats;
   rows = [
@@ -61,6 +63,7 @@ export class StatsComponent implements OnInit, OnDestroy {
       value: (element: { key: string, value: CountStats }) => `${element.value.totalLosses}`
     }
   ];
+  settings: TwentyoneSettings;
 
   destroyed$ = new Subject();
 
@@ -70,7 +73,12 @@ export class StatsComponent implements OnInit, OnDestroy {
     private el: ElementRef,
   ) {
     this.twentyone.gameStats$
+      .pipe(takeUntil(this.destroyed$))
       .subscribe((stats: TwentyoneStats) => this.stats = stats);
+
+    this.twentyone.settings$
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe(settings => this.settings = settings);
   }
 
   ngOnInit(): void {
@@ -79,15 +87,17 @@ export class StatsComponent implements OnInit, OnDestroy {
 
   close() {
     this.show = false;
+    this.destroyed$.next();
+    this.destroyed$.complete();
     setTimeout(() => {
       this.renderer.removeChild(document.body, this.el.nativeElement);
     }, 180);
   }
 
-  trackByFn = (index: number) => index;
-
-  ngOnDestroy() {
-    this.destroyed$.next();
-    this.destroyed$.complete();
+  setSidebar() {
+    this.settings.sidebar = !this.settings.sidebar;
+    this.twentyone.saveSettings(this.settings);
   }
+
+  trackByFn = (index: number) => index;
 }

@@ -178,13 +178,47 @@ body::after {
     font-size: 2rem;
     margin: 0;
   }
-
+  .modal-dialog {
+    transition: all 0.4s ease-in-out !important;
+  }
+  .modal-header {
+    .btn-close {
+      margin: -0.5rem -0.5rem -0.5rem 0.8rem;
+    }
+    .btn-resize {
+      margin: -0.5rem -0.5rem -0.5rem auto;
+    }
+  }
   .modal-body {
     padding: 1.4rem;
   }
 
   .modal-footer {
     padding: 0.5rem;
+  }
+  &.sidebar {
+    opacity: 1;
+    max-width: 90%;
+    .modal-dialog {
+      margin: 0 0 0 auto;
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      height: 100%;
+      width: 98%;
+      transform: translate(100%, 0);
+      .modal-content {
+        height: 100%;
+        border-radius: 0;
+        border-top: none;
+      }
+    }
+  }
+  &.show {
+    .modal-dialog {
+      transform: none;
+    }
   }
 }
 .fade {

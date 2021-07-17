@@ -7,6 +7,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { HttpClientModule } from '@angular/common/http';
+import { SliderComponent } from './slider/slider.component';
+import { FadeInDirective } from '../directives.ts/fade.directive';
 
 @NgModule({
   imports: [
@@ -18,17 +20,21 @@ import { HttpClientModule } from '@angular/common/http';
   ],
   declarations: [
     CardComponent,
+    FadeInDirective,
     FocusDirective,
     ShuffleCardsComponent,
+    SliderComponent,
   ],
   exports: [
     CardComponent,
+    FadeInDirective,
     FocusDirective,
     HttpClientModule,
     MatButtonModule,
     MatTableModule,
     MatTooltipModule,
     ShuffleCardsComponent,
+    SliderComponent,
   ],
   entryComponents: [
     ShuffleCardsComponent
