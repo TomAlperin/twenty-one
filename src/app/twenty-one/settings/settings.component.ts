@@ -1,4 +1,15 @@
-import { AfterViewInit, Component, ElementRef, OnInit, QueryList, Renderer2, ViewChild, ViewChildren } from '@angular/core';
+import {
+  AfterViewInit,
+  ApplicationRef,
+  Component,
+  ComponentRef,
+  Input,
+  OnDestroy,
+  OnInit,
+  QueryList,
+  ViewChild,
+  ViewChildren
+} from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatRadioButton } from '@angular/material/radio';
 import { Subject } from 'rxjs';
@@ -14,7 +25,7 @@ import { SliderComponent } from '@shared/slider/slider.component';
   templateUrl: './settings.component.html',
   styleUrls: ['./settings.component.scss'],
 })
-export class SettingsComponent implements OnInit, AfterViewInit {
+export class SettingsComponent implements OnInit, AfterViewInit, OnDestroy {
   show = false;
   form: FormGroup;
   currentDeckCount: number;
@@ -22,6 +33,7 @@ export class SettingsComponent implements OnInit, AfterViewInit {
   decks = Array.from({ length: 8 }, (n, i) => i + 1);
   sidebar = false;
   sliders: SliderComponent[] = [];
+  @Input() componentRef: ComponentRef<SettingsComponent>;
   @ViewChild('natural') public natural: MatRadioButton;
   @ViewChild('neat') public neat: MatRadioButton;
   @ViewChildren('slider') set itemContent(content: QueryList<SliderComponent>) {
@@ -29,10 +41,9 @@ export class SettingsComponent implements OnInit, AfterViewInit {
   }
 
   constructor(
-    private el: ElementRef,
     private fb: FormBuilder,
-    private renderer: Renderer2,
-    private twentyone: TwentyOneService
+    private appRef: ApplicationRef,
+    private twentyone: TwentyOneService,
   ) {
     this.form = this.fb.group({
       toolTips: [false],
@@ -106,14 +117,17 @@ export class SettingsComponent implements OnInit, AfterViewInit {
 
   close() {
     this.show = false;
-    this.destroyed$.next();
-    this.destroyed$.complete();
-    this.sliders.forEach(slider => slider.ngOnDestroy());
 
     setTimeout(() => {
-      this.renderer.removeChild(document.body, this.el.nativeElement);
+      this.appRef.detachView(this.componentRef.hostView);
+      this.componentRef.destroy();
     }, 500);
   }
 
   trackByFn = (index: number) => index;
+
+  ngOnDestroy() {
+    this.destroyed$.next();
+    this.destroyed$.complete();
+  }
 }

@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, Renderer2 } from '@angular/core';
+import { ApplicationRef, Component, ComponentRef, Input, OnDestroy, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { TwentyoneSettings } from '@models/twentyone-settings';
@@ -10,7 +10,7 @@ import { TwentyOneService } from '@services/twenty-one.service';
   templateUrl: './stats.component.html',
   styleUrls: ['./stats.component.scss']
 })
-export class StatsComponent implements OnInit {
+export class StatsComponent implements OnInit, OnDestroy {
   show: boolean;
   stats: TwentyoneStats;
   rows = [
@@ -64,13 +64,13 @@ export class StatsComponent implements OnInit {
     }
   ];
   settings: TwentyoneSettings;
+  @Input() componentRef: ComponentRef<StatsComponent>;
 
   destroyed$ = new Subject();
 
   constructor(
     private twentyone: TwentyOneService,
-    private renderer: Renderer2,
-    private el: ElementRef,
+    private appRef: ApplicationRef,
   ) {
     this.twentyone.gameStats$
       .pipe(takeUntil(this.destroyed$))
@@ -87,10 +87,9 @@ export class StatsComponent implements OnInit {
 
   close() {
     this.show = false;
-    this.destroyed$.next();
-    this.destroyed$.complete();
     setTimeout(() => {
-      this.renderer.removeChild(document.body, this.el.nativeElement);
+      this.appRef.detachView(this.componentRef.hostView);
+      this.componentRef.destroy();
     }, 180);
   }
 
@@ -100,4 +99,9 @@ export class StatsComponent implements OnInit {
   }
 
   trackByFn = (index: number) => index;
+
+  ngOnDestroy() {
+    this.destroyed$.next();
+    this.destroyed$.complete();
+  }
 }
