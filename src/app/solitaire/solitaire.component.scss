@@ -1,0 +1,51 @@
+.solitaire-container {
+  background: url("/assets/img/felt.jpg");
+  height: 100%;
+  width: 100%;
+  min-width: 320px;
+  min-height: 320px;
+  position: fixed;
+  padding: 50px 15px 15px 15px;
+  top: 0;
+  left: 0;
+
+  .container {
+    padding: 25px 0;
+  }
+  .col-stock {
+    padding-left: 0.7rem;
+    padding-right: 0.7rem;
+    padding-bottom: 0.7rem;
+    flex: 0 0 auto;
+    width: 14.285714285714286%;
+  }
+  .col-talon {
+    padding-left: 0.7rem;
+    padding-right: 0.7rem;
+    padding-bottom: 0.7rem;
+    flex: 0 0 auto;
+    width: 14.285714285714286%;
+  }
+  .col-tableau {
+    padding-left: 0.7rem;
+    padding-right: 0.7rem;
+    padding-bottom: 0.7rem;
+    flex: 0 0 auto;
+    width: 14.285714285714286%;
+  }
+  .col-foundation {
+    padding-left: 0.7rem;
+    padding-right: 0.7rem;
+    padding-bottom: 0.7rem;
+    flex: 0 0 auto;
+    width: 14.285714285714286%;
+  }
+  .col-stock,
+  .col-tableau,
+  .col-foundation {
+    app-card {
+      height: unset;
+      background: #00000026;
+    }
+  }
+}

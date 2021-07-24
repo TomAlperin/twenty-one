@@ -1,9 +1,11 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, ComponentFactoryResolver, OnDestroy, Renderer2, ViewContainerRef, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { get as _get } from 'lodash';
-import { map, mergeMap, filter } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { map, mergeMap, filter, takeUntil } from 'rxjs/operators';
 import { slideAnimation } from './animations';
-import { SeoService } from './services/seo.service';
+import { SeoService } from '@services/seo.service';
+import { TwentyOneService } from '@services/twenty-one.service';
 
 @Component({
   selector: 'app-root',
@@ -12,12 +14,17 @@ import { SeoService } from './services/seo.service';
   encapsulation: ViewEncapsulation.None,
   animations: [slideAnimation]
 })
-export class AppComponent {
+export class AppComponent implements OnDestroy {
+  destroyed$ = new Subject();
 
   constructor(
     private seo: SeoService,
     private router: Router,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private twentyone: TwentyOneService,
+    private viewContainerRef: ViewContainerRef,
+    private componentFactoryResolver: ComponentFactoryResolver,
+    private renderer: Renderer2,
   ) {
     this.router.events.pipe(
       filter(e => e instanceof NavigationEnd),
@@ -39,5 +46,10 @@ export class AppComponent {
 
   getView(outlet) {
     return _get(outlet, 'activatedRouteData.view');
+  }
+
+  ngOnDestroy() {
+    this.destroyed$.next();
+    this.destroyed$.complete();
   }
 }

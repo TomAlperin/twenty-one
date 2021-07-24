@@ -1,0 +1,46 @@
+.solitaire-container {
+  background: url("/assets/img/felt.jpg");
+  height: 100%;
+  width: 100%;
+  min-width: 320px;
+  min-height: 320px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  .card {
+    background: none;
+    outline: none;
+    top: 50%;
+    margin-top: -94px;
+  }
+  nav {
+    height: 35px;
+    font-size: 1rem;
+    color: white;
+    font-weight: bold;
+    text-transform: uppercase;
+    position: relative;
+    background: url("/assets/img/wood.jpg");
+    padding-right: 90px;
+    .wp-link {
+      position: relative;
+      float: left;
+      cursor: pointer;
+      padding: 5px 10px;
+    }
+    h1 {
+      display: inline-block;
+      padding: 9px 9px;
+      margin: 0;
+      font-size: 1rem;
+      line-height: 1rem;
+    }
+    .mat-icon-button {
+      height: 36px;
+      line-height: 36px;
+    }
+  }
+  .container {
+    padding: 25px 0;
+  }
+}

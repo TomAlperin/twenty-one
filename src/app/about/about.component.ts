@@ -2,8 +2,8 @@ import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/co
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { TwentyoneSettings } from '../models/twentyone-settings';
-import { TwentyOneService } from '../services/twenty-one.service';
+import { TwentyoneSettings } from '@models/twentyone-settings';
+import { TwentyOneService } from '@services/twenty-one.service';
 
 @Component({
   selector: 'app-about',

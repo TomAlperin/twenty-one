@@ -59,6 +59,8 @@ export const slideAnimation =
   trigger('routerAnimation', [
     transition('twentyone => about', slideLeft),
     transition('about => twentyone', slideRight),
+    transition('twentyone => solitaire', slideRight),
+    transition('solitaire => twentyone', slideLeft),
     transition('* => fourofour', slideUp),
     transition('fourofour => *', slideDown),
     transition('* => *', fadeIn),

@@ -1,10 +1,10 @@
 import { animate, AnimationBuilder, AnimationMetadata, style } from '@angular/animations';
-import { Component, ElementRef, HostListener, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
-import { Howl } from 'howler';
+import { Component, ElementRef, Input, EventEmitter, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { TwentyoneSettings } from 'src/app/models/twentyone-settings';
-import { TwentyOneService } from 'src/app/services/twenty-one.service';
+import { TwentyoneSettings } from '@models/twentyone-settings';
+import { SoundService } from '@services/sound.service';
+import { TwentyOneService } from '@services/twenty-one.service';
 const cardSuits = ['.8', '25.6', '50.4', '75.2', '99.9'];
 const cardValues = ['', '0', '8.4', '16.7', '25', '33.3', '41.6', '49.9', '58.2', '66.5', '74.8', '83.1', '91.4', '99.7'];
 
@@ -38,44 +38,43 @@ export class CardComponent implements OnInit, OnChanges, OnDestroy {
   destroyed$ = new Subject();
 
   @Input() public card: number | 'back' = 0;
-  @Input() public cardSound = false;
-  @Input() public animate = false;
+  @Input() public cardSound: boolean | '' = false;
+  @Input() public animate: boolean | '' = false;
   @Input() public flip = false;
-  @Input() height = 100;
+  @Input() height: number;
+  @Input() width: number;
+  @Input() neat: boolean | '' = false;
   @Input() pos = 'absolute';
+  @Input() column: number;
+  @Output() cardClick = new EventEmitter<boolean>();
 
   constructor(
     private builder: AnimationBuilder,
     private el: ElementRef,
-    private twentyone: TwentyOneService
+    private twentyone: TwentyOneService,
+    private soundService: SoundService
   ) {
-    this.subscribeToSettings();
   }
 
-  ngOnInit(): void {
+  async ngOnInit() {
+    this.subscribeToSettings();
     this.setCard();
 
-    if (this.twentyone.animate || this.animate) {
+    if (this.twentyone.animate || (this.animate || this.animate === '')) {
       const metadata = this.slideIn();
       const factory = this.builder.build(metadata);
       const player = factory.create(this.el.nativeElement);
       player.play();
+    }
 
-      if (this.card !== 0 && this.cardSound) {
-        const sound = new Howl({
-          src: [`/assets/snd/${this.settings.sounds}.mp3`],
-          sprite: {
-            'card-sound': [0, 800],
-          }
-        });
-
-        setTimeout(() => sound.play('card-sound'), 100);
-      }
+    if (this.card !== 0 && (this.cardSound || this.cardSound === '')) {
+      await new Promise((resolve) => setTimeout(resolve, 100));
+      this.soundService.playSound('card-sound');
     }
   }
 
   setCard() {
-    if (this.card === 'back') {
+    if (this.card === 'back' || this.flip) {
       this.cardStyles.backgroundPosition = cardValues[1] + '% ' + cardSuits[4] + '%';
     } else {
       this.suit = this.card % 4;
@@ -84,14 +83,18 @@ export class CardComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
 
-  @HostListener('click')
-  flipCard() {
-    clearTimeout(this.flipTimeout);
-    this.hoverFlip = !this.hoverFlip;
+  // @HostListener('click', ['$event'])
+  // flipCard(event: MouseEvent) {
+  //   clearTimeout(this.flipTimeout);
+  //   this.hoverFlip = !this.hoverFlip;
 
-    this.flipTimeout = setTimeout(() => {
-      this.hoverFlip = false;
-    }, 3000);
+  //   this.flipTimeout = setTimeout(() => {
+  //     this.hoverFlip = false;
+  //   }, 3000);
+  // }
+
+  click() {
+    this.cardClick.emit();
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -115,8 +118,7 @@ export class CardComponent implements OnInit, OnChanges, OnDestroy {
       .pipe(takeUntil(this.destroyed$))
       .subscribe(settings => {
         this.settings = settings;
-
-        if (settings.alignment === 'neat') {
+        if (this.neat || this.neat === '' || settings.alignment === 'neat') {
           this.cardStyles.transform = 'rotateY(0deg)';
           this.backCardStyles.transform = ' rotateY(180deg)';
         } else {

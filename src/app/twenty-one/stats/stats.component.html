@@ -17,7 +17,7 @@
       <div class="modal-header">
         <h5 class="modal-title">Stats</h5>
         <a href="#" (focus)="last.focus()" class="tab-loop">to last</a>
-        <a
+        <button
           #first
           (click)="setSidebar()"
           mdAutoFocus
@@ -31,15 +31,15 @@
             height="25px"
             alt="Window Resize"
           />
-        </a>
-        <a
+        </button>
+        <button
           (click)="close()"
           type="button"
           aria-label="Close"
           class="button-close"
         >
           <img src="/assets/img/close.svg" height="25px" alt="Window Resize" />
-        </a>
+        </button>
       </div>
       <div class="modal-body">
         <div class="row d-flex justify-content-center">

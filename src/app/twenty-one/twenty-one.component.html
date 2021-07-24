@@ -1,38 +1,10 @@
-<div class="twenty-one-container noselect">
-  <nav class="d-flex justify-content-between">
-    <a href="http://www.technicallytom.com" target="_blank">
-      <img
-        class="wp-link"
-        alt="technicallytom.com"
-        src="/assets/img/logo.png?v=1"
-      />
-    </a>
-    <h1>Twenty One</h1>
-  </nav>
-  <div class="game-container">
+<div class="twenty-one-container">
+  <app-nav (action)="doEvent($event)" heading="Twenty One" [hasStats]="hasStats" controls></app-nav>
+  <div class="game-container noselect">
     <div class="position-relative h-100">
-      <div class="dealer" [style.height]="height + 'px'">
+      <div class="dealer" [style.height]="height + 40 + 'px'">
         <h2 class="hand">Dealer</h2>
         <h3 class="bank score">
-          <button type="button" (click)="openSettings()" class="settings-btn">
-            <img
-              src="/assets/img/settings.svg"
-              alt="Settings"
-              class="settings-img"
-            />
-          </button>
-          <button
-            *ngIf="hasStats"
-            type="button"
-            (click)="openStats()"
-            class="stats-btn"
-          >
-            <img
-              src="/assets/img/stats.svg"
-              alt="Settings"
-              class="settings-img"
-            />
-          </button>
           {{ game.bank | currency: "USD":"symbol":"1.0" }}
         </h3>
         <div class="d-flex justify-content-around card-container">
@@ -43,7 +15,7 @@
               trackBy: trackByFn
             "
             [card]="dealerCard | appFlipMask: dealerIndex !== 1 || !flip"
-            [cardSound]="cardSound"
+            [cardSound]="cardSound && twentyone.animate"
             [flip]="dealerIndex === 1 && flip"
             [height]="height"
             [style.zIndex]="dealerIndex + 3"
@@ -73,7 +45,7 @@
         [ngClass]="{
           up: this.game.split && this.game.state === 'hit-on-split'
         }"
-        [style.height]="height + 'px'"
+        [style.height]="height + 40 + 'px'"
       >
         <h2 class="hand">Split 1</h2>
         <h3 class="score">
@@ -92,7 +64,7 @@
               let splitIndex = index
             "
             [card]="userCard"
-            [cardSound]="cardSound"
+            [cardSound]="cardSound && twentyone.animate"
             [height]="height"
             [style.zIndex]="splitIndex + 3"
           ></app-card>
@@ -116,7 +88,7 @@
           'player-has-split': game.split,
           up: this.game.state === 'hit'
         }"
-        [style.height]="height + 'px'"
+        [style.height]="height + 40 + 'px'"
       >
         <h2 class="hand">{{ game.split ? "Split 2" : "Player" }}</h2>
         <h3 class="score">
@@ -135,7 +107,7 @@
               let userIndex = index
             "
             [card]="userCard"
-            [cardSound]="cardSound"
+            [cardSound]="cardSound && twentyone.animate"
             [height]="height"
             [style.zIndex]="userIndex + 3"
           ></app-card>
@@ -165,6 +137,7 @@
           (click)="do(control.action, control.value)"
           [matTooltip]="settings.toolTips ? control.tooltip : null"
           [matTooltipPosition]="position"
+          class="tw-btn"
         >
           {{ (game | actionCheck: control.condition) ? control.label : "" }}
         </button>

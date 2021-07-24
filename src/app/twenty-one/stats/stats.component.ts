@@ -1,9 +1,9 @@
 import { Component, ElementRef, OnInit, Renderer2 } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { TwentyoneSettings } from 'src/app/models/twentyone-settings';
-import { TwentyoneStats, CountStats } from 'src/app/models/twentyone-stats';
-import { TwentyOneService } from 'src/app/services/twenty-one.service';
+import { TwentyoneSettings } from '@models/twentyone-settings';
+import { TwentyoneStats, CountStats } from '@models/twentyone-stats';
+import { TwentyOneService } from '@services/twenty-one.service';
 
 @Component({
   selector: 'app-stats',

@@ -15,8 +15,8 @@ const twentyOneRoutes: Routes = [
           { property: 'og:title', content: 'Technically Tom\'s Twenty One' },
           { proprety: 'og:description', content: 'Free card game web app with support for playing off line.' },
           { property: 'og:image', content: environment.appUrl + 'assets/img/blackjack.jpg' },
-          { property: 'og:image:width', content: environment.appUrl + '1200' },
-          { property: 'og:image:height', content: environment.appUrl + '630' },
+          { property: 'og:image:width', content: '1200' },
+          { property: 'og:image:height', content: '630' },
           { property: 'og:url', content: environment.appUrl + 'twenty-one' },
           { name: 'twitter:card', content: 'website' },
         ]

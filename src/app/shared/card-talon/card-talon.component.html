@@ -1,0 +1,24 @@
+<app-card
+  [card]="cards[cards.length - 2] || 0"
+  [width]="width"
+  animate
+  neat
+></app-card>
+<div
+  class="card-group d-flex flex-column"
+  [style.top]="posY + 'px'"
+  [style.left]="posX + 'px'"
+  [style.zIndex]="dragging ? '100' : undefined"
+  [style.pointerEvents]="dragging ? 'none' : undefined"
+  [style.touchAction]="dragging ? 'none' : undefined"
+>
+  <app-card
+    (mousedown)="start($event)"
+    (touchstart)="start($event)"
+    [card]="cards[cards.length - 1] || 0"
+    [width]="width"
+    animate
+    neat
+    pos="relative"
+  ></app-card>
+</div>

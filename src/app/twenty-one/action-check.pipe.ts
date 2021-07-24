@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { TwentyoneGame } from '../models/twentyone-game';
+import { TwentyoneGame } from '@models/twentyone-game';
 
 @Pipe({
   name: 'actionCheck'

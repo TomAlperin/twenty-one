@@ -10,7 +10,55 @@ app-diff-cleaner {
   padding: 8px 0 8px 8px;
 }
 .mat-stroked-button {
-  background: #fff;
+  border-color: rgba(255, 255, 255, 0.774) !important;
+}
+.mat-form-field-label {
+  color: #fff;
+}
+.mat-form-field-ripple {
+  background-color: #fff;
+}
+.mat-form-field-appearance-fill .mat-form-field-underline::before {
+  background-color: rgba(255, 255, 255, 0.116);
+}
+.mat-form-field-appearance-fill .mat-form-field-flex {
+  background-color: rgba(251, 255, 0, 0.103);
+}
+.mat-select-panel {
+  background: #000;
+  border: 1px solid rgba(226, 226, 17, 0.418);
+}
+.mat-select-arrow {
+  color: rgba(255, 255, 255, 0.856);
+}
+.mat-select-panel .mat-option.mat-selected:not(.mat-option-multiple) {
+  background: rgba(166, 228, 16, 0.18);
+}
+.mat-select-panel .mat-option:hover:not(.mat-option-disabled),
+.mat-select-panel .mat-option:focus:not(.mat-option-disabled) {
+  background: rgba(164, 228, 16, 0.36);
+}
+.mat-select-value {
+  color: #fff;
+}
+.mat-option {
+  color: rgba(255, 255, 255, 0.87);
+}
+.mat-option.mat-active {
+  color: #fff;
+  background: rgba(164, 228, 16, 0.36);
+}
+.mat-checkbox-checkmark {
+  fill: yellow;
+}
+.mat-checkbox-frame {
+  border-color: #ffff00;
+}
+.mat-checkbox-checkmark-path {
+  stroke: #000 !important;
+}
+.mat-radio-outer-circle {
+  border-color: #ffff00;
 }
 .tab-loop {
   position: absolute;

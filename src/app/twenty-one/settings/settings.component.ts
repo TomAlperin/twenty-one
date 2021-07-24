@@ -1,12 +1,13 @@
-import { AfterViewInit, Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, QueryList, Renderer2, ViewChild, ViewChildren } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatRadioButton } from '@angular/material/radio';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { TwentyoneGame } from 'src/app/models/twentyone-game';
-import { CountStats, TwentyoneStats } from 'src/app/models/twentyone-stats';
-import { TwentyOneService } from 'src/app/services/twenty-one.service';
+import { TwentyoneGame } from '@models/twentyone-game';
+import { CountStats, TwentyoneStats } from '@models/twentyone-stats';
+import { TwentyOneService } from '@services/twenty-one.service';
 import * as _ from 'lodash';
+import { SliderComponent } from '@shared/slider/slider.component';
 
 @Component({
   selector: 'app-settings',
@@ -20,8 +21,12 @@ export class SettingsComponent implements OnInit, AfterViewInit {
   destroyed$ = new Subject();
   decks = Array.from({ length: 8 }, (n, i) => i + 1);
   sidebar = false;
+  sliders: SliderComponent[] = [];
   @ViewChild('natural') public natural: MatRadioButton;
   @ViewChild('neat') public neat: MatRadioButton;
+  @ViewChildren('slider') set itemContent(content: QueryList<SliderComponent>) {
+    this.sliders = content ? content.map(item => item) : [];
+  }
 
   constructor(
     private el: ElementRef,
@@ -103,6 +108,7 @@ export class SettingsComponent implements OnInit, AfterViewInit {
     this.show = false;
     this.destroyed$.next();
     this.destroyed$.complete();
+    this.sliders.forEach(slider => slider.ngOnDestroy());
 
     setTimeout(() => {
       this.renderer.removeChild(document.body, this.el.nativeElement);

@@ -1,0 +1,32 @@
+<div
+  class="card-group d-flex flex-column"
+  [style.top]="posY + 'px'"
+  [style.left]="posX + 'px'"
+  [style.zIndex]="dragging ? '100' : undefined"
+  [style.pointerEvents]="dragging ? 'none' : undefined"
+  [style.touchAction]="dragging ? 'none' : undefined"
+  [attr.data-column]="column"
+>
+  <app-card
+    (mousedown)="start($event)"
+    (touchstart)="start($event)"
+    [card]="cards[0].card"
+    [flip]="cards[0].flip"
+    [width]="width"
+    [animate]="animate"
+    [cardSound]="cards.length === 1"
+    [column]="column"
+    pos="relative"
+    class="align-self-center"
+    [style.height]="offset + 'px'"
+  ></app-card>
+  <app-card-group
+    *ngIf="cards[1]"
+    [tableau]="tableau"
+    [foundation]="foundation"
+    [cards]="cards | cardGroup"
+    [column]="column"
+    [width]="width"
+    [animate]="animate"
+  ></app-card-group>
+</div>

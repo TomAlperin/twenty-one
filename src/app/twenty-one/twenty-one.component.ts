@@ -1,17 +1,16 @@
-import { Component, ComponentFactoryResolver, HostListener, OnDestroy, OnInit, Renderer2, ViewContainerRef } from '@angular/core';
-import { Howl } from 'howler';
-import { Result, TwentyoneGame } from '../models/twentyone-game';
-import { TwentyOneService } from '../services/twenty-one.service';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Result, TwentyoneGame } from '@models/twentyone-game';
+import { TwentyOneService } from '@services/twenty-one.service';
 import { BlackjackComponent } from './blackjack/blackjack.component';
 import * as _ from 'lodash';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { SettingsComponent } from './settings/settings.component';
-import { TwentyoneSettings } from '../models/twentyone-settings';
+import { TwentyoneSettings } from '@models/twentyone-settings';
 import { Router } from '@angular/router';
 import { StatsComponent } from './stats/stats.component';
-import { TwentyoneStats } from '../models/twentyone-stats';
-import { SafeUrl } from '@angular/platform-browser';
+import { TwentyoneStats } from '@models/twentyone-stats';
+import { WindowService } from '@services/window.service';
+import { SoundService } from '@services/sound.service';
 // tslint:disable-next-line:no-string-literal
 const mobile = typeof window.orientation !== 'undefined';
 
@@ -56,19 +55,19 @@ export class TwentyOneComponent implements OnInit, OnDestroy {
   disabled = false;
   cardSound = false;
   flip = true;
-  height = 100;
+  height = 200;
   hasStats = false;
   settings = new TwentyoneSettings();
   destroyed$ = new Subject();
   position: 'above' | 'left' = 'left';
 
   constructor(
-    private viewContainerRef: ViewContainerRef,
-    private componentFactoryResolver: ComponentFactoryResolver,
-    private renderer: Renderer2,
-    private twentyone: TwentyOneService,
+    public twentyone: TwentyOneService,
     private router: Router,
+    private window: WindowService,
+    private soundService: SoundService,
   ) {
+    this.subscribeToOrientationResize();
     this.subscribeToGame();
     this.subscribeToSettings();
     this.subscribeToStats();
@@ -80,32 +79,12 @@ export class TwentyOneComponent implements OnInit, OnDestroy {
     this.setHeight();
 
     setTimeout(() => this.twentyone.animate = true, 0);
-
-    this.twentyone.component$
-      .pipe(takeUntil(this.destroyed$))
-      .subscribe((component: any) => {
-        const factory = this.componentFactoryResolver.resolveComponentFactory(component);
-        const geebee = this.viewContainerRef.createComponent(factory);
-
-        this.renderer.appendChild(document.body, geebee.location.nativeElement);
-      });
   }
 
   ngOnInit(): void {
     this.controls = this.betControls;
   }
 
-  @HostListener('window:orientationchange')
-  orientationChange() {
-    this.setHeight();
-  }
-
-  @HostListener('window:resize')
-  resize() {
-    if (!mobile) {
-      this.setHeight();
-    }
-  }
   setHeight() {
     const height = window.innerHeight;
     const width = window.innerWidth;
@@ -113,10 +92,16 @@ export class TwentyOneComponent implements OnInit, OnDestroy {
     this.position = height < width ? 'left' : 'above';
 
     if (height < width) {
-      this.height = Math.min((height / 2) - 30, 350);
+      this.height = Math.min((height / 2) - 30, 350) - 40;
     } else {
       this.height = (height / 3) - 52;
     }
+  }
+
+  subscribeToOrientationResize() {
+    this.window.orientationresize$
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe(event => this.setHeight());
   }
 
   subscribeToGame() {
@@ -411,7 +396,7 @@ export class TwentyOneComponent implements OnInit, OnDestroy {
           message = 'BLACKJACK!';
           icon = 'very-happy';
           odds = 1.5;
-          this.twentyone.loadComponent(BlackjackComponent);
+          this.window.loadComponent(BlackjackComponent);
         } else {                                                             // Player wins with 21 but not blackjack
           newBank = this.game.bank + (this.game.bet * 2);
           result = 'win';
@@ -465,38 +450,24 @@ export class TwentyOneComponent implements OnInit, OnDestroy {
 
     if (this.game.bank < 10) {
       this.reset();
+      this.twentyone.stats = { game: this.game, result: 'bank-reset' };
     }
 
     this.disabled = false;
   }
 
   playSound(snd: Result) {
-    if (this.settings.sounds !== 'off') {
-      this.cardSound = true;
-      const sound = new Howl({
-        src: [`/assets/snd/${this.settings.sounds}.mp3`],
-        sprite: {
-          'card-sound': [0, 800],
-          bet: [1000, 800],
-          tie: [1000, 800],
-          win: [2000, 2800],
-          lose: [5000, 2800],
-          blackjack: [8500, 12000]
-        }
-      });
+    this.cardSound = this.soundService.playSound(snd);
+  }
 
-      sound.play(snd);
-    } else {
-      this.cardSound = false;
+  doEvent(action: string) {
+    switch (action) {
+      case 'stats':
+        this.window.loadComponent(StatsComponent);
+        break;
+      default:
+        break;
     }
-  }
-
-  openSettings() {
-    this.twentyone.loadComponent(SettingsComponent);
-  }
-
-  openStats() {
-    this.twentyone.loadComponent(StatsComponent);
   }
 
   about() {

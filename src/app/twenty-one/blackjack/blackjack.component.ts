@@ -1,9 +1,9 @@
 import { AfterViewInit, Component, ElementRef, OnDestroy, Renderer2 } from '@angular/core';
-import { Howl } from 'howler';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { TwentyoneSettings } from 'src/app/models/twentyone-settings';
-import { TwentyOneService } from 'src/app/services/twenty-one.service';
+import { TwentyoneSettings } from '@models/twentyone-settings';
+import { SoundService } from '@services/sound.service';
+import { TwentyOneService } from '@services/twenty-one.service';
 
 @Component({
   selector: 'app-blackjack',
@@ -19,7 +19,8 @@ export class BlackjackComponent implements AfterViewInit, OnDestroy {
   constructor(
     private renderer: Renderer2,
     private elRef: ElementRef,
-    private twentyone: TwentyOneService
+    private twentyone: TwentyOneService,
+    private soundService: SoundService
   ) {
     this.twentyone.settings$
       .pipe(takeUntil(this.destroyed$))
@@ -34,14 +35,7 @@ export class BlackjackComponent implements AfterViewInit, OnDestroy {
     let i = 0;
     setTimeout(() => {
       if (this.settings.sounds !== 'off') {
-        const sound = new Howl({
-          src: [`/assets/snd/${this.settings.sounds}.mp3`],
-          sprite: {
-            blackjack: [8500, 12000]
-          }
-        });
-
-        sound.play('blackjack');
+        this.soundService.playSound('blackjack');
       }
 
       this.zoom = true;

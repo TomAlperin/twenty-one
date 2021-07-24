@@ -11,7 +11,7 @@
       <div class="modal-header">
         <h5 class="modal-title">Settings</h5>
         <a href="#" (focus)="last.focus()" class="tab-loop">to last</a>
-        <a
+        <button
           #first
           (click)="setSidebar()"
           mdAutoFocus
@@ -25,19 +25,20 @@
             height="25px"
             alt="Window Resize"
           />
-        </a>
-        <a
+        </button>
+        <button
           (click)="close()"
           type="button"
           aria-label="Close"
           class="button-close"
         >
           <img src="/assets/img/close.svg" height="25px" alt="Window Resize" />
-        </a>
+        </button>
       </div>
       <div class="modal-body">
         <div class="form-container">
           <form [formGroup]="form">
+            <h4>General Settings</h4>
             <section class="section">
               <mat-checkbox formControlName="toolTips" color="primary"
                 >Tool tips on</mat-checkbox
@@ -77,6 +78,7 @@
               </mat-radio-group>
             </section>
             <div class="row">
+              <h4 class="col-sm-12">Twenty One</h4>
               <div class="col-md-6">
                 <mat-form-field appearance="fill">
                   <mat-label>Deck Count</mat-label>
@@ -107,15 +109,17 @@
               </div>
               <div class="col-md-6 btn-container">
                 <app-slider
+                  #slider
                   (slide)="gameReset()"
-                  label="Slide to Reset Game"
+                  label="Reset Game"
                   btnLabel="Reset"
                 ></app-slider>
               </div>
               <div class="col-md-6 btn-container">
                 <app-slider
+                  #slider
                   (slide)="allReset()"
-                  label="Slide to Reset All"
+                  label="Reset All"
                   btnLabel="Reset"
                   btnColor="warn"
                 ></app-slider>

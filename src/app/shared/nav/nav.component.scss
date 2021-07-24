@@ -1,0 +1,62 @@
+nav {
+  height: 35px;
+  font-size: 1rem;
+  color: white;
+  font-weight: bold;
+  text-transform: uppercase;
+  position: absolute;
+  padding: 0 10px;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: url("/assets/img/wood.jpg");
+  z-index: 10;
+
+  &.controls {
+    padding-right: 90px;
+  }
+
+  .wp-link {
+    position: relative;
+    float: left;
+    cursor: pointer;
+    padding: 5px 10px;
+  }
+
+  h1 {
+    display: inline-block;
+    padding: 9px 9px;
+    margin: 0;
+    font-size: 1rem;
+    line-height: 1rem;
+  }
+
+  .mat-icon-button {
+    height: 36px;
+    line-height: 36px;
+  }
+}
+
+::ng-deep {
+  .mat-menu-panel {
+    background-color: rgba(0, 0, 0, 0.8);
+    border: 1px solid #fff31a;
+
+    .icon,
+    span {
+      color: #fff31a;
+    }
+
+    hr {
+      background-color: #fff31a;
+      opacity: 0.4;
+      margin: 0;
+    }
+  }
+}
+
+@media (orientation: portrait) {
+  nav.controls {
+    padding-right: 0;
+  }
+}

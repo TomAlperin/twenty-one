@@ -1,0 +1,83 @@
+<div class="solitaire-container noselect height-100 position-fixed">
+  <app-nav heading="Solitaire"></app-nav>
+  <div class="container height-100">
+    <div class="row pb-4">
+      <div class="col-stock d-flex flex-column">
+        <app-card
+          (cardClick)="draw()"
+          [card]="stock.length ? 'back' : 0"
+          [width]="width"
+          [cardSound]="false"
+          [animate]="false"
+          neat
+          pos="relative"
+          class="align-self-center"
+        ></app-card>
+      </div>
+      <div class="col-talon d-flex flex-column position-relative">
+        <app-card-talon
+          [cards]="talon"
+          [tableau]="tableau"
+          [foundation]="foundation"
+          [width]="width"
+        ></app-card-talon>
+      </div>
+      <div class="col-talon"></div>
+      <div
+        *ngFor="let base of foundation; trackBy: trackByFn; let i = index"
+        class="col-foundation d-flex flex-column"
+      >
+        <div *ngFor="let card of base" class="d-inline-block position-relative">
+          <app-card
+            [card]="card"
+            [width]="width"
+            [cardSound]="true"
+            [column]="i + 7"
+            [animate]="false"
+          ></app-card>
+        </div>
+
+        <app-card
+          *ngIf="!base.length"
+          [card]="0"
+          [width]="width"
+          [cardSound]="false"
+          [animate]="false"
+          neat
+          [column]="i + 7"
+          pos="relative"
+          class="align-self-center"
+        ></app-card>
+      </div>
+    </div>
+    <div class="row">
+      <div
+        *ngFor="let stack of tableau; trackBy: trackByFn; let i = index"
+        class="col-tableau d-flex flex-column height-100"
+        [attr.data-column]="i"
+      >
+        <app-card-group
+          *ngIf="stack.length"
+          [tableau]="tableau"
+          [foundation]="foundation"
+          [cards]="stack"
+          [column]="i"
+          [width]="width"
+          [animate]="animate"
+        ></app-card-group>
+
+        <app-card
+          *ngIf="!stack.length"
+          [card]="0"
+          [width]="width"
+          [cardSound]="false"
+          [animate]="false"
+          [column]="i"
+          neat
+          pos="relative"
+          class="align-self-center"
+        ></app-card>
+      </div>
+    </div>
+  </div>
+</div>

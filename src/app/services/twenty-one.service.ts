@@ -2,10 +2,11 @@
 import { Injectable } from '@angular/core';
 import { get as _get } from 'lodash';
 import { BehaviorSubject, Subject } from 'rxjs';
-import { Result, TwentyoneGame } from '../models/twentyone-game';
-import { TwentyoneSettings } from '../models/twentyone-settings';
-import { TwentyoneStats, CountStats } from '../models/twentyone-stats';
-import { ShuffleCardsComponent } from '../shared/shuffle-cards/shuffle-cards.component';
+import { Result, TwentyoneGame } from '@models/twentyone-game';
+import { TwentyoneSettings } from '@models/twentyone-settings';
+import { TwentyoneStats, CountStats } from '@models/twentyone-stats';
+import { ShuffleCardsComponent } from '@shared/shuffle-cards/shuffle-cards.component';
+import { WindowService } from './window.service';
 // tslint:disable-next-line:no-string-literal
 const hasLocalStorage = 'localStorage' in window && window['localStorage'] !== null;
 
@@ -20,13 +21,10 @@ export class TwentyOneService {
   public gameStats = new BehaviorSubject<TwentyoneStats>(new TwentyoneStats());
   public gameStats$ = this.gameStats.asObservable();
 
-  private component = new Subject();
-  public component$ = this.component.asObservable();
-
   private animation = new BehaviorSubject<boolean>(false);
   public animation$ = this.animation.asObservable();
 
-  constructor() {
+  constructor(private window: WindowService) {
     const gameState = localStorage['twentyone-gamestate'];
     if (gameState) {
       this.game.next(JSON.parse(atob(gameState)));
@@ -156,7 +154,7 @@ export class TwentyOneService {
 
   shuffleCards() {
     const game = this.game.getValue();
-    setTimeout(() => this.loadComponent(ShuffleCardsComponent), 0);
+    setTimeout(() => this.window.loadComponent(ShuffleCardsComponent), 0);
     const cards = [];
     const decks = this.settings.getValue().deckCount;
 
@@ -193,9 +191,5 @@ export class TwentyOneService {
       i++;
     }
     return total;
-  }
-
-  loadComponent(component: any) {
-    this.component.next(component);
   }
 }

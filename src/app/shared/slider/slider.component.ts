@@ -2,6 +2,7 @@ import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { WindowService } from 'src/app/services/window.service';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-slider',
@@ -12,8 +13,9 @@ export class SliderComponent implements OnInit, OnDestroy {
   showSlider = false;
   sliding = false;
   lastLeft = 0;
+  overdrag = 0;
   btnLeft = 0;
-  @Input() label = 'Slide to Delete';
+  @Input() label = 'Delete';
   @Input() btnLabel = 'Delete';
   @Input() btnColor = 'primary';
   timeout: NodeJS.Timer;
@@ -23,9 +25,9 @@ export class SliderComponent implements OnInit, OnDestroy {
   @ViewChild('slider') private slider: ElementRef<HTMLDivElement>;
 
   constructor(private window: WindowService) {
-    this.window.mousemove$
+    this.window.mousetouchmove$
       .pipe(takeUntil(this.destroyed$))
-      .subscribe((event: MouseEvent) => this.doSlide(event));
+      .subscribe((event: MouseEvent & TouchEvent) => this.doSlide(event));
 
     this.window.mousetouchend$
       .pipe(takeUntil(this.destroyed$))
@@ -41,19 +43,25 @@ export class SliderComponent implements OnInit, OnDestroy {
     this.sliding = true;
   }
 
-  doSlide(event: MouseEvent) {
+  doSlide(event: MouseEvent & TouchEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+    const clientX = event.clientX || _.get(event, 'touches[0].clientX');
+
     if (this.slider) {
       const width = this.slider.nativeElement.offsetWidth - 64;
-
+      const rect = this.slider.nativeElement.getBoundingClientRect();
       if (this.sliding && this.lastLeft) {
-        this.btnLeft += this.lastLeft - event.clientX;
-        if (this.btnLeft > width) {
-          this.btnLeft = width;
-        } else if (this.btnLeft < 0) {
-          this.btnLeft = 0;
+        if (rect.left < clientX && rect.right > clientX) {
+          this.btnLeft += this.lastLeft - clientX;
+          if (this.btnLeft > width) {
+            this.btnLeft = width;
+          } else if (this.btnLeft < 0) {
+            this.btnLeft = 0;
+          }
         }
       }
-      this.lastLeft = event.clientX;
+      this.lastLeft = clientX;
     }
   }
 

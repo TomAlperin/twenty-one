@@ -4,8 +4,11 @@
   [ngStyle]="{ position: pos }"
 >
   <img
+    (click)="click()"
     src="/assets/img/card.png"
-    [height]="height - 55"
+    [style.height]="height + 'px' || 'auto'"
+    [style.width]="width + 'px' || 'auto'"
+    [attr.data-column]="column"
     alt="Card"
     [ngClass]="{
       hide: card === 0,
@@ -15,8 +18,10 @@
     [ngStyle]="cardStyles"
   />
   <img
+    (click)="click()"
     src="/assets/img/card.png"
-    [height]="height - 55"
+    [style.height]="height + 'px' || 'auto'"
+    [style.width]="width + 'px' || 'auto'"
     alt="Card"
     [ngClass]="{
       hide: card === 0,

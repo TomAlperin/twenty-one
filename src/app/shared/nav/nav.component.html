@@ -1,0 +1,35 @@
+<nav
+  class="d-flex justify-content-between"
+  [ngClass]="{ controls: ['', true].includes(controls) }"
+>
+  <a href="http://www.technicallytom.com" target="_blank">
+    <img class="wp-link" alt="technicallytom.com" src="/assets/img/logo.png" />
+  </a>
+  <div>
+    <h1>{{ heading }}</h1>
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+      <mat-icon>more_vert</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <ng-container *ngFor="let option of options; trackBy: trackByFn">
+        <button
+          *ngIf="
+            option.url !== url &&
+            !option.divider &&
+            (option.action !== 'stats' || hasStats)
+          "
+          type="buton"
+          (click)="doEvent(option.action)"
+          [routerLink]="option.url"
+          mat-menu-item
+        >
+          <mat-icon aria-hidden="false" class="icon" aria-label="Cards">{{
+            option.icon
+          }}</mat-icon>
+          <span>{{ option.name }}</span>
+        </button>
+        <hr *ngIf="option.divider" class="divider" />
+      </ng-container>
+    </mat-menu>
+  </div>
+</nav>
