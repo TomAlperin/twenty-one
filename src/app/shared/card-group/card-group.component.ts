@@ -24,6 +24,7 @@ export class CardGroupComponent implements OnInit, OnDestroy {
   @Input() cards: { card: number, flip: boolean }[] = [];
   @Input() column: number;
   @Input() animate: boolean;
+  @Input() cardSound: boolean;
   @Input() width: number;
   @Input() offset: number;
 
@@ -61,11 +62,12 @@ export class CardGroupComponent implements OnInit, OnDestroy {
 
   start(event) {
     event.preventDefault();
+    event.stopPropagation();
     this.dragging = true;
+    document.body.classList.add('dragging');
   }
 
   doDrag(event: MouseEvent & TouchEvent) {
-    event.preventDefault();
     const clientX = event.clientX || _.get(event, 'touches[0].clientX');
     const clientY = event.clientY || _.get(event, 'touches[0].clientY');
 
@@ -82,12 +84,15 @@ export class CardGroupComponent implements OnInit, OnDestroy {
     }
   }
 
-  endDrag(event: MouseEvent & TouchEvent) {
-    let element = event.target;
+  async endDrag(event: MouseEvent & TouchEvent) {
+    document.body.classList.remove('dragging');
+    let element;
     const changedTouch = _.get(event, 'changedTouches[0]');
 
     if (changedTouch) {
       element = document.elementFromPoint(changedTouch.clientX, changedTouch.clientY);
+    } else {
+      element = document.elementFromPoint(event.x, event.y);
     }
 
     this.posX = 0;
@@ -117,6 +122,7 @@ export class CardGroupComponent implements OnInit, OnDestroy {
                   this.tableau[this.column] = [...this.tableau[this.column]];
                   this.foundation[column - 7].push(cards[0].card);
                   this.flipCard();
+                  this.solitaire.checkWin(this.foundation);
                 }
               }
             }
@@ -141,14 +147,14 @@ export class CardGroupComponent implements OnInit, OnDestroy {
               this.tableau[column].push(...cards);
               this.tableau[column] = [...this.tableau[column]];
               this.flipCard();
+              this.solitaire.checkWin(this.foundation);
             }
           }
         }
       }
+      this.dragging = false;
+      this.dragged = false;
     }
-    this.dragging = false;
-    this.dragged = false;
-    this.solitaire.checkWin(this.foundation);
   }
 
   toFoundation() {
@@ -167,13 +173,13 @@ export class CardGroupComponent implements OnInit, OnDestroy {
             this.tableau[this.column] = [...this.tableau[this.column]];
             this.foundation[i].push(doneCard.card);
             this.flipCard();
+            this.solitaire.checkWin(this.foundation);
             break;
           }
         }
       }
       i++;
     }
-    this.solitaire.checkWin(this.foundation);
   }
 
   flipCard() {

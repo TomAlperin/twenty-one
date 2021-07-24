@@ -39,6 +39,7 @@ export class NavComponent {
   ];
   @Input() heading = '';
   @Input() controls: boolean & '';
+  @Input() restart: boolean & '';
   @Input() hasStats = false;
   @Output() action = new EventEmitter<string>();
 

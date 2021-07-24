@@ -2,7 +2,7 @@ import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/co
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { TwentyoneSettings } from '@models/twentyone-settings';
+import { Settings } from '@models/settings';
 import { TwentyOneService } from '@services/twenty-one.service';
 
 @Component({
@@ -20,7 +20,7 @@ export class AboutComponent implements OnInit, OnDestroy {
   titleColor: string;
   menuColor1: string;
   menuColor2: string;
-  settings: TwentyoneSettings;
+  settings: Settings;
   @ViewChild('aboutFront') private aboutFront: ElementRef;
   @ViewChild('keyboard') private keyboard: ElementRef;
 
@@ -41,7 +41,7 @@ export class AboutComponent implements OnInit, OnDestroy {
   subScribeToSettings() {
     this.twentyone.settings$
       .pipe(takeUntil(this.destroyed$))
-      .subscribe((settings: TwentyoneSettings) => this.settings = settings);
+      .subscribe((settings: Settings) => this.settings = settings);
   }
 
   onScroll() {

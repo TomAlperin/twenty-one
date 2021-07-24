@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnInit, Renderer2 } from '@angular/core';
+import { AfterViewInit, ApplicationRef, Component, ComponentRef, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-shuffle-cards',
@@ -10,11 +10,9 @@ export class ShuffleCardsComponent implements OnInit, AfterViewInit {
   hand: number[] = [];
   show = false;
   interval: NodeJS.Timer;
+  @Input() componentRef: ComponentRef<ShuffleCardsComponent>;
 
-  constructor(
-    private renderer: Renderer2,
-    private el: ElementRef,
-  ) {
+  constructor(private appRef: ApplicationRef) {
     this.shuffle();
 
     this.interval = setInterval(() => {
@@ -33,7 +31,8 @@ export class ShuffleCardsComponent implements OnInit, AfterViewInit {
       this.show = false;
       setTimeout(() => {
         clearTimeout(this.interval);
-        this.renderer.removeChild(document.body, this.el.nativeElement);
+        this.appRef.detachView(this.componentRef.hostView);
+        this.componentRef.destroy();
       }, 400);
     }, 1500);
   }

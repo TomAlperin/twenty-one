@@ -1,9 +1,9 @@
 
 import { Injectable } from '@angular/core';
 import { get as _get } from 'lodash';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { Result, TwentyoneGame } from '@models/twentyone-game';
-import { TwentyoneSettings } from '@models/twentyone-settings';
+import { Settings } from '@models/settings';
 import { TwentyoneStats, CountStats } from '@models/twentyone-stats';
 import { ShuffleCardsComponent } from '@shared/shuffle-cards/shuffle-cards.component';
 import { WindowService } from './window.service';
@@ -15,7 +15,7 @@ export class TwentyOneService {
   private game = new BehaviorSubject<TwentyoneGame>(new TwentyoneGame());
   public game$ = this.game.asObservable();
 
-  private settings = new BehaviorSubject<TwentyoneSettings>(new TwentyoneSettings());
+  private settings = new BehaviorSubject<Settings>(new Settings());
   public settings$ = this.settings.asObservable();
 
   public gameStats = new BehaviorSubject<TwentyoneStats>(new TwentyoneStats());
@@ -46,7 +46,7 @@ export class TwentyOneService {
     }
   }
 
-  public get gameSettings(): TwentyoneSettings {
+  public get gameSettings(): Settings {
     return this.settings.getValue();
   }
 
@@ -76,7 +76,7 @@ export class TwentyOneService {
     this.game.next(game);
   }
 
-  saveSettings(settings: TwentyoneSettings) {
+  saveSettings(settings: Settings) {
     settings = Object.assign({}, settings);
 
     if (hasLocalStorage) {

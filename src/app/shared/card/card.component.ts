@@ -2,7 +2,7 @@ import { animate, AnimationBuilder, AnimationMetadata, style } from '@angular/an
 import { Component, ElementRef, Input, EventEmitter, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { TwentyoneSettings } from '@models/twentyone-settings';
+import { Settings } from '@models/settings';
 import { SoundService } from '@services/sound.service';
 import { TwentyOneService } from '@services/twenty-one.service';
 const cardSuits = ['.8', '25.6', '50.4', '75.2', '99.9'];
@@ -33,7 +33,7 @@ export class CardComponent implements OnInit, OnChanges, OnDestroy {
     backgroundPosition: '0% 99.9%',
   };
   hoverFlip = false;
-  settings = new TwentyoneSettings();
+  settings = new Settings();
   flipTimeout: NodeJS.Timer;
   destroyed$ = new Subject();
 

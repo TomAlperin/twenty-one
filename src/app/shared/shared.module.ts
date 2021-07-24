@@ -19,6 +19,7 @@ import { CardTalonComponent } from './card-talon/card-talon.component';
 import { CardGroupPipe } from './card-group/card-group.pipe';
 import { NavComponent } from './nav/nav.component';
 import { RouterModule } from '@angular/router';
+import { WinComponent } from './win/win.component';
 
 @NgModule({
   imports: [
@@ -44,6 +45,7 @@ import { RouterModule } from '@angular/router';
     NavComponent,
     ShuffleCardsComponent,
     SliderComponent,
+    WinComponent,
   ],
   exports: [
     CardComponent,
@@ -66,7 +68,8 @@ import { RouterModule } from '@angular/router';
     SliderComponent,
   ],
   entryComponents: [
-    ShuffleCardsComponent
+    ShuffleCardsComponent,
+    WinComponent
   ]
 })
 export class SharedModule { }

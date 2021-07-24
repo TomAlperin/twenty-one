@@ -3,4 +3,7 @@
 }
 app-card {
   height: 50px;
+  &.select {
+    cursor: pointer;
+  }
 }

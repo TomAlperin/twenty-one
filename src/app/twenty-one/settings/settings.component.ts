@@ -46,12 +46,16 @@ export class SettingsComponent implements OnInit, AfterViewInit, OnDestroy {
     private twentyone: TwentyOneService,
   ) {
     this.form = this.fb.group({
+      // general
       toolTips: [false],
       alignment: ['natural'],
       cardSize: [false],
+      sidebar: false,
       sounds: ['blackjack'],
+      // twenty one
       deckCount: [2],
-      sidebar: false
+      // solitaire
+      drawCount: [1]
     });
 
     this.currentDeckCount = this.twentyone.gameSettings.deckCount;

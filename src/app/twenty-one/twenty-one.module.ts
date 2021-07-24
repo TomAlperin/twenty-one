@@ -4,7 +4,6 @@ import { TwentyOneRouting } from './twenty-one.routing';
 import { TwentyOneComponent } from './twenty-one.component';
 import { SharedModule } from '@shared/shared.module';
 import { ActionCheckPipe } from './action-check.pipe';
-import { BlackjackComponent } from './blackjack/blackjack.component';
 import { SettingsComponent } from './settings/settings.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { StatsComponent } from './stats/stats.component';
@@ -15,7 +14,6 @@ import { FlipMaskPipe } from './flip-mask.pipe';
   declarations: [
     TwentyOneComponent,
     ActionCheckPipe,
-    BlackjackComponent,
     FlipMaskPipe,
     SettingsComponent,
     PercentBarPipe,
@@ -28,7 +26,6 @@ import { FlipMaskPipe } from './flip-mask.pipe';
     ReactiveFormsModule,
   ],
   entryComponents: [
-    BlackjackComponent,
     SettingsComponent,
     StatsComponent,
   ],

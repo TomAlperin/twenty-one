@@ -6,6 +6,10 @@
     <img class="wp-link" alt="technicallytom.com" src="/assets/img/logo.png" />
   </a>
   <div>
+    <button *ngIf="['', true].includes(restart)" (click)="doEvent('restart')" mat-button>
+      <mat-icon>restart_alt</mat-icon>
+      Restart
+    </button>
     <h1>{{ heading }}</h1>
     <button mat-icon-button [matMenuTriggerFor]="menu">
       <mat-icon>more_vert</mat-icon>

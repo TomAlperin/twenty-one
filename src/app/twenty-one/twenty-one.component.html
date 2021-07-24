@@ -134,7 +134,7 @@
           *ngIf="control.states.includes(game.state)"
           [disabled]="!(game | actionCheck: control.condition) || disabled"
           [class]="control.class"
-          (click)="do(control.action, control.value)"
+          (click)="doCtrl(control.action, control.value)"
           [matTooltip]="settings.toolTips ? control.tooltip : null"
           [matTooltipPosition]="position"
           class="tw-btn"

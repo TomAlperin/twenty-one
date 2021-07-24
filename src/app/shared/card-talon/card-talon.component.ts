@@ -22,6 +22,7 @@ export class CardTalonComponent implements OnDestroy {
   @Input() cards: number[] = [];
   @Input() column: number;
   @Input() width: number;
+  @Input() animate: boolean;
 
   destroyed$ = new Subject();
 
@@ -40,7 +41,10 @@ export class CardTalonComponent implements OnDestroy {
 
   start(event: MouseEvent & TouchEvent) {
     event.preventDefault();
+    event.stopPropagation();
+
     if (this.cards.length) {
+      document.body.classList.add('dragging');
       this.dragging = true;
     }
   }
@@ -62,11 +66,14 @@ export class CardTalonComponent implements OnDestroy {
   }
 
   endDrag(event: MouseEvent & TouchEvent) {
-    let element = event.target;
+    document.body.classList.remove('dragging');
+    let element;
     const changedTouch = _.get(event, 'changedTouches[0]');
 
     if (changedTouch) {
       element = document.elementFromPoint(changedTouch.clientX, changedTouch.clientY);
+    } else {
+      element = document.elementFromPoint(event.x, event.y);
     }
 
     if (this.dragging) {
@@ -92,9 +99,12 @@ export class CardTalonComponent implements OnDestroy {
               if (!foundationCard || dragSuit === foundationCard % 4) {
                 const card = this.cards.pop();
                 this.foundation[+column - 7].push(card);
-                console.log(card);
               }
             }
+
+            this.dragging = false;
+            this.dragged = false;
+            this.solitaire.checkWin(this.foundation);
             return;
           }
 
@@ -115,13 +125,13 @@ export class CardTalonComponent implements OnDestroy {
             const card = this.cards.pop();
             this.tableau[column].push({ card, flip: false });
             this.tableau[column] = [...this.tableau[column]];
+            this.solitaire.checkWin(this.foundation);
           }
         }
       }
       this.dragging = false;
       this.dragged = false;
     }
-    this.solitaire.checkWin(this.foundation);
   }
 
   toFoundation() {
@@ -137,12 +147,12 @@ export class CardTalonComponent implements OnDestroy {
         if (!foundationCard || dragSuit === foundationCard % 4) {
           const doneCard = this.cards.pop();
           this.foundation[i].push(doneCard);
+          this.solitaire.checkWin(this.foundation);
           break;
         }
       }
       i++;
     }
-    this.solitaire.checkWin(this.foundation);
   }
 
   ngOnDestroy() {

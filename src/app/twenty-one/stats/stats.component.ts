@@ -1,7 +1,7 @@
 import { ApplicationRef, Component, ComponentRef, Input, OnDestroy, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { TwentyoneSettings } from '@models/twentyone-settings';
+import { Settings } from '@models/settings';
 import { TwentyoneStats, CountStats } from '@models/twentyone-stats';
 import { TwentyOneService } from '@services/twenty-one.service';
 
@@ -63,7 +63,7 @@ export class StatsComponent implements OnInit, OnDestroy {
       value: (element: { key: string, value: CountStats }) => `${element.value.totalLosses}`
     }
   ];
-  settings: TwentyoneSettings;
+  settings: Settings;
   @Input() componentRef: ComponentRef<StatsComponent>;
 
   destroyed$ = new Subject();

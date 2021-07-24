@@ -1,11 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Result, TwentyoneGame } from '@models/twentyone-game';
 import { TwentyOneService } from '@services/twenty-one.service';
-import { BlackjackComponent } from './blackjack/blackjack.component';
+import { WinComponent } from '@shared/win/win.component';
 import * as _ from 'lodash';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { TwentyoneSettings } from '@models/twentyone-settings';
+import { Settings } from '@models/settings';
 import { Router } from '@angular/router';
 import { StatsComponent } from './stats/stats.component';
 import { TwentyoneStats } from '@models/twentyone-stats';
@@ -57,7 +57,7 @@ export class TwentyOneComponent implements OnInit, OnDestroy {
   flip = true;
   height = 200;
   hasStats = false;
-  settings = new TwentyoneSettings();
+  settings = new Settings();
   destroyed$ = new Subject();
   position: 'above' | 'left' = 'left';
 
@@ -113,7 +113,7 @@ export class TwentyOneComponent implements OnInit, OnDestroy {
   subscribeToSettings() {
     this.twentyone.settings$
       .pipe(takeUntil(this.destroyed$))
-      .subscribe((settings: TwentyoneSettings) => {
+      .subscribe((settings: Settings) => {
         this.settings = settings;
 
         if (this.settings.sounds !== 'off') {
@@ -135,7 +135,7 @@ export class TwentyOneComponent implements OnInit, OnDestroy {
   }
 
 
-  do(action: string, value?: number) {
+  doCtrl(action: string, value?: number) {
     if (value) {
       this[action](value);
     } else {
@@ -396,7 +396,7 @@ export class TwentyOneComponent implements OnInit, OnDestroy {
           message = 'BLACKJACK!';
           icon = 'very-happy';
           odds = 1.5;
-          this.window.loadComponent(BlackjackComponent);
+          this.window.loadComponent(WinComponent);
         } else {                                                             // Player wins with 21 but not blackjack
           newBank = this.game.bank + (this.game.bet * 2);
           result = 'win';

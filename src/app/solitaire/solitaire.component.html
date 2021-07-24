@@ -1,5 +1,5 @@
 <div class="solitaire-container noselect height-100 position-fixed">
-  <app-nav heading="Solitaire"></app-nav>
+  <app-nav (action)="doEvent($event)" heading="Solitaire" restart></app-nav>
   <div class="container height-100">
     <div class="row pb-4">
       <div class="col-stock d-flex flex-column">
@@ -11,7 +11,7 @@
           [animate]="false"
           neat
           pos="relative"
-          class="align-self-center"
+          class="stock align-self-center"
         ></app-card>
       </div>
       <div class="col-talon d-flex flex-column position-relative">
@@ -19,6 +19,7 @@
           [cards]="talon"
           [tableau]="tableau"
           [foundation]="foundation"
+          [animate]="animate"
           [width]="width"
         ></app-card-talon>
       </div>
@@ -31,7 +32,7 @@
           <app-card
             [card]="card"
             [width]="width"
-            [cardSound]="true"
+            [cardSound]="cardSound"
             [column]="i + 7"
             [animate]="false"
           ></app-card>
@@ -64,6 +65,7 @@
           [column]="i"
           [width]="width"
           [animate]="animate"
+          [cardSound]="cardSound"
         ></app-card-group>
 
         <app-card

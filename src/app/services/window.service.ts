@@ -1,19 +1,23 @@
-import { ApplicationRef, Component, ComponentFactoryResolver, ComponentRef, EmbeddedViewRef, Injectable, Injector } from '@angular/core';
+import {
+  ApplicationRef,
+  Component,
+  ComponentFactoryResolver,
+  ComponentRef,
+  EmbeddedViewRef,
+  Injectable,
+  Injector
+} from '@angular/core';
 import { merge } from 'rxjs';
 import { fromEvent } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class WindowService {
-  mousedown$ = fromEvent(window, 'mousedown', { passive: true });
-  touchstart$ = fromEvent(window, 'touchstart', { passive: true });
-  mousetouchstart$ = merge(this.mousedown$, this.touchstart$);
-
   mousemove$ = fromEvent(window, 'mousemove');
   touchmove$ = fromEvent(window, 'touchmove');
   mousetouchmove$ = merge(this.mousemove$, this.touchmove$);
 
-  mouseup$ = fromEvent(window, 'mouseup');
-  touchend$ = fromEvent(window, 'touchend');
+  mouseup$ = fromEvent(window, 'mouseup', { passive: true });
+  touchend$ = fromEvent(window, 'touchend', { passive: true });
   mousetouchend$ = merge(this.mouseup$, this.touchend$);
 
   orientationchange$ = fromEvent(window, 'orientationchange');
@@ -28,14 +32,14 @@ export class WindowService {
   ) {
   }
 
-  loadComponent(component: any) {
+  loadComponent(component: any, inputs: any = {}) {
     const componentRef = this.componentFactoryResolver
       .resolveComponentFactory(component)
       .create(this.injector) as ComponentRef<Component>;
 
     Object.assign(componentRef.instance, {
       componentRef,
-    });
+    }, inputs);
 
     this.appRef.attachView(componentRef.hostView);
     const domElem = (componentRef.hostView as EmbeddedViewRef<any>)

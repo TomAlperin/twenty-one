@@ -1,0 +1,9 @@
+<div class="blackjack" [ngClass]="{ 'gb-zoom': zoom }">
+  <div class="prop {{ prop }}"></div>
+  <div
+    class="geeBee"
+    [style.backgroundImage]="
+      winImage ? 'url(/assets/img/' + winImage + ')' : undefined
+    "
+  ></div>
+</div>

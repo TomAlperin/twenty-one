@@ -1,24 +1,25 @@
-import { AfterViewInit, Component, ElementRef, OnDestroy, Renderer2 } from '@angular/core';
+import { AfterViewInit, ApplicationRef, Component, ComponentRef, Input, OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { TwentyoneSettings } from '@models/twentyone-settings';
+import { Settings } from '@models/settings';
 import { SoundService } from '@services/sound.service';
 import { TwentyOneService } from '@services/twenty-one.service';
 
 @Component({
-  selector: 'app-blackjack',
-  templateUrl: './blackjack.component.html',
-  styleUrls: ['./blackjack.component.scss']
+  selector: 'app-win',
+  templateUrl: './win.component.html',
+  styleUrls: ['./win.component.scss']
 })
-export class BlackjackComponent implements AfterViewInit, OnDestroy {
-  settings: TwentyoneSettings;
+export class WinComponent implements AfterViewInit, OnDestroy {
+  settings: Settings;
   destroyed$ = new Subject();
   zoom = false;
   prop = '';
+  @Input() winImage: string;
+  @Input() componentRef: ComponentRef<WinComponent>;
 
   constructor(
-    private renderer: Renderer2,
-    private elRef: ElementRef,
+    private appRef: ApplicationRef,
     private twentyone: TwentyOneService,
     private soundService: SoundService
   ) {
@@ -55,7 +56,8 @@ export class BlackjackComponent implements AfterViewInit, OnDestroy {
         }
       }, 10);
       setTimeout(() => {
-        this.renderer.removeChild(document.body, this.elRef.nativeElement);
+        this.appRef.detachView(this.componentRef.hostView);
+        this.componentRef.destroy();
         clearInterval(timer);
       }, 9000);
     }, 2000);

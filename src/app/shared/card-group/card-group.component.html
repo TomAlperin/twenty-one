@@ -14,10 +14,11 @@
     [flip]="cards[0].flip"
     [width]="width"
     [animate]="animate"
-    [cardSound]="cards.length === 1"
+    [cardSound]="cardSound && cards.length === 1"
     [column]="column"
     pos="relative"
     class="align-self-center"
+    [ngClass]="{ select: !cards[0].flip }"
     [style.height]="offset + 'px'"
   ></app-card>
   <app-card-group
@@ -28,5 +29,6 @@
     [column]="column"
     [width]="width"
     [animate]="animate"
+    [cardSound]="cardSound"
   ></app-card-group>
 </div>

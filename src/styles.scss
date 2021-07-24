@@ -76,6 +76,9 @@ body {
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
+  &.dragging {
+    cursor: grab !important;
+  }
 }
 
 /* preload images for blackjack animation */
