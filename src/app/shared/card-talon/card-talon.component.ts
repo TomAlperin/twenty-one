@@ -17,8 +17,10 @@ export class CardTalonComponent implements OnDestroy {
   lastY = 0;
   posX = 0;
   posY = 0;
+  startElement: HTMLElement & EventTarget;
+  clicked = false;
   @Input() tableau: { card: number, flip: boolean }[][] = [];
-  @Input() foundation: number[][] = [];
+  @Input() foundation: any[][] = [];
   @Input() cards: number[] = [];
   @Input() column: number;
   @Input() width: number;
@@ -39,13 +41,18 @@ export class CardTalonComponent implements OnDestroy {
       .subscribe((event: MouseEvent & TouchEvent) => this.endDrag(event));
   }
 
-  start(event: MouseEvent & TouchEvent) {
+  start(event) {
     event.preventDefault();
     event.stopPropagation();
 
-    if (this.cards.length) {
-      document.body.classList.add('dragging');
-      this.dragging = true;
+    if (!this.clicked) {
+      this.clicked = true;
+      this.startElement = event.target;
+
+      if (this.cards.length) {
+        document.body.classList.add('dragging');
+        this.dragging = true;
+      }
     }
   }
 
@@ -85,7 +92,11 @@ export class CardTalonComponent implements OnDestroy {
       if (!this.dragged) {
         this.toFoundation();
       } else {
-        const column = (element as HTMLImageElement).getAttribute('data-column');
+        let column;
+
+        if (element) {
+          column = (element as HTMLImageElement).getAttribute('data-column');
+        }
 
         if (column) {
           const dragCard = this.cards[this.cards.length - 1];
@@ -104,6 +115,7 @@ export class CardTalonComponent implements OnDestroy {
 
             this.dragging = false;
             this.dragged = false;
+            this.clicked = false;
             this.solitaire.checkWin(this.foundation);
             return;
           }
@@ -128,31 +140,43 @@ export class CardTalonComponent implements OnDestroy {
             this.solitaire.checkWin(this.foundation);
           }
         }
+        this.clicked = false;
       }
       this.dragging = false;
       this.dragged = false;
     }
   }
 
-  toFoundation() {
+  async toFoundation() {
     const dragCard = this.cards[this.cards.length - 1];
     const dragValue = Math.floor(dragCard / 4);
     const dragSuit = dragCard % 4;
     let i = 0;
-
     for (const stack of this.foundation) {
       if (stack.length + 1 === dragValue) {
         const foundationCard = stack[stack.length - 1];
 
-        if (!foundationCard || dragSuit === foundationCard % 4) {
-          const doneCard = this.cards.pop();
-          this.foundation[i].push(doneCard);
+        if (!foundationCard || dragSuit === _.get(foundationCard, 'card', foundationCard) % 4) {
+          const destination = document.getElementsByClassName(`foundation-${i}`)[0];
+          const { left: sLeft, top: sTop } = this.startElement.getBoundingClientRect();
+          const { left: dLeft, top: dTop } = destination.getBoundingClientRect();
+          const offsetX = (sLeft - dLeft);
+          const offsetY = (sTop - dTop);
+
+          const card = this.cards.pop();
+          this.foundation[i].push({
+            card,
+            offsetX,
+            offsetY,
+            deg: 0
+          });
           this.solitaire.checkWin(this.foundation);
           break;
         }
       }
       i++;
     }
+    this.clicked = false;
   }
 
   ngOnDestroy() {

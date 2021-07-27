@@ -6,6 +6,7 @@ import { SoundService } from '@services/sound.service';
 import { WindowService } from '@services/window.service';
 import { SolitaireGame } from '@models/solitaire-game';
 import { TwentyOneService } from '@services/twenty-one.service';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-solitaire',
@@ -18,6 +19,7 @@ export class SolitaireComponent implements OnInit, OnDestroy {
   width = 120;
   animate = true;
   cardSound = false;
+  landscape = false;
   tableau: { card: number, flip: boolean }[][] = [
     [],
     [],
@@ -33,7 +35,7 @@ export class SolitaireComponent implements OnInit, OnDestroy {
     [],
     []
   ];
-  stockDisabled = false;
+  clicked = false;
   won = false;
   destroyed$ = new Subject();
 
@@ -50,6 +52,10 @@ export class SolitaireComponent implements OnInit, OnDestroy {
     this.setWidth();
     this.subscribeToGame();
     this.subscribeToSave();
+
+    this.window.focus$
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe(event => this.setWidth());
   }
 
   subscribeToGame() {
@@ -57,11 +63,11 @@ export class SolitaireComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroyed$))
       .subscribe(async (game: SolitaireGame) => {
         Object.assign(this, game);
+
         if (this.stock.length === 52) {
           const cards = this.stock.splice(-28, 28);
           this.save();
           this.animate = true;
-          await new Promise((resolve) => setTimeout(resolve, 2000));
 
           this.cardSound = true;
           for (let row = 0; row < 7; row++) {
@@ -121,23 +127,32 @@ export class SolitaireComponent implements OnInit, OnDestroy {
   }
 
   save() {
-    this.solitaire.gameState = {
+    this.solitaire.saveGame({
       stock: this.stock,
       tableau: this.tableau,
       talon: this.talon,
-      foundation: this.foundation,
+      foundation: this.foundation.map(
+        stack => stack.map(
+          card => _.get(card, 'card', card)
+        )
+      ),
       won: this.won
-    };
+    });
   }
 
   setWidth() {
     const width = window.innerWidth;
-    this.width = Math.min((width / 14) + 20, 140);
+    this.landscape = window.matchMedia('(orientation: landscape)').matches;
+
+    if (window.innerWidth !== window.innerHeight) {
+      this.width = !this.landscape ? Math.min((width / 14) + 15, 140) :
+        Math.min((width / 18) + 15, 140);
+    }
   }
 
   async draw() {
-    if (!this.stockDisabled) {
-      this.stockDisabled = true;
+    if (!this.clicked) {
+      this.clicked = true;
 
       for (let i = 0; i < (this.twentyone.gameSettings.drawCount || 1); i++) {
         if (this.stock.length) {
@@ -154,14 +169,26 @@ export class SolitaireComponent implements OnInit, OnDestroy {
 
       await new Promise((resolve) => setTimeout(resolve, 100));
       this.soundService.playSound('card-sound');
-      await new Promise((resolve) => setTimeout(resolve, 400));
-      this.stockDisabled = false;
+      await new Promise((resolve) => setTimeout(resolve, 100));
+      this.clicked = false;
     }
   }
 
   trackByFn = (index: number) => index;
 
   ngOnDestroy() {
+    this.solitaire.gameState = {
+      stock: this.stock,
+      tableau: this.tableau,
+      talon: this.talon,
+      foundation: this.foundation.map(
+        stack => stack.map(
+          card => _.get(card, 'card', card)
+        )
+      ),
+      won: this.won
+    };
+
     this.destroyed$.next();
     this.destroyed$.complete();
   }

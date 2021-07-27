@@ -31,7 +31,7 @@ export class SolitaireService {
   }
 
   shuffleCards(decks: number = 1) {
-    setTimeout(() => this.window.loadComponent(ShuffleCardsComponent), 0);
+    this.window.loadComponent(ShuffleCardsComponent, { cardHeight: 100, timeout: 5500 });
     const cards = [];
 
     for (let y = 0; y < decks; y++) {         // For "y" decks
@@ -50,10 +50,6 @@ export class SolitaireService {
   }
 
   public set gameState(game) {
-    this.saveGame(game);
-  }
-
-  saveGame(game: SolitaireGame) {
     game = Object.assign({}, game);
 
     if (hasLocalStorage) {
@@ -61,6 +57,12 @@ export class SolitaireService {
     }
 
     this.game.next(game);
+  }
+
+  saveGame(game: SolitaireGame) {
+    if (hasLocalStorage) {
+      localStorage['solitaire-gamestate'] = btoa(JSON.stringify(game));
+    }
   }
 
   checkWin(foundation: number[][]) {

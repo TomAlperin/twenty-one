@@ -11,8 +11,8 @@
     [attr.data-column]="column"
     alt="Card"
     [ngClass]="{
-      hide: card === 0,
-      'card-size': settings.cardSize
+      hide: _card === 0,
+      'small-cards': settings.cardSize || width < 60 || height < 100
     }"
     class="card"
     [ngStyle]="cardStyles"
@@ -24,8 +24,8 @@
     [style.width]="width + 'px' || 'auto'"
     alt="Card"
     [ngClass]="{
-      hide: card === 0,
-      'card-size': settings.cardSize
+      hide: _card === 0,
+      'small-cards': settings.cardSize || width < 60 || height < 100
     }"
     class="card"
     [ngStyle]="backCardStyles"

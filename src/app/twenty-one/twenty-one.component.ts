@@ -82,19 +82,25 @@ export class TwentyOneComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.window.focus$
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe(event => this.setHeight());
+
     this.controls = this.betControls;
   }
 
   setHeight() {
     const height = window.innerHeight;
-    const width = window.innerWidth;
+    const landscape = window.matchMedia('(orientation: landscape)').matches;
 
-    this.position = height < width ? 'left' : 'above';
+    this.position = landscape ? 'left' : 'above';
 
-    if (height < width) {
-      this.height = Math.min((height / 2) - 30, 350) - 40;
-    } else {
-      this.height = (height / 3) - 52;
+    if (window.innerWidth !== window.innerHeight) {
+      if (landscape) {
+        this.height = Math.min((height / 2) - 85, 350);
+      } else {
+        this.height = Math.min((height / 3) - 100, 350);
+      }
     }
   }
 

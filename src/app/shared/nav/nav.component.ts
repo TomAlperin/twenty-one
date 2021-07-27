@@ -1,6 +1,10 @@
-import { Component, Input, EventEmitter, Output } from '@angular/core';
+import { Component, Input, EventEmitter, Output, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
+import { Settings } from '@models/settings';
+import { TwentyOneService } from '@services/twenty-one.service';
 import { WindowService } from '@services/window.service';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { SettingsComponent } from 'src/app/twenty-one/settings/settings.component';
 
 @Component({
@@ -8,7 +12,7 @@ import { SettingsComponent } from 'src/app/twenty-one/settings/settings.componen
   templateUrl: './nav.component.html',
   styleUrls: ['./nav.component.scss']
 })
-export class NavComponent {
+export class NavComponent implements OnDestroy {
   options = [
     // {
     //   name: 'Dashboard',
@@ -37,21 +41,32 @@ export class NavComponent {
       action: 'stats'
     }
   ];
+  settings: Settings;
   @Input() heading = '';
   @Input() controls: boolean & '';
   @Input() restart: boolean & '';
   @Input() hasStats = false;
   @Output() action = new EventEmitter<string>();
-
+  destroyed$ = new Subject();
 
   constructor(
     private router: Router,
-    private window: WindowService
-  ) { }
+    private window: WindowService,
+    private twentyone: TwentyOneService,
+  ) {
+    this.subScribeToSettings();
+  }
 
   get url(): string {
     return this.router.url;
   }
+
+  subScribeToSettings() {
+    this.twentyone.settings$
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe((settings: Settings) => this.settings = settings);
+  }
+
 
   doEvent(action: string) {
     switch (action) {
@@ -68,4 +83,9 @@ export class NavComponent {
   }
 
   trackByFn = (index: number) => index;
+
+  ngOnDestroy() {
+    this.destroyed$.next();
+    this.destroyed$.complete();
+  }
 }

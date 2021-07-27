@@ -2,7 +2,7 @@
   &:not(.hide) {
     background: url("/assets/img/cards.png") no-repeat;
     background-size: 1358%;
-    &.card-size {
+    &.small-cards {
       background-image: url("/assets/img/cards-small.png");
     }
   }
@@ -46,7 +46,6 @@
   transform-style: preserve-3d;
   -webkit-transform-style: preserve-3d;
   position: relative;
-  height: 100%;
 }
 /* hide back of pane during swap */
 .front,
@@ -69,36 +68,4 @@
   transform: rotateY(180deg);
   -webkit-transform: rotateY(180deg);
   -moz-transform: rotateY(180deg);
-}
-
-@media (orientation: landscape) /* Mobile Landscape */ and (max-height: 400px) {
-  .card {
-    &:not(.hide) {
-      background-image: url("/assets/img/cards-small.png");
-    }
-  }
-}
-
-@media (orientation: portrait) /* Mobile Portrait*/ and (max-height: 568px) {
-  .card {
-    &:not(.hide) {
-      background-image: url("/assets/img/cards-small.png");
-    }
-  }
-}
-
-@media only screen /* iPhone 4 Portrait*/ and (orientation: portrait) and (device-width: 320px) and (device-height: 480px) {
-  .card {
-    &:not(.hide) {
-      background-image: url("/assets/img/cards-small.png");
-    }
-  }
-}
-
-@media only screen /* iPhone 4 Landscape*/ and (orientation: landscape) and (device-height: 480px) and (device-width: 320px) {
-  .card {
-    &:not(.hide) {
-      background-image: url("/assets/img/cards-small.png");
-    }
-  }
 }

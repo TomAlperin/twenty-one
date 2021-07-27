@@ -16,8 +16,8 @@ const cardValues = ['', '0', '8.4', '16.7', '25', '33.3', '41.6', '49.9', '58.2'
 export class CardComponent implements OnInit, OnChanges, OnDestroy {
   suit: number;
   value: number;
-  rand1 = (Math.random() * 300) - 150;
-  rand2 = (Math.random() * 10) - 5;
+  public rand1 = (Math.random() * 300) - 150;
+  public rand2 = (Math.random() * 10) - 5;
   cardStyles = {
     // Rotate cards to random positions
     transform: 'rotate(' + this.rand2 + 'deg) rotateY(0deg)',
@@ -36,8 +36,8 @@ export class CardComponent implements OnInit, OnChanges, OnDestroy {
   settings = new Settings();
   flipTimeout: NodeJS.Timer;
   destroyed$ = new Subject();
-
-  @Input() public card: number | 'back' = 0;
+  _card: number | 'back';
+  @Input() public card: any = 0;
   @Input() public cardSound: boolean | '' = false;
   @Input() public animate: boolean | '' = false;
   @Input() public flip = false;
@@ -57,28 +57,35 @@ export class CardComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   async ngOnInit() {
+    const isObject = typeof this.card === 'object' && this.card !== null;
     this.subscribeToSettings();
-    this.setCard();
+    this._card = isObject ? this.card.card : this.card;
 
-    if (this.twentyone.animate || (this.animate || this.animate === '')) {
+    if (isObject) {
+      const metadata = this.slideInFrom(Object.assign({}, this.card));
+      const factory = this.builder.build(metadata);
+      const player = factory.create(this.el.nativeElement);
+      player.play();
+    } else if (this.twentyone.animate || (this.animate || this.animate === '')) {
       const metadata = this.slideIn();
       const factory = this.builder.build(metadata);
       const player = factory.create(this.el.nativeElement);
       player.play();
     }
+    this.setCard(this._card);
 
-    if (this.card !== 0 && (this.cardSound || this.cardSound === '')) {
+    if (this._card !== 0 && (this.cardSound || this.cardSound === '')) {
       await new Promise((resolve) => setTimeout(resolve, 100));
       this.soundService.playSound('card-sound');
     }
   }
 
-  setCard() {
-    if (this.card === 'back' || this.flip) {
+  setCard(card: number | 'back') {
+    if (card === 'back' || this.flip) {
       this.cardStyles.backgroundPosition = cardValues[1] + '% ' + cardSuits[4] + '%';
     } else {
-      this.suit = this.card % 4;
-      this.value = Math.floor(this.card / 4);
+      this.suit = card % 4;
+      this.value = Math.floor(card / 4);
       this.cardStyles.backgroundPosition = cardValues[this.value] + '% ' + cardSuits[this.suit] + '%';
     }
   }
@@ -99,17 +106,19 @@ export class CardComponent implements OnInit, OnChanges, OnDestroy {
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.flip) {
-      if (this.flip || this.card === 'back') {
+      if (this.flip || this._card === 'back') {
         this.cardStyles.backgroundPosition = cardValues[1] + '% ' + cardSuits[4] + '%';
       } else {
-        this.suit = this.card % 4;
-        this.value = Math.floor(this.card / 4);
+        this.suit = this._card % 4;
+        this.value = Math.floor(this._card / 4);
         this.cardStyles.backgroundPosition = cardValues[this.value] + '% ' + cardSuits[this.suit] + '%';
       }
     }
 
     if (changes.card) {
-      this.setCard();
+      const isObject = typeof this.card === 'object' && this.card !== null;
+      this._card = isObject ? this.card.card : this.card;
+      this.setCard(this._card);
     }
   }
 
@@ -132,6 +141,19 @@ export class CardComponent implements OnInit, OnChanges, OnDestroy {
     return [
       style({ 'will-change': 'transform, opacity', opacity: 0, transform: 'translateY(-308px) rotate(' + this.rand1 + 'deg)' }),
       animate('180ms ease-in', style({ opacity: 1, transform: 'translateY(0) rotate(0deg)' })),
+    ];
+  }
+
+  slideInFrom(
+    { card, offsetX, offsetY, deg, scale = 1 }: { card: number, offsetX: number, offsetY: number, deg: number, scale: number }
+  ): AnimationMetadata[] {
+    return [
+      style({
+        'will-change': 'transform',
+        zIndex: 100,
+        transform: `translate(${offsetX}px, ${offsetY}px) scale(${scale}, ${scale}) rotate(${deg}deg)`
+      }),
+      animate('180ms ease-in', style({ transform: 'translateY(0) rotate(0deg)' })),
     ];
   }
 

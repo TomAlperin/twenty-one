@@ -1,9 +1,11 @@
 .card-group {
   position: relative;
+  app-card {
+    margin: 0 auto;
+    display: inline-block;
+  }
 }
-app-card {
-  height: unset;
-  background: #00000026;
-  margin: 0 auto;
-  cursor: pointer;
+.placeholder {
+  background: rgba(0, 0, 0, 0.15);
+  margin: 2px auto;
 }

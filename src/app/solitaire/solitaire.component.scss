@@ -10,31 +10,26 @@
   left: 0;
 
   .container {
-    padding: 25px 0;
+    padding: 15px 0;
   }
   .col-stock {
-    padding-left: 0.7rem;
-    padding-right: 0.7rem;
-    padding-bottom: 0.7rem;
-    flex: 0 0 auto;
-    width: 14.285714285714286%;
     .stock {
       cursor: pointer;
     }
   }
-  .col-talon {
+  .col-stock,
+  .col-talon,
+  .col-tableau,
+  .col-space {
     padding-left: 0.7rem;
     padding-right: 0.7rem;
     padding-bottom: 0.7rem;
     flex: 0 0 auto;
     width: 14.285714285714286%;
-  }
-  .col-tableau {
-    padding-left: 0.7rem;
-    padding-right: 0.7rem;
-    padding-bottom: 0.7rem;
-    flex: 0 0 auto;
-    width: 14.285714285714286%;
+    > div {
+      margin: 0 auto;
+      position: relative;
+    }
   }
   .col-foundation {
     padding-left: 0.7rem;
@@ -42,13 +37,42 @@
     padding-bottom: 0.7rem;
     flex: 0 0 auto;
     width: 14.285714285714286%;
+    position: relative;
+    > div {
+      margin: 0 auto;
+      position: relative;
+    }
   }
   .col-stock,
   .col-tableau,
   .col-foundation {
     app-card {
+      margin: 0 auto;
       height: unset;
-      background: #00000026;
+      top: 0;
+      left: 0%;
+    }
+  }
+  .placeholder {
+    position: absolute;
+    background: rgba(0, 0, 0, 0.15);
+    margin: 2px;
+    top: 0;
+    left: 0;
+  }
+}
+
+@media (orientation: landscape) {
+  .solitaire-container {
+    .col-stock,
+    .col-talon,
+    .col-foundation {
+      width: 50%;
+      position: relative;
+    }
+    .col-space {
+      width: 100%;
+      height: 20px;
     }
   }
 }

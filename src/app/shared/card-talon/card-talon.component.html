@@ -1,11 +1,14 @@
-<app-card
-  [card]="cards[cards.length - 2] || 0"
-  [width]="width"
-  animate
-  neat
-></app-card>
+<div class="w-100 text-center">
+  <img
+    src="/assets/img/card-placeholder.png"
+    [style.width]="width - 4 + 'px'"
+    alt="Card Placeholder"
+    class="placeholder"
+    pos="relative"
+  />
+</div>
 <div
-  class="card-group d-flex flex-column"
+  class="card-group block text-center position-absolute w-100"
   [style.top]="posY + 'px'"
   [style.left]="posX + 'px'"
   [style.zIndex]="dragging ? '100' : undefined"

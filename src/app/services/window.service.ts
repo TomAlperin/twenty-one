@@ -16,13 +16,15 @@ export class WindowService {
   touchmove$ = fromEvent(window, 'touchmove');
   mousetouchmove$ = merge(this.mousemove$, this.touchmove$);
 
-  mouseup$ = fromEvent(window, 'mouseup', { passive: true });
-  touchend$ = fromEvent(window, 'touchend', { passive: true });
+  mouseup$ = fromEvent(window, 'mouseup');
+  touchend$ = fromEvent(window, 'touchend');
   mousetouchend$ = merge(this.mouseup$, this.touchend$);
 
   orientationchange$ = fromEvent(window, 'orientationchange');
   resize$ = fromEvent(window, 'resize');
   orientationresize$ = merge(this.orientationchange$, this.resize$);
+
+  focus$ = fromEvent(window, 'focus');
 
 
   constructor(

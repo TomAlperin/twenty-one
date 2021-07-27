@@ -6,12 +6,20 @@
     <img class="wp-link" alt="technicallytom.com" src="/assets/img/logo.png" />
   </a>
   <div>
-    <button *ngIf="['', true].includes(restart)" (click)="doEvent('restart')" mat-button>
-      <mat-icon>restart_alt</mat-icon>
-      Restart
+    <button
+      *ngIf="['', true].includes(restart)"
+      (click)="doEvent('restart')"
+      mat-icon-button
+      [matTooltip]="settings?.toolTips ? 'Reset Game' : null"
+    >
+      <mat-icon>play_circle</mat-icon>
     </button>
     <h1>{{ heading }}</h1>
-    <button mat-icon-button [matMenuTriggerFor]="menu">
+    <button
+      mat-icon-button
+      [matMenuTriggerFor]="menu"
+      [matTooltip]="settings?.toolTips ? 'Game Selection and Settings' : null"
+    >
       <mat-icon>more_vert</mat-icon>
     </button>
     <mat-menu #menu="matMenu">

@@ -10,6 +10,8 @@ export class ShuffleCardsComponent implements OnInit, AfterViewInit {
   hand: number[] = [];
   show = false;
   interval: NodeJS.Timer;
+  @Input() cardHeight = 210;
+  @Input() timeout = 1500;
   @Input() componentRef: ComponentRef<ShuffleCardsComponent>;
 
   constructor(private appRef: ApplicationRef) {
@@ -34,7 +36,7 @@ export class ShuffleCardsComponent implements OnInit, AfterViewInit {
         this.appRef.detachView(this.componentRef.hostView);
         this.componentRef.destroy();
       }, 400);
-    }, 1500);
+    }, this.timeout);
   }
 
   ngAfterViewInit() {

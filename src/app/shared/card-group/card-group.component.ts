@@ -1,9 +1,11 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { WindowService } from '@services/window.service';
 import * as _ from 'lodash';
 import { SolitaireService } from '@services/solitaire.serviice';
+import { CardComponent } from '@shared/card/card.component';
+import { TwentyOneService } from '@services/twenty-one.service';
 
 @Component({
   selector: 'app-card-group',
@@ -19,20 +21,23 @@ export class CardGroupComponent implements OnInit, OnDestroy {
   posY = 0;
   timeout: NodeJS.Timer;
   testCol: number;
+  startElement: HTMLElement & EventTarget;
   @Input() tableau: { card: number, flip: boolean }[][] = [];
-  @Input() foundation: number[][] = [];
+  @Input() foundation: any[][] = [];
   @Input() cards: { card: number, flip: boolean }[] = [];
   @Input() column: number;
   @Input() animate: boolean;
   @Input() cardSound: boolean;
   @Input() width: number;
   @Input() offset: number;
+  @ViewChild('card') card: CardComponent;
 
   destroyed$ = new Subject();
 
   constructor(
     private window: WindowService,
     private solitaire: SolitaireService,
+    private twentyone: TwentyOneService,
   ) {
     this.window.mousetouchmove$
       .pipe(takeUntil(this.destroyed$))
@@ -63,6 +68,9 @@ export class CardGroupComponent implements OnInit, OnDestroy {
   start(event) {
     event.preventDefault();
     event.stopPropagation();
+
+    this.startElement = event.target;
+
     this.dragging = true;
     document.body.classList.add('dragging');
   }
@@ -92,7 +100,7 @@ export class CardGroupComponent implements OnInit, OnDestroy {
     if (changedTouch) {
       element = document.elementFromPoint(changedTouch.clientX, changedTouch.clientY);
     } else {
-      element = document.elementFromPoint(event.x, event.y);
+      element = document.elementFromPoint(event.clientX, event.clientY);
     }
 
     this.posX = 0;
@@ -104,7 +112,11 @@ export class CardGroupComponent implements OnInit, OnDestroy {
       if (!this.dragged) {
         this.toFoundation();
       } else {
-        let column: string | number = (element as HTMLElement).getAttribute('data-column');
+        let column: string | number = null;
+
+        if (element) {
+          column = (element as HTMLElement).getAttribute('data-column');
+        }
 
         if (column !== null) {
           column = +column;
@@ -162,16 +174,28 @@ export class CardGroupComponent implements OnInit, OnDestroy {
     const dragValue = Math.floor(dragCard / 4);
     const dragSuit = dragCard % 4;
     let i = 0;
-
     for (const stack of this.foundation) {
       if (this.cards.length === 1) {
         if (stack.length + 1 === dragValue) {
           const foundationCard = stack[stack.length - 1];
+          const cardValue = _.get(foundationCard, 'card', foundationCard);
 
-          if (!foundationCard || dragSuit === foundationCard % 4) {
+          if ((!cardValue) || dragSuit === cardValue % 4) {
+            const destination = document.getElementsByClassName(`foundation-${i}`)[0];
+            const { left: sLeft, top: sTop } = this.startElement.getBoundingClientRect();
+            const { left: dLeft, top: dTop } = destination.getBoundingClientRect();
+            const offsetX = (sLeft - dLeft);
+            const offsetY = (sTop - dTop);
+
             const doneCard = this.tableau[this.column].pop();
             this.tableau[this.column] = [...this.tableau[this.column]];
-            this.foundation[i].push(doneCard.card);
+            this.foundation[i].push({
+              card: doneCard.card,
+              offsetX,
+              offsetY,
+              deg: this.twentyone.gameSettings.alignment === 'neat' ? 0 : this.card.rand2,
+              scale: 1.3
+            });
             this.flipCard();
             this.solitaire.checkWin(this.foundation);
             break;
