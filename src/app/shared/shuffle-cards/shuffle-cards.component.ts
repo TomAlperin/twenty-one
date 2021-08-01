@@ -42,7 +42,7 @@ export class ShuffleCardsComponent implements OnInit, AfterViewInit {
       [this.cardX]: '20px',
       [this.cardY]: this.position.includes('bottom') ? '20px' : '55px'
     };
-    console.log(this.cardStyles);
+
     setTimeout(() => {
       this.show = false;
       setTimeout(() => {
