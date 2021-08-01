@@ -29,15 +29,29 @@ export class TwentyOneComponent implements OnInit, OnDestroy {
     { class: 'chip50', action: 'bet', value: 50, states: ['bet', 'deal'], tooltip: 'Bet $50' },
     { class: 'chip100', action: 'bet', value: 100, states: ['bet', 'deal'], tooltip: 'Bet $100' },
     { class: 'chip500', action: 'bet', value: 500, states: ['bet', 'deal'], tooltip: 'Bet $500' },
-    { class: 'deal-cards', action: 'deal', label: 'Deal', states: ['deal'], tooltip: 'Deal Cards' },
-    { class: 'deal-cards', action: 'hit', value: 'userCards', label: 'Hit', states: ['hit'], tooltip: 'Hit' },
-    { class: 'deal-cards', action: 'stand', value: 'userCards', label: 'Stand', states: ['hit'], tooltip: 'Stand' },
+    { class: 'deal-cards', action: 'deal', label: 'Deal', states: ['deal'], tooltip: 'Done betting. Deal cards' },
+    { class: 'deal-cards', action: 'hit', value: 'userCards', label: 'Hit', states: ['hit'], tooltip: 'Take another card.' },
+    {
+      class: 'deal-cards',
+      action: 'stand',
+      value: 'userCards',
+      label: 'Stand',
+      states: ['hit'],
+      tooltip: 'Done hitting. Finish turn.'
+    },
     {
       class: 'deal-cards', action: 'double', value: 'userCards', label: 'Double', states: ['hit'],
       condition: 'canDouble', tooltip: 'Double your bet and draw only one more card.'
     },
-    { class: 'deal-cards', action: 'hit', value: 'splitCards', label: 'Hit', states: ['hit-on-split'], tooltip: 'Hit' },
-    { class: 'deal-cards', action: 'stand', value: 'splitCards', label: 'Stand', states: ['hit-on-split'], tooltip: 'Stand' },
+    { class: 'deal-cards', action: 'hit', value: 'splitCards', label: 'Hit', states: ['hit-on-split'], tooltip: 'Take another card.' },
+    {
+      class: 'deal-cards',
+      action: 'stand',
+      value: 'splitCards',
+      label: 'Stand',
+      states: ['hit-on-split'],
+      tooltip: 'Done hitting. Move to next hand.'
+    },
     {
       class: 'deal-cards', action: 'double', value: 'splitCards', label: 'Double', states: ['hit-on-split'],
       condition: 'canDoubleSplit', tooltip: 'Double your bet and draw only one more card.'
