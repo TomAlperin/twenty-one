@@ -5,7 +5,24 @@
     display: inline-block;
   }
 }
+
 .placeholder {
   background: rgba(0, 0, 0, 0.15);
   margin: 2px auto;
+}
+
+.dragging {
+  pointer-events: none;
+  touch-action: none;
+}
+.undo-drag {
+  -webkit-transition: all 0.18s ease-in-out;
+  -moz-transition: all 0.18s ease-in-out;
+  transition: all 0.18s ease-in-out;
+}
+.dragging, .undo-drag {
+  z-index: 100;
+  -webkit-transform: scale(1.1, 1.1);
+  -moz-transform: scale(1.1, 1.1);
+  transform: scale(1.1, 1.1);
 }

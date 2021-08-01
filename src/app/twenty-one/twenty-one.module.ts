@@ -4,11 +4,11 @@ import { TwentyOneRouting } from './twenty-one.routing';
 import { TwentyOneComponent } from './twenty-one.component';
 import { SharedModule } from '@shared/shared.module';
 import { ActionCheckPipe } from './action-check.pipe';
-import { SettingsComponent } from './settings/settings.component';
+import { SettingsComponent } from '../shared/settings/settings.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { StatsComponent } from './stats/stats.component';
-import { PercentBarPipe } from './stats/percent-bar.pipe';
+import { TwentyoneStatsComponent } from './twenty-one-stats/twenty-one-stats.component';
 import { FlipMaskPipe } from './flip-mask.pipe';
+import { TwentyOneHelpComponent } from './twenty-one-help/twenty-one-help.component';
 
 @NgModule({
   declarations: [
@@ -16,8 +16,8 @@ import { FlipMaskPipe } from './flip-mask.pipe';
     ActionCheckPipe,
     FlipMaskPipe,
     SettingsComponent,
-    PercentBarPipe,
-    StatsComponent
+    TwentyoneStatsComponent,
+    TwentyOneHelpComponent,
   ],
   imports: [
     CommonModule,
@@ -27,7 +27,7 @@ import { FlipMaskPipe } from './flip-mask.pipe';
   ],
   entryComponents: [
     SettingsComponent,
-    StatsComponent,
+    TwentyoneStatsComponent,
   ],
 })
 export class TwentyOneModule { }

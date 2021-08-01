@@ -110,15 +110,15 @@
               <div class="col-md-6 btn-container">
                 <app-slider
                   #slider
-                  (slide)="gameReset()"
-                  label="Reset Game"
+                  (slide)="reset21()"
+                  label="Reset 21"
                   btnLabel="Reset"
                 ></app-slider>
               </div>
               <div class="col-md-6 btn-container">
                 <app-slider
                   #slider
-                  (slide)="allReset()"
+                  (slide)="resetAll21()"
                   label="Reset All"
                   btnLabel="Reset"
                   btnColor="warn"
@@ -133,12 +133,28 @@
                   formControlName="drawCount"
                   aria-label="Select a sound option"
                 >
-                  <mat-radio-button [value]="1">Draw 1</mat-radio-button
-                  >&nbsp;
+                  <mat-radio-button [value]="1">Draw 1</mat-radio-button>&nbsp;
                   <mat-radio-button [value]="3">Draw 3</mat-radio-button>
                 </mat-radio-group>
               </div>
-            </div>      
+              <div class="col-md-6 btn-container">
+                <app-slider
+                  #slider
+                  (slide)="resetSolitaire()"
+                  label="Reset Solitaire"
+                  btnLabel="Reset"
+                ></app-slider>
+              </div>
+              <div class="col-md-6 btn-container">
+                <app-slider
+                  #slider
+                  (slide)="resetAllSolitaire()"
+                  label="Reset All"
+                  btnLabel="Reset"
+                  btnColor="warn"
+                ></app-slider>
+              </div>
+            </div>
           </form>
         </div>
       </div>

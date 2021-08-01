@@ -1,9 +1,29 @@
 .card-group {
   position: relative;
 }
+
 app-card {
   height: 50px;
   &.select {
     cursor: pointer;
   }
+}
+.dragging {
+  pointer-events: none;
+  touch-action: none;
+}
+.undo-drag {
+  -webkit-transition: all 0.18s ease-in-out;
+  -moz-transition: all 0.18s ease-in-out;
+  transition: all 0.18s ease-in-out;
+}
+.dragging,
+.undo-drag {
+  z-index: 100;
+  -webkit-transform: scale(1.1, 1.1);
+  -moz-transform: scale(1.1, 1.1);
+  transform: scale(1.1, 1.1);
+  -webkit-filter: drop-shadow(-2px -2px 8px rgba(0, 0, 0, 0.5));
+  -moz-filter: drop-shadow(-2px -2px 8px rgba(0, 0, 0, 0.5));
+  filter: drop-shadow(-2px -2px 8px rgba(0, 0, 0, 0.5));
 }

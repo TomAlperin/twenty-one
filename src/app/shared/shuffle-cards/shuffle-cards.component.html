@@ -1,7 +1,8 @@
-<div class="card" [ngClass]="{ show: show }" [ngStyle]="{
-  width: cardHeight + 100 + 'px',
-  height: cardHeight + 100 + 'px'
-}">
+<div
+  class="card"
+  [ngClass]="{ show: show }"
+  [ngStyle]="cardStyles"
+>
   <h2>Shuffling Cards</h2>
   <div *ngFor="let card of hand" class="d-inline-block position-relative hand">
     <app-card

@@ -35,10 +35,10 @@ const routes: Routes = [
     data: {
       view: 'fourofour',
       seo: {
-        title: 'Technically Tom | Page does not exist',
+        title: 'Page does not exist | Technically Tom',
         metaTags: [
           { name: 'description', content: 'Navigation error. Page does not exist.' },
-          { property: 'og:title', content: 'Technically Tom | Page does not exist' },
+          { property: 'og:title', content: 'Page does not exist | Technically Tom' },
           { proprety: 'og:description', content: 'Navigation error. Page does not exist.' },
           { property: 'og:image', content: environment.appUrl + 'assets/img/blackjack.jpg' },
           { property: 'og:image:width', content: '1200' },

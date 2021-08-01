@@ -7,15 +7,18 @@
   </a>
   <div>
     <button
+      #tooltip="matTooltip"
       *ngIf="['', true].includes(restart)"
       (click)="doEvent('restart')"
       mat-icon-button
       [matTooltip]="settings?.toolTips ? 'Reset Game' : null"
+      matTooltipPosition="left"
     >
       <mat-icon>play_circle</mat-icon>
     </button>
     <h1>{{ heading }}</h1>
     <button
+      #tooltip="matTooltip"
       mat-icon-button
       [matMenuTriggerFor]="menu"
       [matTooltip]="settings?.toolTips ? 'Game Selection and Settings' : null"
@@ -35,9 +38,14 @@
           [routerLink]="option.url"
           mat-menu-item
         >
-          <mat-icon aria-hidden="false" class="icon" aria-label="Cards">{{
-            option.icon
-          }}</mat-icon>
+          <mat-icon
+            *ngIf="option.icon"
+            aria-hidden="false"
+            class="icon"
+            aria-label="Cards"
+            >{{ option.icon }}</mat-icon
+          >
+          <img *ngIf="option.iconImg" [src]="option.iconImg" />
           <span>{{ option.name }}</span>
         </button>
         <hr *ngIf="option.divider" class="divider" />

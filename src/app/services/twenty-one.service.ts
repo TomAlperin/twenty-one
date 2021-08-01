@@ -12,58 +12,51 @@ const hasLocalStorage = 'localStorage' in window && window['localStorage'] !== n
 
 @Injectable({ providedIn: 'root' })
 export class TwentyOneService {
-  private game = new BehaviorSubject<TwentyoneGame>(new TwentyoneGame());
-  public game$ = this.game.asObservable();
-
-  private settings = new BehaviorSubject<Settings>(new Settings());
-  public settings$ = this.settings.asObservable();
-
-  public gameStats = new BehaviorSubject<TwentyoneStats>(new TwentyoneStats());
-  public gameStats$ = this.gameStats.asObservable();
-
-  private animation = new BehaviorSubject<boolean>(false);
-  public animation$ = this.animation.asObservable();
+  public game$ = new BehaviorSubject<TwentyoneGame>(new TwentyoneGame());
+  public settings$ = new BehaviorSubject<Settings>(new Settings());
+  public gameStats$ = new BehaviorSubject<TwentyoneStats>(new TwentyoneStats());
+  public animation$ = new BehaviorSubject<boolean>(false);
 
   constructor(private window: WindowService) {
     const gameState = localStorage['twentyone-gamestate'];
     if (gameState) {
-      this.game.next(JSON.parse(atob(gameState)));
+      this.game$.next(JSON.parse(atob(gameState)));
     } else {
       this.shuffleCards();
-      this.saveGame(this.game.getValue());
+      this.saveGame(this.game$.getValue());
     }
 
     // custom game settings
     const settings = localStorage['twentyone-settings'];
     if (settings) {
-      this.settings.next(JSON.parse(atob(settings)));
+      this.settings$.next(JSON.parse(atob(settings)));
     }
 
-    // custom game settings
+    // saved game stats
     const stats = localStorage['twentyone-stats'];
     if (stats) {
-      this.gameStats.next(JSON.parse(atob(stats)));
+      this.gameStats$.next(JSON.parse(atob(stats)));
     }
   }
 
   public get gameSettings(): Settings {
-    return this.settings.getValue();
+    return this.settings$.getValue();
   }
 
-  public get gameState(): TwentyoneGame {
-    return this.game.getValue();
+  public get game(): TwentyoneGame {
+    return this.game$.getValue();
   }
 
-  public set gameState(game) {
+  public set game(game) {
     this.saveGame(game);
   }
 
   public set animate(value: boolean) {
-    this.animation.next(value);
+    this.animation$.next(value);
   }
 
   public get animate() {
-    return this.animation.getValue();
+    return this.animation$.getValue();
   }
 
   saveGame(game: TwentyoneGame) {
@@ -73,7 +66,7 @@ export class TwentyOneService {
       localStorage['twentyone-gamestate'] = btoa(JSON.stringify(game));
     }
 
-    this.game.next(game);
+    this.game$.next(game);
   }
 
   saveSettings(settings: Settings) {
@@ -83,11 +76,11 @@ export class TwentyOneService {
       localStorage['twentyone-settings'] = btoa(JSON.stringify(settings));
     }
 
-    this.settings.next(settings);
+    this.settings$.next(settings);
   }
 
   set allStats(allStats: TwentyoneStats) {
-    this.gameStats.next(allStats);
+    this.gameStats$.next(allStats);
 
     if (hasLocalStorage) {
       localStorage['twentyone-stats'] = btoa(JSON.stringify(allStats));
@@ -95,8 +88,8 @@ export class TwentyOneService {
   }
 
   set stats({ game, result, odds }: { game?: TwentyoneGame, result: Result, odds?: number }) {
-    const { deckCount } = this.settings.getValue();
-    let allStats: TwentyoneStats = this.gameStats.getValue();
+    const { deckCount } = this.settings$.getValue();
+    let allStats: TwentyoneStats = this.gameStats$.getValue();
     const stats: CountStats = allStats[`${deckCount} Deck${deckCount !== 1 ? 's' : ''}`] || new CountStats();
 
     if (result !== 'reset') {
@@ -145,7 +138,7 @@ export class TwentyOneService {
     } else {
       allStats = new TwentyoneStats();
     }
-    this.gameStats.next(allStats);
+    this.gameStats$.next(allStats);
 
     if (hasLocalStorage) {
       localStorage['twentyone-stats'] = btoa(JSON.stringify(allStats));
@@ -153,10 +146,10 @@ export class TwentyOneService {
   }
 
   shuffleCards() {
-    const game = this.game.getValue();
+    const game = this.game$.getValue();
     setTimeout(() => this.window.loadComponent(ShuffleCardsComponent), 0);
     const cards = [];
-    const decks = this.settings.getValue().deckCount;
+    const decks = this.settings$.getValue().deckCount;
 
     for (let y = 0; y < decks; y++) {         // For "y" decks
       for (let i = 4; i <= 55; i++) {    // Load 52 cards in deck

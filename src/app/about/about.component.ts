@@ -1,9 +1,9 @@
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Settings } from '@models/settings';
 import { TwentyOneService } from '@services/twenty-one.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-about',
@@ -27,7 +27,7 @@ export class AboutComponent implements OnInit, OnDestroy {
   destroyed$ = new Subject();
 
   constructor(
-    private router: Router,
+    private location: Location,
     private twentyone: TwentyOneService,
   ) {
     this.subScribeToSettings();
@@ -115,7 +115,7 @@ export class AboutComponent implements OnInit, OnDestroy {
   }
 
   back() {
-    this.router.navigate(['..']);
+    this.location.back();
   }
 
   ngOnDestroy() {

@@ -133,8 +133,18 @@
     background-size: cover;
   }
   .a-button {
-    background: url("/assets/img/chip.png") no-repeat 66.75% 0;
     background-size: cover;
+    background: repeating-linear-gradient(
+      135deg,
+      #8585c7,
+      #dbdbd6 50%,
+      #61613f 100%
+    );
+    &:hover, &:active, &:focus {
+      svg {
+        fill: #000;
+      }
+    }
   }
   .chip10 {
     background: url("/assets/img/chip.png") no-repeat;

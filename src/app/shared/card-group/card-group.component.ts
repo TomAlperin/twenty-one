@@ -6,6 +6,7 @@ import * as _ from 'lodash';
 import { SolitaireService } from '@services/solitaire.serviice';
 import { CardComponent } from '@shared/card/card.component';
 import { TwentyOneService } from '@services/twenty-one.service';
+import { SoundService } from '@services/sound.service';
 
 @Component({
   selector: 'app-card-group',
@@ -21,6 +22,7 @@ export class CardGroupComponent implements OnInit, OnDestroy {
   posY = 0;
   timeout: NodeJS.Timer;
   testCol: number;
+  undoDrag = false;
   startElement: HTMLElement & EventTarget;
   @Input() tableau: { card: number, flip: boolean }[][] = [];
   @Input() foundation: any[][] = [];
@@ -38,6 +40,7 @@ export class CardGroupComponent implements OnInit, OnDestroy {
     private window: WindowService,
     private solitaire: SolitaireService,
     private twentyone: TwentyOneService,
+    private soundService: SoundService,
   ) {
     this.window.mousetouchmove$
       .pipe(takeUntil(this.destroyed$))
@@ -62,17 +65,19 @@ export class CardGroupComponent implements OnInit, OnDestroy {
 
   setOffset() {
     const height = window.innerHeight;
-    this.offset = Math.min((height / 28), 50);
+    this.offset = Math.min((height / 25), 50);
   }
 
   start(event) {
     event.preventDefault();
-    event.stopPropagation();
 
     this.startElement = event.target;
 
-    this.dragging = true;
-    document.body.classList.add('dragging');
+    if (!this.cards[0].flip) {
+      this.dragging = true;
+      document.body.classList.add('dragging');
+      this.soundService.playSound('card-sound');
+    }
   }
 
   doDrag(event: MouseEvent & TouchEvent) {
@@ -95,6 +100,7 @@ export class CardGroupComponent implements OnInit, OnDestroy {
   async endDrag(event: MouseEvent & TouchEvent) {
     document.body.classList.remove('dragging');
     let element;
+    let reset = true;
     const changedTouch = _.get(event, 'changedTouches[0]');
 
     if (changedTouch) {
@@ -129,12 +135,13 @@ export class CardGroupComponent implements OnInit, OnDestroy {
               if (this.foundation[column - 7].length + 1 === dragValue) {
                 const foundationCard = this.foundation[column - 7][this.foundation[column - 7].length - 1];
 
-                if (!foundationCard || dragSuit === foundationCard % 4) {
-                  const cards = this.tableau[this.column].splice(-this.cards.length);
+                if (!foundationCard || dragSuit === _.get(foundationCard, 'card', foundationCard) % 4) {
+                  const card = this.tableau[this.column].pop();
                   this.tableau[this.column] = [...this.tableau[this.column]];
-                  this.foundation[column - 7].push(cards[0].card);
+                  this.foundation[column - 7].push(card.card);
                   this.flipCard();
                   this.solitaire.checkWin(this.foundation);
+                  reset = false;
                 }
               }
             }
@@ -160,13 +167,37 @@ export class CardGroupComponent implements OnInit, OnDestroy {
               this.tableau[column] = [...this.tableau[column]];
               this.flipCard();
               this.solitaire.checkWin(this.foundation);
+              reset = false;
             }
           }
         }
+
+        if (reset) {
+          this.resetDrag();
+        }
       }
-      this.dragging = false;
-      this.dragged = false;
     }
+
+    this.posX = 0;
+    this.posY = 0;
+    this.lastX = 0;
+    this.lastY = 0;
+
+    this.dragging = false;
+    this.dragged = false;
+  }
+
+  resetDrag() {
+    setTimeout(() => this.soundService.playSound('card-sound'), 180);
+    this.undoDrag = true;
+    clearTimeout(this.timeout);
+    this.timeout = setTimeout(() => {
+      this.posX = 0;
+      this.posY = 0;
+      this.lastX = 0;
+      this.lastY = 0;
+      this.timeout = setTimeout(() => this.undoDrag = false, 180);
+    }, 0);
   }
 
   toFoundation() {
@@ -174,6 +205,8 @@ export class CardGroupComponent implements OnInit, OnDestroy {
     const dragValue = Math.floor(dragCard / 4);
     const dragSuit = dragCard % 4;
     let i = 0;
+    let playSound = true;
+
     for (const stack of this.foundation) {
       if (this.cards.length === 1) {
         if (stack.length + 1 === dragValue) {
@@ -194,15 +227,19 @@ export class CardGroupComponent implements OnInit, OnDestroy {
               offsetX,
               offsetY,
               deg: this.twentyone.gameSettings.alignment === 'neat' ? 0 : this.card.rand2,
-              scale: 1.3
+              scale: 1.4
             });
             this.flipCard();
             this.solitaire.checkWin(this.foundation);
+            playSound = false;
             break;
           }
         }
       }
       i++;
+    }
+    if (playSound) {
+      this.soundService.playSound('card-sound');
     }
   }
 

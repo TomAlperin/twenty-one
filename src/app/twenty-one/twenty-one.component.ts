@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, QueryList, TemplateRef, ViewChild, ViewChildren } from '@angular/core';
 import { Result, TwentyoneGame } from '@models/twentyone-game';
 import { TwentyOneService } from '@services/twenty-one.service';
 import { WinComponent } from '@shared/win/win.component';
@@ -7,10 +7,12 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Settings } from '@models/settings';
 import { Router } from '@angular/router';
-import { StatsComponent } from './stats/stats.component';
+import { TwentyoneStatsComponent } from './twenty-one-stats/twenty-one-stats.component';
 import { TwentyoneStats } from '@models/twentyone-stats';
 import { WindowService } from '@services/window.service';
 import { SoundService } from '@services/sound.service';
+import { MatTooltip } from '@angular/material/tooltip';
+import { TwentyOneHelpComponent } from './twenty-one-help/twenty-one-help.component';
 // tslint:disable-next-line:no-string-literal
 const mobile = typeof window.orientation !== 'undefined';
 
@@ -20,6 +22,7 @@ const mobile = typeof window.orientation !== 'undefined';
   styleUrls: ['./twenty-one.component.scss']
 })
 export class TwentyOneComponent implements OnInit, OnDestroy {
+  @ViewChild('helpIcon', { static: true }) helpIcon: TemplateRef<HTMLElement>;
   controls = [];
   betControls = [
     { class: 'chip10', action: 'bet', value: 10, states: ['bet', 'deal'], tooltip: 'Bet $10' },
@@ -47,7 +50,7 @@ export class TwentyOneComponent implements OnInit, OnDestroy {
       class: 'surrender', action: 'surrender', label: 'Surrender', states: ['hit', 'hit-on-split'],
       condition: 'canSurrender', tooltip: 'Give up and recover half your bet.'
     },
-    { class: 'a-button', action: 'about', states: ['bet'], tooltip: 'About' }
+    { class: 'a-button', action: 'help', states: ['bet'], tooltip: 'Help', svg: 'help' }
   ];
   dealControl = { class: 'deal-cards', action: 'deal', label: 'Deal' };
   game = new TwentyoneGame();
@@ -60,6 +63,12 @@ export class TwentyOneComponent implements OnInit, OnDestroy {
   settings = new Settings();
   destroyed$ = new Subject();
   position: 'above' | 'left' = 'left';
+  tooltips: MatTooltip[] = [];
+  @ViewChildren('tooltip') set itemContent(content: QueryList<MatTooltip>) {
+    // timeout needed to fix expression changed error.
+    setTimeout(() => this.tooltips = content ? content.map(item => item) : [], 0);
+  }
+
 
   constructor(
     public twentyone: TwentyOneService,
@@ -140,8 +149,10 @@ export class TwentyOneComponent implements OnInit, OnDestroy {
       });
   }
 
-
   doCtrl(action: string, value?: number) {
+    if (this.twentyone.gameSettings.toolTips) {
+    }
+
     if (value) {
       this[action](value);
     } else {
@@ -291,6 +302,10 @@ export class TwentyOneComponent implements OnInit, OnDestroy {
     this.game.state = 'bet';
     this.twentyone.saveGame(this.game);
     this.disabled = false;
+
+    if (this.game.bank < 10) {
+      this.reset();
+    }
   }
 
   async stand(hand: string) {
@@ -437,6 +452,9 @@ export class TwentyOneComponent implements OnInit, OnDestroy {
 
     await this.endHand(result, message, icon, hand, newBank);
     this.twentyone.stats = { game: this.game, result, odds };
+    if (this.game.bank < 10) {
+      this.reset();
+    }
   }
 
   async endHand(
@@ -455,7 +473,6 @@ export class TwentyOneComponent implements OnInit, OnDestroy {
     this.game.bank = newBank;
 
     if (this.game.bank < 10) {
-      this.reset();
       this.twentyone.stats = { game: this.game, result: 'bank-reset' };
     }
 
@@ -469,11 +486,15 @@ export class TwentyOneComponent implements OnInit, OnDestroy {
   doEvent(action: string) {
     switch (action) {
       case 'stats':
-        this.window.loadComponent(StatsComponent);
+        this.window.loadComponent(TwentyoneStatsComponent);
         break;
       default:
         break;
     }
+  }
+
+  help() {
+    this.window.loadComponent(TwentyOneHelpComponent);
   }
 
   about() {

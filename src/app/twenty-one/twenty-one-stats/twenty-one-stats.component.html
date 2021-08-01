@@ -75,11 +75,7 @@
                 aria-valuemin="0"
                 aria-valuemax="100"
               >
-                Won:
-                {{
-                  deck.value.totalWon /
-                    (deck.value.totalWon + deck.value.totalLost) | percent
-                }}
+                {{ deck.value.totalWon | currency: "USD":"symbol":"1.0-0" }}
               </div>
               <div
                 class="progress-bar bg-warning"
@@ -94,11 +90,7 @@
                 aria-valuemin="0"
                 aria-valuemax="100"
               >
-                Lost:
-                {{
-                  deck.value.totalLost /
-                    (deck.value.totalWon + deck.value.totalLost) | percent
-                }}
+                {{ deck.value.totalLost | currency: "USD":"symbol":"1.0-0" }}
               </div>
             </div>
 
@@ -150,8 +142,8 @@
             <div class="progress">
               <div
                 class="progress-bar {{
-                  deck.value.maxWins === 'bg-danger'
-                    ? 0
+                  deck.value.maxWins === 0
+                    ? 'bg-danger'
                     : (deck.value.wins / deck.value.maxWins | appPercentBar)
                 }}"
                 [style.width]="

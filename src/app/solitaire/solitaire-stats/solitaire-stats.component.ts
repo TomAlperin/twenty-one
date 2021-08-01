@@ -4,39 +4,20 @@ import { takeUntil } from 'rxjs/operators';
 import { Settings } from '@models/settings';
 import { TwentyoneStats, CountStats } from '@models/twentyone-stats';
 import { TwentyOneService } from '@services/twenty-one.service';
+import { SolitaireService } from '@services/solitaire.serviice';
+import { SolitaireStats } from '@models/solitaire-stats';
 
 @Component({
-  selector: 'app-stats',
-  templateUrl: './stats.component.html',
-  styleUrls: ['./stats.component.scss']
+  templateUrl: './solitaire-stats.component.html',
+  styleUrls: ['./solitaire-stats.component.scss']
 })
-export class StatsComponent implements OnInit, OnDestroy {
+export class SolitaireStatsComponent implements OnInit, OnDestroy {
   show: boolean;
-  stats: TwentyoneStats;
+  stats: SolitaireStats;
   rows = [
     {
-      name: 'High Score',
-      value: (element: { key: string, value: CountStats }) => `$${element.value.highScore}`
-    },
-    {
-      name: 'Total Won',
-      value: (element: { key: string, value: CountStats }) => `$${element.value.totalWon}`
-    },
-    {
-      name: 'Total Lost',
-      value: (element: { key: string, value: CountStats }) => `$${element.value.totalLost}`
-    },
-    {
       name: 'Total Hands Played',
-      value: (element: { key: string, value: CountStats }) => `${element.value.bestHandCount}`
-    },
-    {
-      name: 'Hands Played This Game',
-      value: (element: { key: string, value: CountStats }) => `${element.value.curHandCount}`
-    },
-    {
-      name: 'Times Went Broke',
-      value: (element: { key: string, value: CountStats }) => `${element.value.gamesPlayed || ''}`
+      value: (element: { key: string, value: CountStats }) => `${element.value.gamesPlayed}`
     },
     {
       name: 'Winning Streak',
@@ -64,17 +45,18 @@ export class StatsComponent implements OnInit, OnDestroy {
     }
   ];
   settings: Settings;
-  @Input() componentRef: ComponentRef<StatsComponent>;
+  @Input() componentRef: ComponentRef<SolitaireStatsComponent>;
 
   destroyed$ = new Subject();
 
   constructor(
+    private solitaire: SolitaireService,
     private twentyone: TwentyOneService,
     private appRef: ApplicationRef,
   ) {
-    this.twentyone.gameStats$
+    this.solitaire.gameStats$
       .pipe(takeUntil(this.destroyed$))
-      .subscribe((stats: TwentyoneStats) => this.stats = stats);
+      .subscribe((stats: SolitaireStats) => this.stats = stats);
 
     this.twentyone.settings$
       .pipe(takeUntil(this.destroyed$))

@@ -9,8 +9,12 @@ export class ShuffleCardsComponent implements OnInit, AfterViewInit {
   cards: number[] = [];
   hand: number[] = [];
   show = false;
+  cardX: string;
+  cardY: string;
+  cardStyles: any = {};
   interval: NodeJS.Timer;
   @Input() cardHeight = 210;
+  @Input() position = 'uppser left';
   @Input() timeout = 1500;
   @Input() componentRef: ComponentRef<ShuffleCardsComponent>;
 
@@ -29,6 +33,16 @@ export class ShuffleCardsComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
+    this.cardX = this.position.includes('right') ? 'right' : 'left';
+    this.cardY = this.position.includes('bottom') ? 'bottom' : 'top';
+
+    this.cardStyles = {
+      width: `${this.cardHeight + 100}px`,
+      height: `${this.cardHeight + 100}px`,
+      [this.cardX]: '20px',
+      [this.cardY]: this.position.includes('bottom') ? '20px' : '55px'
+    };
+    console.log(this.cardStyles);
     setTimeout(() => {
       this.show = false;
       setTimeout(() => {

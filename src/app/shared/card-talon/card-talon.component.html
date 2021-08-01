@@ -9,11 +9,8 @@
 </div>
 <div
   class="card-group block text-center position-absolute w-100"
-  [style.top]="posY + 'px'"
-  [style.left]="posX + 'px'"
-  [style.zIndex]="dragging ? '100' : undefined"
-  [style.pointerEvents]="dragging ? 'none' : undefined"
-  [style.touchAction]="dragging ? 'none' : undefined"
+  [ngClass]="{ 'undo-drag': undoDrag, dragging: dragging }"
+  [ngStyle]="{ top: posY + 'px', left: posX + 'px' }"
 >
   <app-card
     (mousedown)="start($event)"

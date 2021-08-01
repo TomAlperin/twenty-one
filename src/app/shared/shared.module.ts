@@ -20,6 +20,7 @@ import { CardGroupPipe } from './card-group/card-group.pipe';
 import { NavComponent } from './nav/nav.component';
 import { RouterModule } from '@angular/router';
 import { WinComponent } from './win/win.component';
+import { PercentBarPipe } from '@pipes/percent-bar.pipe';
 
 @NgModule({
   imports: [
@@ -43,6 +44,7 @@ import { WinComponent } from './win/win.component';
     FadeInDirective,
     FocusDirective,
     NavComponent,
+    PercentBarPipe,
     ShuffleCardsComponent,
     SliderComponent,
     WinComponent,
@@ -64,6 +66,7 @@ import { WinComponent } from './win/win.component';
     MatTableModule,
     MatTooltipModule,
     NavComponent,
+    PercentBarPipe,
     ShuffleCardsComponent,
     SliderComponent,
   ],

@@ -7,7 +7,7 @@ import {
   Injectable,
   Injector
 } from '@angular/core';
-import { merge } from 'rxjs';
+import { merge, Subject } from 'rxjs';
 import { fromEvent } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
@@ -26,11 +26,14 @@ export class WindowService {
 
   focus$ = fromEvent(window, 'focus');
 
+  // show tooltips if idle
+  helptimer$ = new Subject<boolean>();
+  helptimer: NodeJS.Timer;
 
   constructor(
     private componentFactoryResolver: ComponentFactoryResolver,
     private appRef: ApplicationRef,
-    private injector: Injector
+    private injector: Injector,
   ) {
   }
 
@@ -47,5 +50,16 @@ export class WindowService {
     const domElem = (componentRef.hostView as EmbeddedViewRef<any>)
       .rootNodes[0] as HTMLElement;
     document.body.appendChild(domElem);
+  }
+
+  public helpTime() {
+    clearInterval(this.helptimer);
+    this.helptimer$.next(false);
+    this.helptimer = setInterval(() => this.helptimer$.next(true), 1000 * 60 * 10);
+  }
+
+  public stopTimer() {
+    this.helptimer$.next(false);
+    clearInterval(this.helptimer);
   }
 }

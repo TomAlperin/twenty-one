@@ -139,8 +139,17 @@ export class CardComponent implements OnInit, OnChanges, OnDestroy {
 
   slideIn(): AnimationMetadata[] {
     return [
-      style({ 'will-change': 'transform, opacity', opacity: 0, transform: 'translateY(-308px) rotate(' + this.rand1 + 'deg)' }),
-      animate('180ms ease-in', style({ opacity: 1, transform: 'translateY(0) rotate(0deg)' })),
+      style({
+        'will-change': 'transform, filter, opacity',
+        opacity: 0,
+        transform: 'translateY(-308px) scale(1.2, 1.2) rotate(' + this.rand1 + 'deg)',
+        filter: 'drop-shadow(-2px -2px 8px rgba(0, 0, 0, 0.5))'
+      }),
+      animate('180ms ease-in', style({
+        opacity: 1,
+        transform: 'translateY(0) rotate(0deg) scale(1, 1)',
+        filter: `drop-shadow(0 0 0 rgba(0, 0, 0, 0))`
+      })),
     ];
   }
 
@@ -149,11 +158,16 @@ export class CardComponent implements OnInit, OnChanges, OnDestroy {
   ): AnimationMetadata[] {
     return [
       style({
-        'will-change': 'transform',
+        'will-change': 'transform, filter',
         zIndex: 100,
-        transform: `translate(${offsetX}px, ${offsetY}px) scale(${scale}, ${scale}) rotate(${deg}deg)`
+        transform: `translate(${offsetX}px, ${offsetY}px) scale(${scale}, ${scale}) rotate(${deg}deg)`,
+        filter: `drop-shadow(-2px -2px 8px rgba(0, 0, 0, 0.5))`
       }),
-      animate('180ms ease-in', style({ transform: 'translateY(0) rotate(0deg)' })),
+      animate('180ms ease-in', style({
+        transform: 'translateY(0) rotate(0deg)',
+        zIndex: 'unset',
+        filter: `drop-shadow(0 0 0 rgba(0, 0, 0, 0))`
+      }))
     ];
   }
 

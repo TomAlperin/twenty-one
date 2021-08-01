@@ -86,9 +86,11 @@ body::after {
   position: absolute;
   width: 0;
   height: 0;
+  left: -10000px;
   overflow: hidden;
   z-index: -1;
-  content: url("/assets/img/geebee.png") url("/assets/img/prop.png"); // load images
+  content: url("/assets/img/geebee.png") url("/assets/img/geebee-solitaire.png")
+    url("/assets/img/prop.png"); // load images
 }
 
 .noselect {
@@ -168,6 +170,16 @@ body::after {
   transition-duration: 0.08s;
   will-change: opacity;
 
+  h2 {
+    margin: 0;
+  }
+  label {
+    font-weight: 600;
+  }
+  .progress {
+    margin-bottom: 12px;
+  }
+
   &.fade {
     .modal-dialog {
       transition: transform 0.08s ease-out;
@@ -219,7 +231,7 @@ body::after {
   }
 
   .modal-footer {
-    padding: 0.5rem;
+    padding: 0.5rem 2rem;
     background: rgba(0, 0, 0, 0.918);
     border-top: 1px solid #dee2e6b9;
   }
@@ -258,6 +270,15 @@ body::after {
 .fade {
   transition: opacity 0.08s linear;
 }
+.modal-backdrop {
+  background: rgba(0, 0, 0, 0.336);
+  backdrop-filter: blur(5px);
+  will-change: opacity, backdrop-filter;
+  &.show {
+    opacity: 1;
+  }
+}
+
 .section {
   display: flex;
   align-content: center;

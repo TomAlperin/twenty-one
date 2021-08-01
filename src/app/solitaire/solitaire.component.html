@@ -1,5 +1,10 @@
 <div class="solitaire-container noselect height-100 position-fixed">
-  <app-nav (action)="doEvent($event)" heading="Solitaire" restart></app-nav>
+  <app-nav
+    (action)="doEvent($event)"
+    heading="Solitaire"
+    [hasStats]="hasStats"
+    restart
+  ></app-nav>
   <div class="container height-100">
     <div class="row">
       <div class="{{ landscape ? 'col-sm-2' : 'col-sm-12' }}">

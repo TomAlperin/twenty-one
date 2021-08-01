@@ -9,10 +9,10 @@ const twentyOneRoutes: Routes = [
     data: {
       view: 'twentyone',
       seo: {
-        title: 'Technically Tom | Twenty One',
+        title: 'Twenty One | Technically Tom',
         metaTags: [
           { name: 'description', content: 'Free card game web app with support for playing off line.' },
-          { property: 'og:title', content: 'Technically Tom\'s Twenty One' },
+          { property: 'og:title', content: 'Twenty One | Technically Tom | Technically Tom\'s Twenty One' },
           { proprety: 'og:description', content: 'Free card game web app with support for playing off line.' },
           { property: 'og:image', content: environment.appUrl + 'assets/img/blackjack.jpg' },
           { property: 'og:image:width', content: '1200' },

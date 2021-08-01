@@ -4,6 +4,7 @@ import { takeUntil } from 'rxjs/operators';
 import { WindowService } from '@services/window.service';
 import * as _ from 'lodash';
 import { SolitaireService } from '@services/solitaire.serviice';
+import { SoundService } from '@services/sound.service';
 
 @Component({
   selector: 'app-card-talon',
@@ -18,7 +19,8 @@ export class CardTalonComponent implements OnDestroy {
   posX = 0;
   posY = 0;
   startElement: HTMLElement & EventTarget;
-  clicked = false;
+  undoDrag = false;
+  timeout: NodeJS.Timer;
   @Input() tableau: { card: number, flip: boolean }[][] = [];
   @Input() foundation: any[][] = [];
   @Input() cards: number[] = [];
@@ -31,6 +33,7 @@ export class CardTalonComponent implements OnDestroy {
   constructor(
     private window: WindowService,
     private solitaire: SolitaireService,
+    private soundService: SoundService
   ) {
     this.window.mousetouchmove$
       .pipe(takeUntil(this.destroyed$))
@@ -43,16 +46,13 @@ export class CardTalonComponent implements OnDestroy {
 
   start(event) {
     event.preventDefault();
-    event.stopPropagation();
 
-    if (!this.clicked) {
-      this.clicked = true;
-      this.startElement = event.target;
+    this.startElement = event.target;
 
-      if (this.cards.length) {
-        document.body.classList.add('dragging');
-        this.dragging = true;
-      }
+    if (this.cards.length) {
+      document.body.classList.add('dragging');
+      this.dragging = true;
+      this.soundService.playSound('card-sound');
     }
   }
 
@@ -75,6 +75,7 @@ export class CardTalonComponent implements OnDestroy {
   endDrag(event: MouseEvent & TouchEvent) {
     document.body.classList.remove('dragging');
     let element;
+    let reset = true;
     const changedTouch = _.get(event, 'changedTouches[0]');
 
     if (changedTouch) {
@@ -84,11 +85,6 @@ export class CardTalonComponent implements OnDestroy {
     }
 
     if (this.dragging) {
-      this.posX = 0;
-      this.posY = 0;
-      this.lastX = 0;
-      this.lastY = 0;
-
       if (!this.dragged) {
         this.toFoundation();
       } else {
@@ -107,7 +103,7 @@ export class CardTalonComponent implements OnDestroy {
             if (this.foundation[+column - 7].length + 1 === dragValue) {
               const foundationCard = this.foundation[+column - 7][this.foundation[+column - 7].length - 1];
 
-              if (!foundationCard || dragSuit === foundationCard % 4) {
+              if (!foundationCard || dragSuit === _.get(foundationCard, 'card', foundationCard) % 4) {
                 const card = this.cards.pop();
                 this.foundation[+column - 7].push(card);
               }
@@ -115,36 +111,60 @@ export class CardTalonComponent implements OnDestroy {
 
             this.dragging = false;
             this.dragged = false;
-            this.clicked = false;
+            this.posX = 0;
+            this.posY = 0;
+            this.lastX = 0;
+            this.lastY = 0;
+
             this.solitaire.checkWin(this.foundation);
-            return;
-          }
+          } else {
+            const dropCard = this.tableau[column][this.tableau[column].length - 1];
 
-          const dropCard = this.tableau[column][this.tableau[column].length - 1];
+            let dropValue = 0;
+            let dropSuit = 0;
 
-          let dropValue = 0;
-          let dropSuit = 0;
+            if (dropCard) {
+              dropValue = Math.floor(dropCard.card / 4);
+              dropSuit = dropCard.card % 4;
+            }
 
-          if (dropCard) {
-            dropValue = Math.floor(dropCard.card / 4);
-            dropSuit = dropCard.card % 4;
-          }
-
-          if (
-            (dragValue === dropValue - 1 && dragSuit % 2 !== dropSuit % 2) ||
-            (dropValue === 0 && dragValue === 13)
-          ) {
-            const card = this.cards.pop();
-            this.tableau[column].push({ card, flip: false });
-            this.tableau[column] = [...this.tableau[column]];
-            this.solitaire.checkWin(this.foundation);
+            if (
+              (dragValue === dropValue - 1 && dragSuit % 2 !== dropSuit % 2) ||
+              (dropValue === 0 && dragValue === 13)
+            ) {
+              const card = this.cards.pop();
+              this.tableau[column].push({ card, flip: false });
+              this.tableau[column] = [...this.tableau[column]];
+              this.solitaire.checkWin(this.foundation);
+              reset = false;
+            }
           }
         }
-        this.clicked = false;
+
+        if (reset) {
+          this.resetDrag();
+        }
       }
-      this.dragging = false;
-      this.dragged = false;
     }
+    this.dragging = false;
+    this.dragged = false;
+    this.posX = 0;
+    this.posY = 0;
+    this.lastX = 0;
+    this.lastY = 0;
+  }
+
+  resetDrag() {
+    setTimeout(() => this.soundService.playSound('card-sound'), 180);
+    this.undoDrag = true;
+    clearTimeout(this.timeout);
+    this.timeout = setTimeout(() => {
+      this.posX = 0;
+      this.posY = 0;
+      this.lastX = 0;
+      this.lastY = 0;
+      this.timeout = setTimeout(() => this.undoDrag = false, 180);
+    }, 0);
   }
 
   async toFoundation() {
@@ -152,6 +172,8 @@ export class CardTalonComponent implements OnDestroy {
     const dragValue = Math.floor(dragCard / 4);
     const dragSuit = dragCard % 4;
     let i = 0;
+    let playSound = true;
+
     for (const stack of this.foundation) {
       if (stack.length + 1 === dragValue) {
         const foundationCard = stack[stack.length - 1];
@@ -168,15 +190,20 @@ export class CardTalonComponent implements OnDestroy {
             card,
             offsetX,
             offsetY,
-            deg: 0
+            deg: 0,
+            scale: 1.1
           });
+          playSound = false;
           this.solitaire.checkWin(this.foundation);
           break;
         }
       }
       i++;
     }
-    this.clicked = false;
+
+    if (playSound) {
+      this.soundService.playSound('card-sound');
+    }
   }
 
   ngOnDestroy() {

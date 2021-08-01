@@ -42,6 +42,15 @@ nav {
     background-color: rgba(0, 0, 0, 0.8);
     border: 1px solid #fff31a;
 
+    .mat-menu-item {
+      img {
+        vertical-align: middle;
+        margin-right: 16px;
+        height: 24px;
+        width: 24px;
+      }
+    }
+
     .icon,
     span {
       color: #fff31a;

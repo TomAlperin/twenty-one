@@ -19,9 +19,11 @@ import { CountStats, TwentyoneStats } from '@models/twentyone-stats';
 import { TwentyOneService } from '@services/twenty-one.service';
 import * as _ from 'lodash';
 import { SliderComponent } from '@shared/slider/slider.component';
+import { SolitaireService } from '@services/solitaire.serviice';
+import { SolitaireGame } from '@models/solitaire-game';
+import { DrawStats, SolitaireStats } from '@models/solitaire-stats';
 
 @Component({
-  selector: 'app-settings',
   templateUrl: './settings.component.html',
   styleUrls: ['./settings.component.scss'],
 })
@@ -29,6 +31,7 @@ export class SettingsComponent implements OnInit, AfterViewInit, OnDestroy {
   show = false;
   form: FormGroup;
   currentDeckCount: number;
+  currentDrawCount: number;
   destroyed$ = new Subject();
   decks = Array.from({ length: 8 }, (n, i) => i + 1);
   sidebar = false;
@@ -44,6 +47,7 @@ export class SettingsComponent implements OnInit, AfterViewInit, OnDestroy {
     private fb: FormBuilder,
     private appRef: ApplicationRef,
     private twentyone: TwentyOneService,
+    private solitaire: SolitaireService,
   ) {
     this.form = this.fb.group({
       // general
@@ -59,6 +63,7 @@ export class SettingsComponent implements OnInit, AfterViewInit, OnDestroy {
     });
 
     this.currentDeckCount = this.twentyone.gameSettings.deckCount;
+    this.currentDrawCount = this.twentyone.gameSettings.drawCount;
     this.form.patchValue(this.twentyone.gameSettings);
   }
 
@@ -66,7 +71,10 @@ export class SettingsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.form.valueChanges
       .pipe(takeUntil(this.destroyed$))
       .subscribe(settings => {
-        if (settings.deckCount === this.currentDeckCount) {
+        if (
+          settings.deckCount === this.currentDeckCount &&
+          settings.drawCount === this.currentDrawCount
+        ) {
           this.twentyone.saveSettings(settings);
         }
       });
@@ -74,8 +82,8 @@ export class SettingsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.form.get('deckCount').valueChanges
       .pipe(takeUntil(this.destroyed$))
       .subscribe(value => setTimeout(() => {
-        const allStats = this.twentyone.gameStats.getValue();
-        const currentGame = this.twentyone.gameState;
+        const allStats = this.twentyone.gameStats$.getValue();
+        const currentGame = this.twentyone.game;
         const currentKey = `${this.currentDeckCount} Deck${this.currentDeckCount !== 1 ? 's' : ''}`;
         const nextKey = `${value} Deck${value !== 1 ? 's' : ''}`;
 
@@ -86,7 +94,7 @@ export class SettingsComponent implements OnInit, AfterViewInit, OnDestroy {
 
         this.twentyone.allStats = allStats;
         this.twentyone.animate = false;
-        this.twentyone.gameState = allStats[nextKey]?.game || new TwentyoneGame();
+        this.twentyone.game = allStats[nextKey]?.game || new TwentyoneGame();
 
         setTimeout(() => {
           this.twentyone.animate = true;
@@ -94,6 +102,29 @@ export class SettingsComponent implements OnInit, AfterViewInit, OnDestroy {
           this.currentDeckCount = value;
         }, 0);
       }));
+
+    this.form.get('drawCount').valueChanges
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe(value => setTimeout(() => {
+        const allStats = this.solitaire.gameStats$.getValue();
+        const currentGame = this.solitaire.game;
+        const currentKey = `Draw ${this.currentDrawCount}`;
+        const nextKey = `Draw ${value}`;
+
+        if (!currentGame.new) {
+          allStats[currentKey] = allStats[currentKey] || new DrawStats();
+          allStats[currentKey].game = currentGame;
+        }
+
+        this.solitaire.allStats = allStats;
+        this.solitaire.game = allStats[nextKey]?.game || new SolitaireGame();
+
+        setTimeout(() => {
+          this.twentyone.saveSettings(this.form.value);
+          this.currentDrawCount = value;
+        }, 0);
+      }));
+
     setTimeout(() => this.show = true, 0);
   }
 
@@ -106,18 +137,33 @@ export class SettingsComponent implements OnInit, AfterViewInit, OnDestroy {
     control.setValue(!this.form.value.sidebar);
   }
 
-  gameReset() {
-    this.twentyone.gameState = new TwentyoneGame();
-    const allStats = this.twentyone.gameStats.getValue();
+  reset21() {
+    this.twentyone.game = new TwentyoneGame();
+    const allStats = this.twentyone.gameStats$.getValue();
     const key = `${this.form.value.deckCount} Deck${this.form.value.deckCount !== 1 ? 's' : ''}`;
     delete allStats[key];
     this.twentyone.allStats = allStats;
   }
 
-  allReset() {
-    this.twentyone.gameState = new TwentyoneGame();
+  resetAll21() {
+    this.twentyone.game = new TwentyoneGame();
     this.twentyone.allStats = new TwentyoneStats();
   }
+
+  resetSolitaire() {
+    this.solitaire.game = new SolitaireGame();
+    const allStats = this.solitaire.gameStats$.getValue();
+    const key = `Draw ${this.form.value.drawCount}`;
+    delete allStats[key];
+    this.solitaire.allStats = allStats;
+  }
+
+  resetAllSolitaire() {
+    this.solitaire.game = new SolitaireGame();
+    this.solitaire.allStats = new SolitaireStats();
+  }
+
+
 
   close() {
     this.show = false;

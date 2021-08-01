@@ -1,12 +1,10 @@
 <div
   class="card-group d-flex flex-column"
-  [ngStyle]="{
-    top: posY + 'px',
-    left: posX + 'px',
-    'z-index': dragging ? '100' : undefined,
-    'pointer-events': dragging ? 'none' : undefined,
-    'touch-action': dragging ? 'none' : undefined
+  [ngClass]="{
+    dragging: dragging,
+    'undo-drag': undoDrag
   }"
+  [ngStyle]="{ top: posY + 'px', left: posX + 'px' }"
   [attr.data-column]="column"
 >
   <app-card

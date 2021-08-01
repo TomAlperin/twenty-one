@@ -1,5 +1,11 @@
 <div class="twenty-one-container">
-  <app-nav (action)="doEvent($event)" heading="Twenty One" [hasStats]="hasStats" controls></app-nav>
+  <app-nav
+    (action)="doEvent($event)"
+    heading="Twenty One"
+    [hasStats]="hasStats"
+    [tooltips]="tooltips"
+    controls
+  ></app-nav>
   <div class="game-container noselect">
     <div class="position-relative h-100">
       <div class="dealer" [style.height]="height + 40 + 'px'">
@@ -30,7 +36,7 @@
             [style.zIndex]="-1"
           ></app-card>
           <img
-            *ngIf="game | actionCheck: 'canInsure'"
+            *ngIf="this.game.canInsure"
             (click)="insure()"
             src="/assets/img/card.png"
             alt="Insurance"
@@ -131,6 +137,7 @@
     <div class="controls">
       <ng-container *ngFor="let control of controls; trackBy: trackByFn">
         <button
+          #tooltip="matTooltip"
           *ngIf="control.states.includes(game.state)"
           [disabled]="!(game | actionCheck: control.condition) || disabled"
           [class]="control.class"
@@ -140,8 +147,30 @@
           class="tw-btn"
         >
           {{ (game | actionCheck: control.condition) ? control.label : "" }}
+          <ng-container
+            *ngTemplateOutlet="icons; context: { $implicit: control.svg }"
+          >
+          </ng-container>
         </button>
       </ng-container>
     </div>
   </div>
 </div>
+
+<ng-template #icons let-icon>
+  <ng-container [ngSwitch]="icon">
+    <svg
+      *ngSwitchCase="'help'"
+      xmlns="http://www.w3.org/2000/svg"
+      height="100%"
+      viewBox="0 0 24 24"
+      width="100%"
+      fill="#555"
+    >
+      <path d="M0 0h24v24H0V0z" fill="none" />
+      <path
+        d="M11 18h2v-2h-2v2zm1-16C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-2.21 0-4 1.79-4 4h2c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.79-4-4-4z"
+      />
+    </svg>
+  </ng-container>
+</ng-template>

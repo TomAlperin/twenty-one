@@ -9,10 +9,10 @@ const aboutRoutes: Routes = [
     data: {
       view: 'about',
       seo: {
-        title: 'Technically Tom | About',
+        title: 'About | Technically Tom',
         metaTags: [
           { name: 'description', content: 'out page for Tom Alperin.' },
-          { property: 'og:title', content: 'Technically Tom | About' },
+          { property: 'og:title', content: 'About | Technically Tom | About Tom Alperin' },
           { proprety: 'og:description', content: 'About page for Tom Alperin.' },
           { property: 'og:image', content: environment.appUrl + 'assets/img/blackjack.jpg' },
           { property: 'og:image:width', content: '1200' },

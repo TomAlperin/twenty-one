@@ -1,0 +1,70 @@
+<div
+  (click)="hide()"
+  class="
+    mask
+    position-fixed
+    d-flex
+    justify-content-center
+    align-items-center
+    h-100
+    w-100
+  "
+  [ngClass]="{ show: show }"
+>
+  <div class="card">
+    <h2>Twenty One Help</h2>
+    <h3>Rules</h3>
+    <p>
+      Use buttons to the right to place bets, move through normal game play.
+    </p>
+    <p>
+      Try to achieve highest hand with a value of 21 or less. Face cards have a
+      value of 10. Aces have a value of 11 unless they cause the hand value to
+      exceed 21 in which case they have a value of 1. All other cards have a
+      value equal to the cards value. Player wins if their hand value exceeds
+      the dealers hand and they have not "busted" by going over 21. Player also
+      wins if they have not "busted" and the dealer has "busted."
+    </p>
+    <ul class="myLists">
+      <li>Win pays 1:1 players bet.</li>
+      <li>
+        Player hand value of 21, "blackjack" with only two cards pays 3:2.
+      </li>
+      <li>
+        All ties are called a push and results in the players bet being returned
+        to the player.
+      </li>
+      <li>
+        "Surrender" returns half the players bet and is only available as first
+        choice in hand.
+      </li>
+      <li>
+        Player hand value of 21, "blackjack" with only two cards pays 3:2.
+      </li>
+      <li>
+        "Double" increases the bet to twice its original value and draws only
+        one more card. This is only available after the initial deal
+      </li>
+      <li>
+        The Player may also "Split" a hand into two independent hands if the two
+        initial cards are of the same value.
+      </li>
+      <li>Splitting is only allowed once per hand.</li>
+      <li>Split hands may be "Doubled."</li>
+      <li>
+        This game is dealt from two decks by default but is not configurable
+        from 1 to 9 decks. Game staticsts will be stored for every varition the
+        user plays at leat one game with.
+      </li>
+    </ul>
+    <button
+      #last
+      (click)="hide()"
+      type="button"
+      mat-stroked-button
+      color="primary"
+    >
+      Got It. Now back to the game!
+    </button>
+  </div>
+</div>
