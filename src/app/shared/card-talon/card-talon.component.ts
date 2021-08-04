@@ -25,7 +25,6 @@ export class CardTalonComponent implements OnDestroy {
   @Input() foundation: any[][] = [];
   @Input() cards: number[] = [];
   @Input() column: number;
-  @Input() width: number;
   @Input() animate: boolean;
 
   destroyed$ = new Subject();
@@ -60,9 +59,13 @@ export class CardTalonComponent implements OnDestroy {
     event.preventDefault();
     const clientX = event.clientX || _.get(event, 'touches[0].clientX');
     const clientY = event.clientY || _.get(event, 'touches[0].clientY');
+    const draggable = event.clientX !== undefined || !event.touches[1];
 
-    if (this.dragging) {
+    if (Math.abs(this.lastX) > 10 || Math.abs(this.lastY) > 10) {
       this.dragged = true;
+    }
+
+    if (this.dragging && draggable) {
       if (this.lastX) {
         this.posX += clientX - this.lastX;
         this.posY += clientY - this.lastY;

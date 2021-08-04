@@ -165,13 +165,7 @@ export class SolitaireComponent implements OnInit, OnDestroy {
   }
 
   setWidth() {
-    const width = window.innerWidth;
     this.landscape = window.matchMedia('(orientation: landscape)').matches;
-
-    if (window.innerWidth !== window.innerHeight) {
-      this.width = !this.landscape ? Math.min((width / 14) + 20, 140) :
-        Math.min((width / 18) + 15, 140);
-    }
   }
 
   async draw() {

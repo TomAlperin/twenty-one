@@ -19,14 +19,12 @@
             <div>
               <img
                 src="/assets/img/card-placeholder.png"
-                [style.width]="(landscape ? width / 1.3 : width) - 4 + 'px'"
                 alt="Card Placeholder"
                 class="placeholder"
               />
               <app-card
                 (cardClick)="draw()"
                 [card]="stock.length ? 'back' : 0"
-                [width]="landscape ? width / 1.3 : width"
                 [cardSound]="false"
                 [animate]="false"
                 neat
@@ -41,7 +39,6 @@
               [tableau]="tableau"
               [foundation]="foundation"
               [animate]="animate"
-              [width]="landscape ? width / 1.3 : width"
             ></app-card-talon>
           </div>
           <div class="col-space"></div>
@@ -52,7 +49,6 @@
             <div>
               <img
                 src="/assets/img/card-placeholder.png"
-                [style.width]="(landscape ? width / 1.3 : width) - 4 + 'px'"
                 alt="Card Placeholder"
                 class="placeholder"
                 style="position: relative"
@@ -62,7 +58,6 @@
               <app-card
                 *ngFor="let card of base; let cardIndex = index"
                 [card]="card"
-                [width]="landscape ? width / 1.3 : width"
                 [cardSound]="cardSound"
                 [column]="i + 7"
                 [animate]="false"
@@ -84,7 +79,6 @@
             <div>
               <img
                 src="/assets/img/card-placeholder.png"
-                [style.width]="width - 4 + 'px'"
                 alt="Card Placeholder"
                 class="placeholder"
                 [style.position]="stack.length ? 'absolute' : 'relative'"
@@ -96,7 +90,6 @@
                 [foundation]="foundation"
                 [cards]="stack"
                 [column]="i"
-                [width]="width"
                 [animate]="animate"
                 [cardSound]="cardSound"
               ></app-card-group>

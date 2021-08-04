@@ -20,10 +20,7 @@
     pos="relative"
     class="align-self-center"
     [ngClass]="{ select: !cards[0].flip }"
-    [ngStyle]="{
-      height: offset + 'px',
-      'z-index': 20 - cards.length
-    }"
+    [ngStyle]="{ 'z-index': 20 - cards.length }"
   ></app-card>
   <app-card-group
     *ngIf="cards[1]"

@@ -1,24 +1,22 @@
-<div class="w-100 text-center">
+<div class="text-center position-relative">
   <img
     src="/assets/img/card-placeholder.png"
-    [style.width]="width - 4 + 'px'"
     alt="Card Placeholder"
     class="placeholder"
     pos="relative"
   />
-</div>
-<div
-  class="card-group block text-center position-absolute w-100"
-  [ngClass]="{ 'undo-drag': undoDrag, dragging: dragging }"
-  [ngStyle]="{ top: posY + 'px', left: posX + 'px' }"
->
-  <app-card
-    (mousedown)="start($event)"
-    (touchstart)="start($event)"
-    [card]="cards[cards.length - 1] || 0"
-    [width]="width"
-    [animate]="animate"
-    neat
-    pos="relative"
-  ></app-card>
+  <div
+    class="card-group block text-center position-absolute w-100"
+    [ngClass]="{ 'undo-drag': undoDrag, dragging: dragging }"
+    [ngStyle]="{ top: posY + 'px', left: posX + 'px' }"
+  >
+    <app-card
+      (mousedown)="start($event)"
+      (touchstart)="start($event)"
+      [card]="cards[cards.length - 1] || 0"
+      [animate]="animate"
+      neat
+      pos="relative"
+    ></app-card>
+  </div>
 </div>

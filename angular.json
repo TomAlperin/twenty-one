@@ -24,6 +24,9 @@
             "tsConfig": "tsconfig.app.json",
             "assets": [
               "src/favicon.ico",
+              "src/robots.txt",
+              "src/sitemap.xml",
+              "src/google71d6994c1ca40153.html",
               "src/assets/img/blackjack.jpg",
               "src/assets",
               "src/manifest.webmanifest"

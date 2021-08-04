@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnDestroy, ViewChild } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { WindowService } from '@services/window.service';
@@ -13,7 +13,7 @@ import { SoundService } from '@services/sound.service';
   templateUrl: './card-group.component.html',
   styleUrls: ['./card-group.component.scss']
 })
-export class CardGroupComponent implements OnInit, OnDestroy {
+export class CardGroupComponent implements OnDestroy {
   dragging = false;
   dragged = false;
   lastX = 0;
@@ -49,31 +49,12 @@ export class CardGroupComponent implements OnInit, OnDestroy {
     this.window.mousetouchend$
       .pipe(takeUntil(this.destroyed$))
       .subscribe((event: MouseEvent & TouchEvent) => this.endDrag(event));
-
-    this.subscribeToOrientationResize();
-  }
-
-  ngOnInit(): void {
-    this.setOffset();
-  }
-
-  subscribeToOrientationResize() {
-    this.window.orientationresize$
-      .pipe(takeUntil(this.destroyed$))
-      .subscribe(event => this.setOffset());
-  }
-
-  setOffset() {
-    const height = window.innerHeight;
-    this.offset = Math.min((height / 25), 50);
   }
 
   start(event) {
     event.preventDefault();
-
-    this.startElement = event.target;
-
     if (!this.cards[0].flip) {
+      this.startElement = event.target;
       this.dragging = true;
       document.body.classList.add('dragging');
       this.soundService.playSound('card-sound');
@@ -81,14 +62,16 @@ export class CardGroupComponent implements OnInit, OnDestroy {
   }
 
   doDrag(event: MouseEvent & TouchEvent) {
-    const clientX = event.clientX || _.get(event, 'touches[0].clientX');
-    const clientY = event.clientY || _.get(event, 'touches[0].clientY');
-
     if (this.dragging) {
-      this.dragged = true;
-      clearTimeout(this.timeout);
+      const clientX = event.clientX || _.get(event, 'touches[0].clientX');
+      const clientY = event.clientY || _.get(event, 'touches[0].clientY');
+      const draggable = event.clientX !== undefined || !event.touches[1];
 
-      if (this.lastX && !this.cards[0].flip) {
+      if (Math.abs(this.lastX) > 10 || Math.abs(this.lastY) > 10) {
+        this.dragged = true;
+      }
+      clearTimeout(this.timeout);
+      if (draggable && this.lastX && !this.cards[0].flip) {
         this.posX += clientX - this.lastX;
         this.posY += clientY - this.lastY;
       }
@@ -105,7 +88,7 @@ export class CardGroupComponent implements OnInit, OnDestroy {
 
     if (changedTouch) {
       element = document.elementFromPoint(changedTouch.clientX, changedTouch.clientY);
-    } else {
+    } else if (!changedTouch) {
       element = document.elementFromPoint(event.clientX, event.clientY);
     }
 
@@ -114,7 +97,7 @@ export class CardGroupComponent implements OnInit, OnDestroy {
     this.lastX = 0;
     this.lastY = 0;
 
-    if (this.dragging) {
+    if (this.dragging && element) {
       if (!this.dragged) {
         this.toFoundation();
       } else {
@@ -176,15 +159,14 @@ export class CardGroupComponent implements OnInit, OnDestroy {
           this.resetDrag();
         }
       }
+      this.posX = 0;
+      this.posY = 0;
+      this.lastX = 0;
+      this.lastY = 0;
+
+      this.dragging = false;
+      this.dragged = false;
     }
-
-    this.posX = 0;
-    this.posY = 0;
-    this.lastX = 0;
-    this.lastY = 0;
-
-    this.dragging = false;
-    this.dragged = false;
   }
 
   resetDrag() {
