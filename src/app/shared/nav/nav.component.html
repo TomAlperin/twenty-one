@@ -25,7 +25,7 @@
     >
       <mat-icon>more_vert</mat-icon>
     </button>
-    <mat-menu #menu="matMenu">
+    <mat-menu #menu="matMenu" xPosition="before">
       <ng-container *ngFor="let option of options; trackBy: trackByFn">
         <button
           *ngIf="
@@ -42,6 +42,7 @@
             *ngIf="option.icon"
             aria-hidden="false"
             class="icon"
+            [color]="option.color"
             aria-label="Cards"
             >{{ option.icon }}</mat-icon
           >

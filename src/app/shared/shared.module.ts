@@ -21,6 +21,8 @@ import { NavComponent } from './nav/nav.component';
 import { RouterModule } from '@angular/router';
 import { WinComponent } from './win/win.component';
 import { PercentBarPipe } from '@pipes/percent-bar.pipe';
+import { LoadBarComponent } from './load-bar/load-bar.component';
+import { UpdateNotesComponent } from './update-notes/update-notes.component';
 
 @NgModule({
   imports: [
@@ -48,6 +50,8 @@ import { PercentBarPipe } from '@pipes/percent-bar.pipe';
     ShuffleCardsComponent,
     SliderComponent,
     WinComponent,
+    UpdateNotesComponent,
+    LoadBarComponent,
   ],
   exports: [
     CardComponent,

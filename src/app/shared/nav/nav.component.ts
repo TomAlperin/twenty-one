@@ -1,19 +1,29 @@
-import { Component, Input, EventEmitter, Output, OnDestroy, ViewChildren, QueryList } from '@angular/core';
+import { Component, Input, EventEmitter, Output, OnDestroy, ViewChildren, QueryList, ApplicationRef, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Settings } from '@models/settings';
 import { TwentyOneService } from '@services/twenty-one.service';
 import { WindowService } from '@services/window.service';
-import { Subject, Subscription } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { concat, interval, Subject, Subscription } from 'rxjs';
+import { first, takeUntil } from 'rxjs/operators';
 import { SettingsComponent } from '@shared/settings/settings.component';
 import { MatTooltip } from '@angular/material/tooltip';
+import { SwUpdate } from '@angular/service-worker';
+import { LoadBarComponent } from '@shared/load-bar/load-bar.component';
+import { UpdateNotesComponent } from '@shared/update-notes/update-notes.component';
 
 @Component({
   selector: 'app-nav',
   templateUrl: './nav.component.html',
   styleUrls: ['./nav.component.scss']
 })
-export class NavComponent implements OnDestroy {
+export class NavComponent implements OnInit, OnDestroy {
+  updateEvent: any;
+  swUpdate = {
+    name: 'Check For Update',
+    icon: 'system_update',
+    action: 'check-update',
+    color: undefined
+  };
   options = [
     // {
     //   name: 'Dashboard',
@@ -68,8 +78,40 @@ export class NavComponent implements OnDestroy {
     private router: Router,
     private window: WindowService,
     private twentyone: TwentyOneService,
+    private appRef: ApplicationRef,
+    private updates: SwUpdate,
   ) {
+    const appIsStable$ = appRef.isStable.pipe(first((isStable: boolean) => isStable === true));
+    const everyHour$ = interval(6 * 60 * 60 * 1000);
+    const everySixHoursOnceAppIsStable$ = concat(appIsStable$, everyHour$);
+
+    everySixHoursOnceAppIsStable$.subscribe(() => updates.checkForUpdate());
+
     this.subScribeToSettings();
+  }
+
+  update = () => {
+    this.window.loadComponent(LoadBarComponent, this.updateEvent);
+    setTimeout(() => {
+      this.updates.activateUpdate().then(() => document.location.reload());
+    }, 3000);
+  }
+
+  async ngOnInit() {
+    if (this.updates.isEnabled) {
+      this.options.push(this.swUpdate);
+      interval(60 * 60 * 1000).subscribe(() => this.updates.checkForUpdate()
+        .then(() => { }));
+    }
+
+    this.updates.available.subscribe((event) => {
+      this.window.loadComponent(UpdateNotesComponent, Object.assign({ cb: this.update }, event));
+      this.updateEvent = event;
+      this.swUpdate.name = 'Update Software';
+      this.swUpdate.icon = 'update';
+      this.swUpdate.action = 'update';
+      this.swUpdate.color = 'warn';
+    });
   }
 
   get url(): string {
@@ -131,6 +173,12 @@ export class NavComponent implements OnDestroy {
     switch (action) {
       case 'settings':
         this.window.loadComponent(SettingsComponent);
+        break;
+      case 'check-update':
+        this.updates.checkForUpdate();
+        break;
+      case 'update':
+        this.update();
         break;
       case undefined:
         break;

@@ -1,0 +1,19 @@
+<div class="card" [ngClass]="{ show: show }">
+  <div class="row">
+    <div class="col-sm-12">
+      <p>Update installing: {{ available?.appData?.version }}</p>
+    </div>
+    <div class="col-sm-12">
+      <div class="progress">
+        <div
+          class="progress-bar bg-success"
+          [style.width]="percentLoaded + '%'"
+          role="progressbar"
+          aria-valuenow="0"
+          aria-valuemin="0"
+          aria-valuemax="100"
+        ></div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,22 @@
+.card {
+  padding: 20px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 300px;
+  margin-left: -150px;
+  margin-top: -100px;
+  color: #fff;
+  background-color: rgba(0, 0, 0, 0.9);
+  border: 1px solid #ffff00;
+  -webkit-transition: opacity 0.3s ease-in-out;
+  -moz-transition: opacity 0.3s ease-in-out;
+  -o-transition: opacity 0.3s ease-in-out;
+  transition: opacity 0.3s ease-in-out;
+  pointer-events: none;
+  opacity: 0;
+
+  &.show {
+    opacity: 1;
+  }
+}

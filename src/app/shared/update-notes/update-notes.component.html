@@ -1,0 +1,33 @@
+<div class="mask" (click)="hide()" [ngClass]="{ show: show }">
+  <div class="card">
+    <div class="row">
+      <div class="col-sm-12">
+        <p>
+          <label>Update Available:</label>&nbsp;
+          {{ available?.appData?.version }}
+        </p>
+      </div>
+      <div class="col-sm-12">
+        <p>
+          <label>Notes:</label>&nbsp;
+          {{ available?.appData?.notes }}
+        </p>
+      </div>
+      <div class="col-sm-6">
+        <button
+          (click)="update()"
+          type="button"
+          mat-stroked-button
+          color="primary"
+        >
+          Update
+        </button>
+      </div>
+      <div class="col-sm-6">
+        <button (click)="hide()" type="button" mat-stroked-button>
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
