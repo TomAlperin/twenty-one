@@ -72,7 +72,6 @@ export class TwentyOneComponent implements OnInit, OnDestroy {
   disabled = false;
   cardSound = false;
   flip = true;
-  height = 200;
   hasStats = false;
   settings = new Settings();
   destroyed$ = new Subject();
@@ -113,18 +112,8 @@ export class TwentyOneComponent implements OnInit, OnDestroy {
   }
 
   setHeight() {
-    const height = window.innerHeight;
     const landscape = window.matchMedia('(orientation: landscape)').matches;
-
     this.position = landscape ? 'left' : 'above';
-
-    if (window.innerWidth !== window.innerHeight) {
-      if (landscape) {
-        this.height = Math.min((height / 2) - 85, 350);
-      } else {
-        this.height = Math.min((height / 3) - 100, 350);
-      }
-    }
   }
 
   subscribeToOrientationResize() {

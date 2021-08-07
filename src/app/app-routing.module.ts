@@ -6,27 +6,27 @@ import { FourOFourComponent } from './four-o-four/four-o-four.component';
 
 
 const routes: Routes = [
-  // {
-  //   path: 'dashboard',
-  //   component: DashboardComponent,
-  //   data: {
-  //     view: 'dashboard',
-  //     seo: {
-  //       title: 'Technically Tom | Home',
-  //       metaTags: [
-  //         { name: 'description', content: 'Free to play card games.' },
-  //         { property: 'og:title', content: 'Free to play card games' },
-  //         { proprety: 'og:description', content: 'Free to play card games.' },
-  //         { property: 'og:image', content: environment.appUrl + 'assets/img/blackjack.jpg' },
-  //         { property: 'og:image:width', content: '1200' },
-  //         { property: 'og:image:height', content: '630' },
-  //         { property: 'og:url', content: environment.appUrl + '' },
-  //         { name: 'twitter:card', content: 'website' },
-  //       ]
-  //     }
-  //   }
-  // },
-  { path: '', loadChildren: () => import('./twenty-one/twenty-one.module').then(m => m.TwentyOneModule) },
+  {
+    path: '',
+    component: DashboardComponent,
+    data: {
+      view: 'dashboard',
+      seo: {
+        title: 'Technically Tom | Home',
+        metaTags: [
+          { name: 'description', content: 'Free to play card games.' },
+          { property: 'og:title', content: 'Free to play card games' },
+          { proprety: 'og:description', content: 'Free to play card games.' },
+          { property: 'og:image', content: environment.appUrl + 'assets/img/blackjack.jpg' },
+          { property: 'og:image:width', content: '1200' },
+          { property: 'og:image:height', content: '630' },
+          { property: 'og:url', content: environment.appUrl + '' },
+          { name: 'twitter:card', content: 'website' },
+        ]
+      }
+    }
+  },
+  { path: 'twenty-one', loadChildren: () => import('./twenty-one/twenty-one.module').then(m => m.TwentyOneModule) },
   { path: 'solitaire', loadChildren: () => import('./solitaire/solitaire.module').then(m => m.SolitaireModule) },
   { path: 'about', loadChildren: () => import('./about/about.module').then(m => m.AboutModule) },
   {

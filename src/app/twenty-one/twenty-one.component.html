@@ -8,7 +8,7 @@
   ></app-nav>
   <div class="game-container noselect">
     <div class="position-relative h-100">
-      <div class="dealer" [style.height]="height + 40 + 'px'">
+      <div class="dealer">
         <h2 class="hand">Dealer</h2>
         <h3 class="bank score">
           {{ game.bank | currency: "USD":"symbol":"1.0" }}
@@ -23,7 +23,6 @@
             [card]="dealerCard | appFlipMask: dealerIndex !== 1 || !flip"
             [cardSound]="cardSound && twentyone.animate"
             [flip]="dealerIndex === 1 && flip"
-            [height]="height"
             [style.zIndex]="dealerIndex + 3"
           ></app-card>
           <app-card
@@ -32,7 +31,6 @@
               trackBy: trackByFn
             "
             [card]="0"
-            [height]="height"
             [style.zIndex]="-1"
           ></app-card>
           <img
@@ -51,7 +49,6 @@
         [ngClass]="{
           up: this.game.split && this.game.state === 'hit-on-split'
         }"
-        [style.height]="height + 40 + 'px'"
       >
         <h2 class="hand">Split 1</h2>
         <h3 class="score">
@@ -71,7 +68,6 @@
             "
             [card]="userCard"
             [cardSound]="cardSound && twentyone.animate"
-            [height]="height"
             [style.zIndex]="splitIndex + 3"
           ></app-card>
           <app-card
@@ -80,7 +76,6 @@
               trackBy: trackByFn
             "
             [card]="0"
-            [height]="height"
             [style.zIndex]="-1"
           ></app-card>
         </div>
@@ -94,7 +89,6 @@
           'player-has-split': game.split,
           up: this.game.state === 'hit'
         }"
-        [style.height]="height + 40 + 'px'"
       >
         <h2 class="hand">{{ game.split ? "Split 2" : "Player" }}</h2>
         <h3 class="score">
@@ -114,7 +108,6 @@
             "
             [card]="userCard"
             [cardSound]="cardSound && twentyone.animate"
-            [height]="height"
             [style.zIndex]="userIndex + 3"
           ></app-card>
           <app-card
@@ -123,7 +116,6 @@
               trackBy: trackByFn
             "
             [card]="0"
-            [height]="height"
             [style.zIndex]="-1"
           ></app-card>
         </div>

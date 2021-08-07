@@ -25,19 +25,19 @@ export class NavComponent implements OnInit, OnDestroy {
     color: undefined
   };
   options = [
-    // {
-    //   name: 'Dashboard',
-    //   icon: 'home',
-    //   url: '/'
-    // },
     {
-      name: 'Twenty One',
-      icon: 'style',
+      name: 'Home',
+      icon: 'home',
       url: '/'
     },
     {
+      name: 'Twenty One',
+      iconImg: '/assets/img/twenty-one-icon.png',
+      url: '/twenty-one'
+    },
+    {
       name: 'Solitaire',
-      icon: 'style',
+      iconImg: '/assets/img/solitaire-icon.png',
       url: '/solitaire'
     },
     { divider: true },

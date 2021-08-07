@@ -12,12 +12,14 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '@environment';
 import { ReactiveFormsModule } from '@angular/forms';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { GameBadgeComponent } from './dashboard/game-badge/game-badge.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     FourOFourComponent,
     DashboardComponent,
+    GameBadgeComponent,
   ],
   imports: [
     BrowserModule,

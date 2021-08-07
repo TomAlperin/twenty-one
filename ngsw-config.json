@@ -2,8 +2,8 @@
   "$schema": "./node_modules/@angular/service-worker/config/schema.json",
   "index": "/index.html",
   "appData": {
-    "version": "v1.0.1",
-    "notes": "Improved software update."
+    "version": "v1.0.2",
+    "notes": "Added a home screen with game icons."
   },
   "assetGroups": [
     {
@@ -26,7 +26,7 @@
       "resources": {
         "files": [
           "/assets/**",
-          "/*.(eot|svg|cur|jpg|png|webp|gif|otf|ttf|woff|woff2|ani)"
+          "/*.(eot|svg|cur|jpg|png|webp|gif|otf|ttf|woff|woff2|ani|mp3)"
         ]
       }
     }

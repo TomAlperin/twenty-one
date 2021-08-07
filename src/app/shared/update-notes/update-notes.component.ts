@@ -41,6 +41,6 @@ export class UpdateNotesComponent implements AfterViewInit {
 
   update() {
     this.hide();
-    setTimeout(() => this.cb(), 500);
+    setTimeout(() => this.cb(), 1000);
   }
 }

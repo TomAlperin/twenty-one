@@ -8,6 +8,13 @@
   top: 0;
   left: 0;
 
+  ::ng-deep {
+    .card {
+      height: calc(50vh - 90px);
+      max-height: 300px;
+    }
+  }
+
   .card-container {
     padding-right: 120px;
   }
@@ -42,15 +49,19 @@
     position: relative;
     padding: 0 15px;
     margin-bottom: 10px;
+    height: calc(50vh - 40px);
+    max-height: 350px;
   }
   .player {
     position: relative;
     padding: 0 15px 0 15px;
     margin-bottom: 10px;
+    height: calc(50vh - 40px);
+    max-height: 350px;
   }
   .hand {
     color: white;
-    margin-bottom: 14px;
+    margin-bottom: 16px;
     font-size: 1.5em;
     line-height: 1.6rem;
   }
@@ -70,6 +81,7 @@
     padding: 2px 8px;
     text-align: right;
     line-height: 23px;
+    margin-bottom: 0;
 
     img {
       height: 26px;
@@ -140,7 +152,9 @@
       #dbdbd6 50%,
       #61613f 100%
     );
-    &:hover, &:active, &:focus {
+    &:hover,
+    &:active,
+    &:focus {
       svg {
         fill: #000;
       }
@@ -270,6 +284,12 @@
 
 @media (orientation: portrait) {
   .twenty-one-container {
+    ::ng-deep {
+      .card {
+        height: calc(33vh - 100px);
+        max-height: 300px;
+      }
+    }
     .game-container {
       padding-right: 0 !important;
     }
