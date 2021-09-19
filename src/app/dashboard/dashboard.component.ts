@@ -10,16 +10,23 @@ export class DashboardComponent implements OnInit {
   games = [
     {
       name: 'Twenty One',
-      description: 'Classic twenty one game with splitting, double down, and insurance.',
+      description: 'Classic twenty one game.',
       link: 'twenty-one',
       icon: 'twenty-one-icon.png'
     },
     {
       name: 'Solitaire',
-      description: 'Classic Klondike solitaire with options for single or three card draw.',
+      description: 'Classic Klondike Solitaire.',
       link: 'solitaire',
       icon: 'solitaire-icon.png'
+    },
+    {
+      name: 'FreeCell',
+      description: 'FreeCell solitaire.',
+      link: 'free-cell',
+      icon: 'solitaire-icon.png'
     }
+
   ];
 
   constructor() { }

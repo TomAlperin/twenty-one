@@ -67,7 +67,7 @@ export class CardGroupComponent implements OnDestroy {
       const clientY = event.clientY || _.get(event, 'touches[0].clientY');
       const draggable = event.clientX !== undefined || !event.touches[1];
 
-      if (Math.abs(this.lastX) > 10 || Math.abs(this.lastY) > 10) {
+      if (Math.abs(this.posX) > 10 || Math.abs(this.posY) > 10) {
         this.dragged = true;
       }
       clearTimeout(this.timeout);

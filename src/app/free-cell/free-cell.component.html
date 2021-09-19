@@ -1,0 +1,91 @@
+<div class="solitaire-container noselect height-100 position-fixed">
+  <app-nav
+    (action)="doEvent($event)"
+    heading="FreeCell"
+    [hasStats]="hasStats"
+    restart
+  ></app-nav>
+  <div class="container height-100">
+    <div class="{{ landscape ? 'col-sm-2' : 'col-sm-12' }}">
+      <div class="row">
+        <div
+          *ngFor="let cell of freeCells; trackBy: trackByFn; let i = index"
+          class="col-stock d-flex flex-direction-column col-foundation"
+        >
+          <div>
+            <img
+              src="/assets/img/card-placeholder.png"
+              alt="Card Placeholder"
+              class="placeholder"
+              style="position: relative"
+              [attr.data-column]="i + 7"
+              class="foundation-{{ i }}"
+            />
+            <app-card
+              [card]="cell"
+              [cardSound]="cardSound"
+              [column]="i + 7"
+              [animate]="false"
+              [pos]="'relative'"
+              [style.position]="'absolute'"
+            ></app-card>
+          </div>
+        </div>
+        <div class="col-space"></div>
+        <div
+          *ngFor="let base of foundation; trackBy: trackByFn; let i = index"
+          class="col-stock d-flex flex-direction-column col-foundation"
+        >
+          <div>
+            <img
+              src="/assets/img/card-placeholder.png"
+              alt="Card Placeholder"
+              class="placeholder"
+              style="position: relative"
+              [attr.data-column]="i + 7"
+              class="foundation-{{ i }}"
+            />
+            <app-card
+              *ngFor="let card of base; let cardIndex = index"
+              [card]="card"
+              [cardSound]="cardSound"
+              [column]="i + 7"
+              [animate]="false"
+              [pos]="'relative'"
+              [style.position]="'absolute'"
+            ></app-card>
+          </div>
+        </div>
+
+        <div class="{{ !landscape ? 'col-sm-12' : 'col-sm-10' }}">
+          <div class="row">
+            <div
+              *ngFor="let stack of tableau; trackBy: trackByFn; let i = index"
+              class="col-tableau d-flex flex-column height-100"
+              [attr.data-column]="i"
+            >
+              <div>
+                <img
+                  src="/assets/img/card-placeholder.png"
+                  alt="Card Placeholder"
+                  class="placeholder"
+                  [style.position]="stack.length ? 'absolute' : 'relative'"
+                  [attr.data-column]="i"
+                />
+                <app-card-group
+                  *ngIf="stack.length"
+                  [tableau]="tableau"
+                  [foundation]="foundation"
+                  [cards]="stack"
+                  [column]="i"
+                  [animate]="animate"
+                  [cardSound]="cardSound"
+                ></app-card-group>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

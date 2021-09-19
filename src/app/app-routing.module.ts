@@ -28,6 +28,7 @@ const routes: Routes = [
   },
   { path: 'twenty-one', loadChildren: () => import('./twenty-one/twenty-one.module').then(m => m.TwentyOneModule) },
   { path: 'solitaire', loadChildren: () => import('./solitaire/solitaire.module').then(m => m.SolitaireModule) },
+  { path: 'free-cell', loadChildren: () => import('./free-cell/free-cell.module').then(m => m.FreeCellModule) },
   { path: 'about', loadChildren: () => import('./about/about.module').then(m => m.AboutModule) },
   {
     path: '404',

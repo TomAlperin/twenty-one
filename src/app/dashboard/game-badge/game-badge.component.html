@@ -1,7 +1,7 @@
 <div class="badge-container">
-  <button [routerLink]="game.link" class="game-badge">
+  <a [routerLink]="game.link" class="game-badge">
     <H2>{{ game.name }}</H2>
     <img [src]="'/assets/img/' + game.icon" [alt]="game.name" />
     <p>{{ game.description }}</p>
-  </button>
+  </a>
 </div>

@@ -40,6 +40,11 @@ export class NavComponent implements OnInit, OnDestroy {
       iconImg: '/assets/img/solitaire-icon.png',
       url: '/solitaire'
     },
+    {
+      name: 'FreeCell',
+      iconImg: '/assets/img/solitaire-icon.png',
+      url: '/free-cell'
+    },
     { divider: true },
     {
       name: 'Settings',
