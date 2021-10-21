@@ -34,6 +34,9 @@ nav {
   .mat-icon-button {
     height: 36px;
     line-height: 36px;
+    &:disabled {
+      color: #c4c4c4;
+    }
   }
 }
 

@@ -1,29 +1,26 @@
-<div class="text-center position-relative">
+<div>
   <img
     src="/assets/img/card-placeholder.png"
     alt="Card Placeholder"
     class="card-placeholder"
-    pos="relative"
+    style="position: relative"
+    [attr.data-column]="-index - 1"
+    class="freeceell-{{ index }}"
   />
-  <app-card
-    *ngFor="let card of cards.slice(0, -1); trackBy: trackByFn"
-    [card]="card || 0"
-    [animate]="false"
-    pos="absolute"
-    class="card-stack"
-  ></app-card>
   <div
     class="card-group block text-center position-absolute w-100"
     [ngClass]="{ 'undo-drag': undoDrag, dragging: dragging }"
     [ngStyle]="{ top: posY + 'px', left: posX + 'px' }"
   >
     <app-card
-      #cardElement
       (mousedown)="start($event)"
       (touchstart)="start($event)"
-      [card]="cards[cards.length - 1] || 0"
-      [animate]="animate"
-      pos="relative"
+      [card]="card"
+      [cardSound]="false"
+      [column]="-index - 1"
+      [animate]="false"
+      [pos]="'relative'"
+      [style.position]="'absolute'"
     ></app-card>
   </div>
 </div>

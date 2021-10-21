@@ -8,7 +8,6 @@ import { first, takeUntil } from 'rxjs/operators';
 import { SettingsComponent } from '@shared/settings/settings.component';
 import { MatTooltip } from '@angular/material/tooltip';
 import { SwUpdate } from '@angular/service-worker';
-import { LoadBarComponent } from '@shared/load-bar/load-bar.component';
 import { UpdateNotesComponent } from '@shared/update-notes/update-notes.component';
 
 @Component({
@@ -66,6 +65,7 @@ export class NavComponent implements OnInit, OnDestroy {
   @Input() heading = '';
   @Input() controls: boolean & '';
   @Input() restart: boolean & '';
+  @Input() restartDisabled = false;
   @Input() hasStats = false;
   @Input() tooltips: MatTooltip[] = [];
   @Output() action = new EventEmitter<string>();
@@ -96,10 +96,9 @@ export class NavComponent implements OnInit, OnDestroy {
   }
 
   update = () => {
-    this.window.loadComponent(LoadBarComponent, this.updateEvent);
     setTimeout(() => {
       this.updates.activateUpdate().then(() => document.location.reload());
-    }, 3000);
+    }, 0);
   }
 
   async ngOnInit() {

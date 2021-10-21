@@ -1,0 +1,41 @@
+<div
+  class="card-group d-flex flex-column"
+  [ngClass]="{
+    dragging: dragging,
+    'undo-drag': undoDrag
+  }"
+  [ngStyle]="{ top: posY + 'px', left: posX + 'px' }"
+  [attr.data-column]="column"
+>
+  <app-card
+    #card
+    (mousedown)="start($event)"
+    (touchstart)="start($event)"
+    [card]="cards[0]?.card"
+    [flip]="cards[0]?.flip"
+    [width]="width"
+    [animate]="animate"
+    [cardSound]="cardSound && cards.length === 1"
+    [column]="column"
+    pos="relative"
+    class="align-self-center"
+    [ngClass]="{
+      select:
+        index <= freeCellsLength && draggable && (!group || group?.draggable)
+    }"
+    [ngStyle]="{ 'z-index': 20 - cards.length }"
+  ></app-card>
+  <app-free-cell-group
+    #group
+    *ngIf="cards[1]"
+    [tableau]="tableau"
+    [foundation]="foundation"
+    [cards]="cards | cardGroup"
+    [column]="column"
+    [width]="width"
+    [animate]="animate"
+    [cardSound]="cardSound"
+    [index]="index - 1"
+    [freeCells]="freeCells"
+  ></app-free-cell-group>
+</div>

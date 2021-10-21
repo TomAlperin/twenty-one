@@ -4,6 +4,7 @@
     heading="Solitaire"
     [hasStats]="hasStats"
     restart
+    [restartDisabled]="restartDisabled"
   ></app-nav>
   <div class="container height-100">
     <div class="row">
@@ -20,21 +21,23 @@
               <img
                 src="/assets/img/card-placeholder.png"
                 alt="Card Placeholder"
-                class="placeholder"
+                class="card-placeholder"
               />
               <app-card
+                #drawStack
                 (cardClick)="draw()"
                 [card]="stock.length ? 'back' : 0"
                 [cardSound]="false"
                 [animate]="false"
                 neat
                 pos="relative"
-                class="stock align-self-center"
+                class="stock select align-self-center"
               ></app-card>
             </div>
           </div>
           <div class="col-talon position-relative">
             <app-card-talon
+              #cardTalon
               [cards]="talon"
               [tableau]="tableau"
               [foundation]="foundation"
@@ -50,7 +53,7 @@
               <img
                 src="/assets/img/card-placeholder.png"
                 alt="Card Placeholder"
-                class="placeholder"
+                class="card-placeholder"
                 style="position: relative"
                 [attr.data-column]="i + 7"
                 class="foundation-{{ i }}"
@@ -80,7 +83,7 @@
               <img
                 src="/assets/img/card-placeholder.png"
                 alt="Card Placeholder"
-                class="placeholder"
+                class="card-placeholder"
                 [style.position]="stack.length ? 'absolute' : 'relative'"
                 [attr.data-column]="i"
               />

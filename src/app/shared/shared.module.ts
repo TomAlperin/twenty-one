@@ -23,6 +23,8 @@ import { WinComponent } from './win/win.component';
 import { PercentBarPipe } from '@pipes/percent-bar.pipe';
 import { LoadBarComponent } from './load-bar/load-bar.component';
 import { UpdateNotesComponent } from './update-notes/update-notes.component';
+import { FreeCellGroupComponent } from './free-cell-group/free-cell-group.component';
+import { CardCellComponent } from './card-cell/card-cell.component';
 
 @NgModule({
   imports: [
@@ -45,6 +47,8 @@ import { UpdateNotesComponent } from './update-notes/update-notes.component';
     CardTalonComponent,
     FadeInDirective,
     FocusDirective,
+    FreeCellGroupComponent,
+    CardCellComponent,
     NavComponent,
     PercentBarPipe,
     ShuffleCardsComponent,
@@ -60,6 +64,8 @@ import { UpdateNotesComponent } from './update-notes/update-notes.component';
     CardTalonComponent,
     FadeInDirective,
     FocusDirective,
+    FreeCellGroupComponent,
+    CardCellComponent,
     HttpClientModule,
     MatButtonModule,
     MatCheckboxModule,

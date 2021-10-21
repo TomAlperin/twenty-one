@@ -1,0 +1,166 @@
+<div
+  (click)="close()"
+  class="modal fade"
+  [ngClass]="{ show: show, sidebar: settings.sidebar }"
+>
+  <div
+    (click)="$event.stopPropagation()"
+    class="modal-dialog modal-dialog-centered modal-dialog-scrollable{{
+      settings.sidebar ? '' : ' modal-xl'
+    }}"
+    [ngClass]="{
+      'modal-xl': !settings.sidebar && (stats | keyvalue).length > 2,
+      'modal-lg': !settings.sidebar && (stats | keyvalue).length > 1
+    }"
+  >
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">FreeCell Stats</h5>
+        <a href="#" (focus)="last.focus()" class="tab-loop">to last</a>
+        <button
+          #first
+          (click)="setSidebar()"
+          mdAutoFocus
+          type="button"
+          class="btn-resize"
+        >
+          <img
+            src="/assets/img/{{
+              settings?.sidebar ? 'dice-1.svg' : 'arrow-right-square.svg'
+            }}"
+            height="25px"
+            alt="Window Resize"
+          />
+        </button>
+        <button
+          (click)="close()"
+          type="button"
+          aria-label="Close"
+          class="button-close"
+        >
+          <img src="/assets/img/close.svg" height="25px" alt="Window Resize" />
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row d-flex justify-content-center">
+          <div
+            class="col-sm-12"
+            [ngClass]="{
+              'col-lg-6': !settings?.sidebar && (stats | keyvalue).length > 1,
+              'col-xl-4': !settings?.sidebar && (stats | keyvalue).length > 2
+            }"
+          >
+            <h2>{{ 'deck.key' }}</h2>
+            <table class="table table-sm w-100">
+              <tbody>
+                <tr *ngFor="let row of rows; trackBy: trackByFn">
+                  <td>{{ row.name }}</td>
+                  <td>{{ row.value(stats) }}</td>
+                </tr>
+              </tbody>
+            </table>
+            <label>Wins vs Losses</label>
+            <div class="progress">
+              <div
+                class="progress-bar bg-info"
+                [style.width]="
+                stats.totalWins + stats.totalLosses === 0
+                    ? 0
+                    : (stats.totalWins /
+                        (stats.totalWins + stats.totalLosses)
+                      | percent)
+                "
+                role="progressbar"
+                aria-valuenow="0"
+                aria-valuemin="0"
+                aria-valuemax="100"
+              >
+                Won:
+                {{
+                  stats.totalWins /
+                    (stats.totalWins + stats.totalLosses) | percent
+                }}
+              </div>
+              <div
+                class="progress-bar bg-danger"
+                [style.width]="
+                  stats.totalWins + stats.totalLosses === 0
+                    ? 0
+                    : (stats.totalLosses /
+                        (stats.totalWins + stats.totalLosses)
+                      | percent)
+                "
+                role="progressbar"
+                aria-valuenow="0"
+                aria-valuemin="0"
+                aria-valuemax="100"
+              >
+                Lost:
+                {{
+                  stats.totalLosses /
+                    (stats.totalWins + stats.totalLosses) | percent
+                }}
+              </div>
+            </div>
+
+            <label>Wins : Best Winning Streak</label>
+            <div class="progress">
+              <div
+                class="progress-bar {{
+                  stats.maxWins === 0
+                    ? 'bg-danger'
+                    : (stats.wins / stats.maxWins | appPercentBar)
+                }}"
+                [style.width]="
+                  stats.maxWins === 0
+                    ? 0
+                    : (stats.wins / stats.maxWins | percent)
+                "
+                role="progressbar"
+                aria-valuenow="0"
+                aria-valuemin="0"
+                aria-valuemax="100"
+              >
+                {{ stats.wins }} : {{ stats.maxWins }}
+              </div>
+            </div>
+            <label>Losses : Worst Losing Streak</label>
+            <div class="progress">
+              <div
+                class="progress-bar {{
+                  stats.maxLose === 0
+                    ? 'bg-success'
+                    : (1 - (stats.losses / stats.maxLose) | appPercentBar)
+                }}"
+                [style.width]="
+                  stats.maxLose === 0
+                    ? 0
+                    : (stats.losses / stats.maxLose | percent)
+                "
+                role="progressbar"
+                aria-valuenow="0"
+                aria-valuemin="0"
+                aria-valuemax="100"
+              >
+                {{ stats.losses }} : {{ stats.maxLose }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button
+          #last
+          (click)="close()"
+          type="button"
+          mat-stroked-button
+          color="primary"
+        >
+          Close
+        </button>
+        <a href="#" (focus)="first.focus()" class="tab-loop">to last</a>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-backdrop fade" [ngClass]="{ show: show }"></div>

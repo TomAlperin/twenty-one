@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { UpdateNotesComponent } from './update-notes.component';
+import { CardGroupComponent } from './free-cell-group.component';
 
-describe('UpdateNotesComponent', () => {
-  let component: UpdateNotesComponent;
-  let fixture: ComponentFixture<UpdateNotesComponent>;
+describe('CardGroupComponent', () => {
+  let component: CardGroupComponent;
+  let fixture: ComponentFixture<CardGroupComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ UpdateNotesComponent ]
+      declarations: [ CardGroupComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(UpdateNotesComponent);
+    fixture = TestBed.createComponent(CardGroupComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

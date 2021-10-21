@@ -1,17 +1,17 @@
-import { Component, ElementRef, Input, OnDestroy, ViewChild } from '@angular/core';
+import { Component, Input, OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { WindowService } from '@services/window.service';
 import * as _ from 'lodash';
-import { SolitaireService } from '@services/solitaire.serviice';
 import { SoundService } from '@services/sound.service';
+import { FreeCellService } from '@services/free-cell.service';
 
 @Component({
-  selector: 'app-card-talon',
-  templateUrl: './card-talon.component.html',
-  styleUrls: ['./card-talon.component.scss']
+  selector: 'app-card-cell',
+  templateUrl: './card-cell.component.html',
+  styleUrls: ['./card-cell.component.scss']
 })
-export class CardTalonComponent implements OnDestroy {
+export class CardCellComponent implements OnDestroy {
   dragging = false;
   dragged = false;
   lastX = 0;
@@ -22,17 +22,18 @@ export class CardTalonComponent implements OnDestroy {
   undoDrag = false;
   timeout: NodeJS.Timer;
   @Input() tableau: { card: number, flip: boolean }[][] = [];
+  @Input() freeCells: ({ card: number, flip: boolean } | number)[] = [];
   @Input() foundation: any[][] = [];
-  @Input() cards: number[] = [];
+  @Input() card: number;
   @Input() column: number;
+  @Input() index: number;
   @Input() animate: boolean;
-  @ViewChild('cardElement') private cardElement: ElementRef;
 
   destroyed$ = new Subject();
 
   constructor(
     private window: WindowService,
-    private solitaire: SolitaireService,
+    private freeCell: FreeCellService,
     private soundService: SoundService
   ) {
     this.window.mousetouchmove$
@@ -49,7 +50,7 @@ export class CardTalonComponent implements OnDestroy {
 
     this.startElement = event.target;
 
-    if (this.cards.length) {
+    if (this.card) {
       document.body.classList.add('dragging');
       this.dragging = true;
       this.soundService.playSound('card-sound');
@@ -99,29 +100,25 @@ export class CardTalonComponent implements OnDestroy {
         }
 
         if (column) {
-          const dragCard = this.cards[this.cards.length - 1];
+          const dragCard = this.card;
           const dragValue = Math.floor(dragCard / 4);
           const dragSuit = dragCard % 4;
 
-          if (+column > 6) {
-            if (this.foundation[+column - 7].length + 1 === dragValue) {
-              const foundationCard = this.foundation[+column - 7][this.foundation[+column - 7].length - 1];
+          if (+column < 0) {
+            if (this.freeCells[-column - 1] === 0) {
+              this.freeCells[-column - 1] = this.card;
+              this.freeCells[this.index] = 0;
+            }
+          } else if (+column > 7) {
+            if (this.foundation[+column - 8].length + 1 === dragValue) {
+              const foundationCard = this.foundation[+column - 8][this.foundation[+column - 8].length - 1];
 
               if (!foundationCard || dragSuit === _.get(foundationCard, 'card', foundationCard) % 4) {
-                const card = this.cards.pop();
-                this.foundation[+column - 7].push(card);
-                reset = false;
+                const card = this.card;
+                this.foundation[+column - 8].push(card);
+                this.freeCells[this.index] = 0;
               }
             }
-
-            this.dragging = false;
-            this.dragged = false;
-            this.posX = 0;
-            this.posY = 0;
-            this.lastX = 0;
-            this.lastY = 0;
-
-            this.solitaire.checkWin(this.foundation);
           } else {
             const dropCard = this.tableau[column][this.tableau[column].length - 1];
 
@@ -135,15 +132,17 @@ export class CardTalonComponent implements OnDestroy {
 
             if (
               (dragValue === dropValue - 1 && dragSuit % 2 !== dropSuit % 2) ||
-              (dropValue === 0 && dragValue === 13)
+              (dropValue === 0)
             ) {
-              const card = this.cards.pop();
+              const card = this.card;
               this.tableau[column].push({ card, flip: false });
               this.tableau[column] = [...this.tableau[column]];
-              this.solitaire.checkWin(this.foundation);
+              this.freeCells[this.index] = 0;
               reset = false;
             }
           }
+
+          this.freeCell.checkWin(this.foundation);
         }
 
         if (reset) {
@@ -173,7 +172,7 @@ export class CardTalonComponent implements OnDestroy {
   }
 
   async toFoundation() {
-    const dragCard = this.cards[this.cards.length - 1];
+    const dragCard = this.card;
     const dragValue = Math.floor(dragCard / 4);
     const dragSuit = dragCard % 4;
     let i = 0;
@@ -190,7 +189,8 @@ export class CardTalonComponent implements OnDestroy {
           const offsetX = (sLeft - dLeft);
           const offsetY = (sTop - dTop);
 
-          const card = this.cards.pop();
+          const card = this.card;
+
           this.foundation[i].push({
             card,
             offsetX,
@@ -199,7 +199,8 @@ export class CardTalonComponent implements OnDestroy {
             scale: 1.1
           });
           playSound = false;
-          this.solitaire.checkWin(this.foundation);
+          this.freeCells[this.index] = 0;
+          this.freeCell.checkWin(this.foundation);
           break;
         }
       }
@@ -211,11 +212,7 @@ export class CardTalonComponent implements OnDestroy {
     }
   }
 
-  get nativeElement() {
-    return this.cardElement.nativeElement;
-  }
-
-  trackByFn = (index: number, card: number) => card;
+  trackByFn = (index: number) => index;
 
   ngOnDestroy() {
     this.destroyed$.next();

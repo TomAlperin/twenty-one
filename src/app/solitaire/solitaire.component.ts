@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { SolitaireService } from '@services/solitaire.serviice';
@@ -9,6 +9,7 @@ import { TwentyOneService } from '@services/twenty-one.service';
 import * as _ from 'lodash';
 import { SolitaireStatsComponent } from './solitaire-stats/solitaire-stats.component';
 import { SolitaireStats } from '@models/solitaire-stats';
+import { CardService } from '@services/card.service';
 
 @Component({
   selector: 'app-solitaire',
@@ -17,12 +18,13 @@ import { SolitaireStats } from '@models/solitaire-stats';
 })
 export class SolitaireComponent implements OnInit, OnDestroy {
   stock: number[] = [];
-  talon: number[] = [];
+  talon: any[] = [];
   width = 120;
   animate = true;
   cardSound = false;
   landscape = false;
   hasStats = false;
+  restartDisabled = false;
   tableau: { card: number, flip: boolean }[][] = [
     [],
     [],
@@ -41,12 +43,15 @@ export class SolitaireComponent implements OnInit, OnDestroy {
   clicked = false;
   won = false;
   destroyed$ = new Subject();
+  @ViewChild('drawStack') private drawStack: ElementRef;
+  @ViewChild('cardTalon') private cardTalon: ElementRef;
 
   constructor(
     private solitaire: SolitaireService,
     private window: WindowService,
     private soundService: SoundService,
-    public twentyone: TwentyOneService,
+    private cardService: CardService,
+    public twentyone: TwentyOneService
   ) {
     this.subscribeToOrientationResize();
   }
@@ -69,6 +74,7 @@ export class SolitaireComponent implements OnInit, OnDestroy {
         Object.assign(this, game);
 
         if (this.stock.length === 52) {
+          this.restartDisabled = true;
           const cards = this.stock.splice(-28, 28);
           this.save();
           this.animate = true;
@@ -93,6 +99,7 @@ export class SolitaireComponent implements OnInit, OnDestroy {
 
           this.animate = false;
           this.save();
+          this.restartDisabled = false;
         } else {
           this.animate = false;
           this.cardSound = false;
@@ -138,7 +145,7 @@ export class SolitaireComponent implements OnInit, OnDestroy {
 
         const game = new SolitaireGame();
 
-        game.stock = this.solitaire.shuffleCards();
+        game.stock = this.cardService.shuffleCards();
         delete game.new;
         this.solitaire.game = game;
         break;

@@ -1,5 +1,5 @@
 import { animate, AnimationBuilder, AnimationMetadata, style } from '@angular/animations';
-import { Component, ElementRef, Input, EventEmitter, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, ElementRef, Input, EventEmitter, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Settings } from '@models/settings';
@@ -47,6 +47,7 @@ export class CardComponent implements OnInit, OnChanges, OnDestroy {
   @Input() pos = 'absolute';
   @Input() column: number;
   @Output() cardClick = new EventEmitter<boolean>();
+  @ViewChild('cardElement') private cardElement: ElementRef;
 
   constructor(
     private builder: AnimationBuilder,
@@ -119,6 +120,10 @@ export class CardComponent implements OnInit, OnChanges, OnDestroy {
       const isObject = typeof this.card === 'object' && this.card !== null;
       this._card = isObject ? this.card.card : this.card;
       this.setCard(this._card);
+
+      this.rand2 = (Math.random() * 10) - 5;
+      this.cardStyles.transform = 'rotate(' + this.rand2 + 'deg) rotateY(0deg)';
+      this.backCardStyles.transform = 'rotate(' + this.rand2 + 'deg) rotateY(180deg)';
     }
   }
 
@@ -169,6 +174,10 @@ export class CardComponent implements OnInit, OnChanges, OnDestroy {
         filter: `drop-shadow(0 0 0 rgba(0, 0, 0, 0))`
       }))
     ];
+  }
+
+  get nativeElement() {
+    return this.cardElement.nativeElement;
   }
 
   ngOnDestroy() {

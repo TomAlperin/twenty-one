@@ -1,29 +1,26 @@
-
 import { Injectable } from '@angular/core';
-import { SolitaireGame } from '@models/solitaire-game';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { FreeCellGame } from '@models/free-cell-game';
+import { FreeCellStats } from '@models/free-cell-stats';
 import { WinComponent } from '@shared/win/win.component';
-import { WindowService } from './window.service';
-import { SoundService } from './sound.service';
-import { DrawStats, SolitaireStats } from '@models/solitaire-stats';
-import { TwentyOneService } from './twenty-one.service';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { CardService } from './card.service';
+import { SoundService } from './sound.service';
+import { WindowService } from './window.service';
 // tslint:disable-next-line:no-string-literal
 const hasLocalStorage = 'localStorage' in window && window['localStorage'] !== null;
 
 @Injectable({ providedIn: 'root' })
-export class SolitaireService {
-  public game$ = new BehaviorSubject<SolitaireGame>(new SolitaireGame());
-  public gameStats$ = new BehaviorSubject<SolitaireStats>(new SolitaireStats());
+export class FreeCellService {
+  public game$ = new BehaviorSubject<FreeCellGame>(new FreeCellGame());
+  public gameStats$ = new BehaviorSubject<FreeCellStats>(new FreeCellStats());
   public triggerSave$ = new Subject();
 
   constructor(
-    private window: WindowService,
     private soundService: SoundService,
-    private twentyone: TwentyOneService,
-    private cardService: CardService
+    private cardService: CardService,
+    private window: WindowService
   ) {
-    const gameState = localStorage['solitaire-gamestate'];
+    const gameState = localStorage['free-cell-gamestate'];
     if (gameState) {
       this.game$.next(JSON.parse(atob(gameState)));
     } else {
@@ -35,13 +32,13 @@ export class SolitaireService {
     }
 
     // saved game stats
-    const stats = localStorage['solitaire-stats'];
+    const stats = localStorage['free-cell-stats'];
     if (stats) {
       this.gameStats$.next(JSON.parse(atob(stats)));
     }
   }
 
-  public get game(): SolitaireGame {
+  public get game(): FreeCellGame {
     return this.game$.getValue();
   }
 
@@ -56,9 +53,7 @@ export class SolitaireService {
   }
 
   set gameResult(result: 'win' | 'lose' | 'reset') {
-    const { drawCount } = this.twentyone.settings$.getValue();
-    let allStats: SolitaireStats = this.gameStats$.getValue();
-    const stats: DrawStats = allStats[`Draw ${drawCount}`] || new DrawStats();
+    let stats: FreeCellStats = this.gameStats$.getValue();
 
     if (result !== 'reset') {
       switch (result) {
@@ -80,30 +75,19 @@ export class SolitaireService {
 
       if (stats.wins > stats.maxWins) { stats.maxWins = stats.wins; }
       if (stats.losses > stats.maxLose) { stats.maxLose = stats.losses; }
-
-      const deck = `Draw ${drawCount}`;
-      allStats = Object.assign(allStats, { [deck]: stats });
     } else {
-      allStats = new SolitaireStats();
+      stats = new FreeCellStats();
     }
-    this.gameStats$.next(allStats);
+    this.gameStats$.next(stats);
 
     if (hasLocalStorage) {
-      localStorage['solitaire-stats'] = btoa(JSON.stringify(allStats));
-    }
-  }
-
-  set allStats(allStats: SolitaireStats) {
-    this.gameStats$.next(allStats);
-
-    if (hasLocalStorage) {
-      localStorage['solitaire-stats'] = btoa(JSON.stringify(allStats));
+      localStorage['free-cell-stats'] = btoa(JSON.stringify(stats));
     }
   }
 
-  saveGame(game: SolitaireGame) {
+  saveGame(game: FreeCellGame) {
     if (hasLocalStorage) {
-      localStorage['solitaire-gamestate'] = btoa(JSON.stringify(game));
+      localStorage['free-cell-gamestate'] = btoa(JSON.stringify(game));
     }
   }
 

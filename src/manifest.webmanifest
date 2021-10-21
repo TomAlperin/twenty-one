@@ -1,7 +1,7 @@
 {
   "name": "Twenty One",
   "short_name": "Twenty One",
-  "theme_color": "#1976d2",
+  "theme_color": "#000000",
   "background_color": "#000000",
   "display": "standalone",
   "scope": "./",

@@ -4,6 +4,7 @@
   [ngStyle]="{ position: pos }"
 >
   <img
+    #cardElement
     (click)="click()"
     src="/assets/img/card.png"
     [style.height]="height + 'px' || 'auto'"

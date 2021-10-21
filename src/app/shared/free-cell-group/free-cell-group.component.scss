@@ -1,16 +1,24 @@
 .card-group {
   position: relative;
-  app-card {
-    margin: 0 auto;
-    display: inline-block;
+}
+
+::ng-deep {
+  app-free-cell-group {
+    app-card {
+      height: 3.5vh;
+      &:not(.select) {
+        > .flipper {
+          filter: brightness(0.75);
+          -webkit-filter: brightness(0.75);
+          -moz-filter: brightness(0.75);
+        }
+      }
+      &.select {
+        cursor: pointer;
+      }
+    }
   }
 }
-
-.card-placeholder {
-  background: rgba(0, 0, 0, 0.15);
-  margin: 4px auto;
-}
-
 .dragging {
   pointer-events: none;
   touch-action: none;
@@ -29,10 +37,4 @@
   -webkit-filter: drop-shadow(-2px -2px 8px rgba(0, 0, 0, 0.5));
   -moz-filter: drop-shadow(-2px -2px 8px rgba(0, 0, 0, 0.5));
   filter: drop-shadow(-2px -2px 8px rgba(0, 0, 0, 0.5));
-}
-.card-stack {
-  position: absolute;
-  width: 100%;
-  top: 0;
-  left: 0;
 }

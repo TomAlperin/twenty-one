@@ -36,3 +36,45 @@
   top: 0;
   left: 0;
 }
+
+.col-stock,
+  .col-talon,
+  .col-foundation,
+  .col-tableau,
+  .col-space {
+    padding-left: 1.5%;
+    padding-right: 1.5%;
+    padding-bottom: 1.5%;
+    flex: 0 0 auto;
+    width: 12.5%;
+    > div {
+      margin: 0 auto;
+      position: relative;
+    }
+  }
+  .col-foundation {
+    width: 11.875%;
+  }
+  .col-space {
+    width: 5%
+  }
+  .col-stock,
+  .col-tableau,
+  .col-foundation {
+    app-card {
+      margin: 0 auto;
+      height: unset;
+      top: 0;
+      left: 0%;
+    }
+  }
+  ::ng-deep {
+    app-card-cell {
+      position: relative;
+      app-card {
+        width: 100%;
+        top: 0;
+        left: 0;
+      }
+    }
+  }

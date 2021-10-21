@@ -1,7 +1,13 @@
-export class SolitaireGame {
-  stock: number[] = [];
-  talon: number[] = [];
+export class FreeCellGame {
+  stock?: number[];
+  freeCells: number[] = [
+    0,
+    0,
+    0,
+    0
+  ];
   tableau: { card: number, flip: boolean }[][] = [
+    [],
     [],
     [],
     [],

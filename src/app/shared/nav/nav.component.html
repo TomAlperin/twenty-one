@@ -13,6 +13,7 @@
       mat-icon-button
       [matTooltip]="settings?.toolTips ? 'Reset Game' : null"
       matTooltipPosition="left"
+      [disabled]="restartDisabled"
     >
       <mat-icon>play_circle</mat-icon>
     </button>

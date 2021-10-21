@@ -12,44 +12,35 @@
           *ngFor="let cell of freeCells; trackBy: trackByFn; let i = index"
           class="col-stock d-flex flex-direction-column col-foundation"
         >
-          <div>
-            <img
-              src="/assets/img/card-placeholder.png"
-              alt="Card Placeholder"
-              class="placeholder"
-              style="position: relative"
-              [attr.data-column]="i + 7"
-              class="foundation-{{ i }}"
-            />
-            <app-card
-              [card]="cell"
-              [cardSound]="cardSound"
-              [column]="i + 7"
-              [animate]="false"
-              [pos]="'relative'"
-              [style.position]="'absolute'"
-            ></app-card>
-          </div>
+          <app-card-cell
+            #cardTalon
+            [card]="cell"
+            [freeCells]="freeCells"
+            [tableau]="tableau"
+            [foundation]="foundation"
+            [animate]="animate"
+            [index]="i"
+          ></app-card-cell>
         </div>
         <div class="col-space"></div>
         <div
-          *ngFor="let base of foundation; trackBy: trackByFn; let i = index"
+          *ngFor="let base of foundation; trackBy: trackByFn; let fIndex = index"
           class="col-stock d-flex flex-direction-column col-foundation"
         >
           <div>
             <img
               src="/assets/img/card-placeholder.png"
               alt="Card Placeholder"
-              class="placeholder"
+              class="card-placeholder"
               style="position: relative"
-              [attr.data-column]="i + 7"
-              class="foundation-{{ i }}"
+              [attr.data-column]="fIndex + 8"
+              class="foundation-{{ fIndex }}"
             />
             <app-card
               *ngFor="let card of base; let cardIndex = index"
               [card]="card"
               [cardSound]="cardSound"
-              [column]="i + 7"
+              [column]="fIndex + 8"
               [animate]="false"
               [pos]="'relative'"
               [style.position]="'absolute'"
@@ -68,11 +59,11 @@
                 <img
                   src="/assets/img/card-placeholder.png"
                   alt="Card Placeholder"
-                  class="placeholder"
+                  class="card-placeholder"
                   [style.position]="stack.length ? 'absolute' : 'relative'"
                   [attr.data-column]="i"
                 />
-                <app-card-group
+                <app-free-cell-group
                   *ngIf="stack.length"
                   [tableau]="tableau"
                   [foundation]="foundation"
@@ -80,7 +71,9 @@
                   [column]="i"
                   [animate]="animate"
                   [cardSound]="cardSound"
-                ></app-card-group>
+                  [index]="stack.length - 1"
+                  [freeCells]="freeCells"
+                ></app-free-cell-group>
               </div>
             </div>
           </div>

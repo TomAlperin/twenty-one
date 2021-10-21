@@ -26,7 +26,6 @@ export class DashboardComponent implements OnInit {
       link: 'free-cell',
       icon: 'solitaire-icon.png'
     }
-
   ];
 
   constructor() { }
