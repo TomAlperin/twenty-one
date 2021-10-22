@@ -121,9 +121,11 @@ export class CardComponent implements OnInit, OnChanges, OnDestroy {
       this._card = isObject ? this.card.card : this.card;
       this.setCard(this._card);
 
-      this.rand2 = (Math.random() * 10) - 5;
-      this.cardStyles.transform = 'rotate(' + this.rand2 + 'deg) rotateY(0deg)';
-      this.backCardStyles.transform = 'rotate(' + this.rand2 + 'deg) rotateY(180deg)';
+      if (!this.neat && this.neat !== '' && this.settings.alignment !== 'neat') {
+        this.rand2 = (Math.random() * 10) - 5;
+        this.cardStyles.transform = 'rotate(' + this.rand2 + 'deg) rotateY(0deg)';
+        this.backCardStyles.transform = 'rotate(' + this.rand2 + 'deg) rotateY(180deg)';
+      }
     }
   }
 
@@ -132,13 +134,16 @@ export class CardComponent implements OnInit, OnChanges, OnDestroy {
       .pipe(takeUntil(this.destroyed$))
       .subscribe(settings => {
         this.settings = settings;
-        if (this.neat || this.neat === '' || settings.alignment === 'neat') {
-          this.cardStyles.transform = 'rotateY(0deg)';
-          this.backCardStyles.transform = ' rotateY(180deg)';
-        } else {
-          this.cardStyles.transform = 'rotate(' + this.rand2 + 'deg) rotateY(0deg)';
-          this.backCardStyles.transform = 'rotate(' + this.rand2 + 'deg) rotateY(180deg)';
-        }
+        setTimeout(() => {
+          if (this.neat || this.neat === '' || settings.alignment === 'neat') {
+            this.cardStyles.transform = 'rotateY(0deg)';
+            this.backCardStyles.transform = ' rotateY(180deg)';
+          } else {
+            this.cardStyles.transform = 'rotate(' + this.rand2 + 'deg) rotateY(0deg)';
+            this.backCardStyles.transform = 'rotate(' + this.rand2 + 'deg) rotateY(180deg)';
+          }
+
+        }, 0);
       });
   }
 

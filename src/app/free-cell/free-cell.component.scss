@@ -1,4 +1,4 @@
-.solitaire-container {
+.free-cell-container {
   background: url("/assets/img/felt.jpg");
   height: 100%;
   width: 100%;
@@ -37,7 +37,7 @@
     width: 11.875%;
   }
   .col-space {
-    width: 5%
+    width: 5%;
   }
   .col-stock,
   .col-tableau,
@@ -55,5 +55,29 @@
     margin: 4px;
     top: 0;
     left: 0;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .free-cell-container {
+    .container-xl {
+      padding-left: 1%;
+      padding-right: 1%;
+    }
+
+    .col-stock,
+    .col-tableau,
+    .col-foundation {
+      padding-left: 1%;
+      padding-right: 1%;
+    }
+
+    ::ng-deep {
+      .card {
+        &:not(.hide) {
+          background-image: url("/assets/img/cards-small.png") !important;
+        }
+      }
+    }
   }
 }

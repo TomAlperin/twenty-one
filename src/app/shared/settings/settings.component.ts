@@ -22,6 +22,9 @@ import { SliderComponent } from '@shared/slider/slider.component';
 import { SolitaireService } from '@services/solitaire.serviice';
 import { SolitaireGame } from '@models/solitaire-game';
 import { DrawStats, SolitaireStats } from '@models/solitaire-stats';
+import { FreeCellGame } from '@models/free-cell-game';
+import { FreeCellStats } from '@models/free-cell-stats';
+import { FreeCellService } from '@services/free-cell.service';
 
 @Component({
   templateUrl: './settings.component.html',
@@ -48,6 +51,7 @@ export class SettingsComponent implements OnInit, AfterViewInit, OnDestroy {
     private appRef: ApplicationRef,
     private twentyone: TwentyOneService,
     private solitaire: SolitaireService,
+    private freeCell: FreeCellService
   ) {
     this.form = this.fb.group({
       // general
@@ -163,7 +167,10 @@ export class SettingsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.solitaire.allStats = new SolitaireStats();
   }
 
-
+  resetFreeCell() {
+    this.freeCell.game = new FreeCellGame();
+    this.freeCell.stats = new FreeCellStats();
+  }
 
   close() {
     this.show = false;

@@ -1,12 +1,10 @@
-import { ApplicationRef, Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { get as _get } from 'lodash';
-import { concat, interval, Subject } from 'rxjs';
-import { map, first, mergeMap, filter } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { map, mergeMap, filter } from 'rxjs/operators';
 import { slideAnimation } from './animations';
 import { SeoService } from '@services/seo.service';
-import { SwUpdate } from '@angular/service-worker';
-import { WindowService } from '@services/window.service';
 
 @Component({
   selector: 'app-root',
@@ -22,9 +20,6 @@ export class AppComponent implements OnDestroy {
     private seo: SeoService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private updates: SwUpdate,
-    private appRef: ApplicationRef,
-    private window: WindowService
   ) {
     this.router.events.pipe(
       filter(e => e instanceof NavigationEnd),

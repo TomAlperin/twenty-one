@@ -85,6 +85,14 @@ export class FreeCellService {
     }
   }
 
+  set stats(stats: FreeCellStats) {
+    this.gameStats$.next(stats);
+
+    if (hasLocalStorage) {
+      localStorage['free-cell-stats'] = btoa(JSON.stringify(stats));
+    }
+  }
+
   saveGame(game: FreeCellGame) {
     if (hasLocalStorage) {
       localStorage['free-cell-gamestate'] = btoa(JSON.stringify(game));

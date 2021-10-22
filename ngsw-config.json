@@ -2,8 +2,8 @@
   "$schema": "./node_modules/@angular/service-worker/config/schema.json",
   "index": "/index.html",
   "appData": {
-    "version": "v1.1.0",
-    "notes": "Adds FreeCell game. Displays cards in the talon for Solitaire."
+    "version": "v1.1.1",
+    "notes": "Uses neat cards for solitaire discard if neat cards are selected. Adds FreeCell game reset. Use readable cards for FreeCell automatically on small screens."
   },
   "assetGroups": [
     {

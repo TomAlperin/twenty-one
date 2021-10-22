@@ -86,11 +86,13 @@ export class NavComponent implements OnInit, OnDestroy {
     private appRef: ApplicationRef,
     private updates: SwUpdate,
   ) {
-    const appIsStable$ = appRef.isStable.pipe(first((isStable: boolean) => isStable === true));
-    const everyHour$ = interval(6 * 60 * 60 * 1000);
-    const everySixHoursOnceAppIsStable$ = concat(appIsStable$, everyHour$);
+    if (this.updates.isEnabled) {
+      const appIsStable$ = appRef.isStable.pipe(first((isStable: boolean) => isStable === true));
+      const everyHour$ = interval(6 * 60 * 60 * 1000);
+      const everySixHoursOnceAppIsStable$ = concat(appIsStable$, everyHour$);
 
-    everySixHoursOnceAppIsStable$.subscribe(() => updates.checkForUpdate());
+      everySixHoursOnceAppIsStable$.subscribe(() => updates.checkForUpdate());
+    }
 
     this.subScribeToSettings();
   }
@@ -106,16 +108,16 @@ export class NavComponent implements OnInit, OnDestroy {
       this.options.push(this.swUpdate);
       interval(60 * 60 * 1000).subscribe(() => this.updates.checkForUpdate()
         .then(() => { }));
-    }
 
-    this.updates.available.subscribe((event) => {
-      this.window.loadComponent(UpdateNotesComponent, Object.assign({ cb: this.update }, event));
-      this.updateEvent = event;
-      this.swUpdate.name = 'Update Software';
-      this.swUpdate.icon = 'update';
-      this.swUpdate.action = 'update';
-      this.swUpdate.color = 'warn';
-    });
+      this.updates.available.subscribe((event) => {
+        this.window.loadComponent(UpdateNotesComponent, Object.assign({ cb: this.update }, event));
+        this.updateEvent = event;
+        this.swUpdate.name = 'Update Software';
+        this.swUpdate.icon = 'update';
+        this.swUpdate.action = 'update';
+        this.swUpdate.color = 'warn';
+      });
+    }
   }
 
   get url(): string {
@@ -179,7 +181,8 @@ export class NavComponent implements OnInit, OnDestroy {
         this.window.loadComponent(SettingsComponent);
         break;
       case 'check-update':
-        this.updates.checkForUpdate();
+        this.updates.checkForUpdate()
+          .then(() => { });
         break;
       case 'update':
         this.update();
