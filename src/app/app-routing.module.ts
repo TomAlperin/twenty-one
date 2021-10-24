@@ -12,7 +12,7 @@ const routes: Routes = [
     data: {
       view: 'dashboard',
       seo: {
-        title: 'Technically Tom | Home',
+        title: `Technically Tom's Cards | Home`,
         metaTags: [
           { name: 'description', content: 'Free to play card games.' },
           { property: 'og:title', content: 'Free to play card games' },

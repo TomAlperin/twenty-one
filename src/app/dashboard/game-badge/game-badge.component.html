@@ -1,7 +1,10 @@
 <div class="badge-container">
-  <a [routerLink]="game.link" class="game-badge">
+  <a
+    [routerLink]="game.link"
+    class="game-badge"
+    [matTooltip]="game.description"
+  >
     <H2>{{ game.name }}</H2>
     <img [src]="'/assets/img/' + game.icon" [alt]="game.name" />
-    <p>{{ game.description }}</p>
   </a>
 </div>

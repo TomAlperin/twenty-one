@@ -10,6 +10,7 @@ import { SolitaireStatsComponent } from '../solitaire/solitaire-stats/solitaire-
 import * as _ from 'lodash';
 import { CardService } from '@services/card.service';
 import { FreeCellStatsComponent } from './free-cell-stats/free-cell-stats.component';
+import { AnimatedCard } from '@models/animated-card';
 
 @Component({
   selector: 'app-free-cell',
@@ -35,7 +36,7 @@ export class FreeCellComponent implements OnInit, OnDestroy {
     [],
     []
   ];
-  foundation: number[][] = [
+  foundation: (AnimatedCard | number)[][] = [
     [],
     [],
     [],
@@ -64,6 +65,7 @@ export class FreeCellComponent implements OnInit, OnDestroy {
     this.freeCell.game$
       .pipe(takeUntil(this.destroyed$))
       .subscribe(async (game: FreeCellGame) => {
+        game.foundation = game.foundation.map(column => column.map(card => (card as unknown as AnimatedCard).card || card));
         Object.assign(this, _.omit(game, ['stock']));
 
         if (game.stock) {

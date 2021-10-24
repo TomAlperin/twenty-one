@@ -2,8 +2,8 @@
   "$schema": "./node_modules/@angular/service-worker/config/schema.json",
   "index": "/index.html",
   "appData": {
-    "version": "v1.1.1",
-    "notes": "Uses neat cards for solitaire discard if neat cards are selected. Adds FreeCell game reset. Use readable cards for FreeCell automatically on small screens."
+    "version": "v1.1.2",
+    "notes": "Fixes bug causing card animations to run when switching games. Removes header from FreeCell stats. Other minor issues fixed."
   },
   "assetGroups": [
     {

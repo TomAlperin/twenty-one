@@ -10,6 +10,7 @@ import * as _ from 'lodash';
 import { SolitaireStatsComponent } from './solitaire-stats/solitaire-stats.component';
 import { SolitaireStats } from '@models/solitaire-stats';
 import { CardService } from '@services/card.service';
+import { AnimatedCard } from '@models/animated-card';
 
 @Component({
   selector: 'app-solitaire',
@@ -34,7 +35,7 @@ export class SolitaireComponent implements OnInit, OnDestroy {
     [],
     []
   ];
-  foundation: number[][] = [
+  foundation: (number | AnimatedCard)[][] = [
     [],
     [],
     [],
@@ -71,6 +72,7 @@ export class SolitaireComponent implements OnInit, OnDestroy {
     this.solitaire.game$
       .pipe(takeUntil(this.destroyed$))
       .subscribe(async (game: SolitaireGame) => {
+        game.foundation = game.foundation.map(column => column.map(card => (card as unknown as AnimatedCard).card || card));
         Object.assign(this, game);
 
         if (this.stock.length === 52) {
