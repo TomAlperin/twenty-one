@@ -1,5 +1,18 @@
 import { animate, AnimationBuilder, AnimationMetadata, style } from '@angular/animations';
-import { Component, ElementRef, Input, EventEmitter, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  Input,
+  EventEmitter,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  Output,
+  SimpleChanges,
+  ViewChild,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef
+} from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Settings } from '@models/settings';
@@ -11,7 +24,8 @@ const cardValues = ['', '0', '8.4', '16.7', '25', '33.3', '41.6', '49.9', '58.2'
 @Component({
   selector: 'app-card',
   templateUrl: './card.component.html',
-  styleUrls: ['./card.component.scss']
+  styleUrls: ['./card.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CardComponent implements OnInit, OnChanges, OnDestroy {
   suit: number;
@@ -53,7 +67,8 @@ export class CardComponent implements OnInit, OnChanges, OnDestroy {
     private builder: AnimationBuilder,
     private el: ElementRef,
     private twentyone: TwentyOneService,
-    private soundService: SoundService
+    private soundService: SoundService,
+    private ref: ChangeDetectorRef
   ) {
   }
 
@@ -127,6 +142,7 @@ export class CardComponent implements OnInit, OnChanges, OnDestroy {
         this.backCardStyles.transform = 'rotate(' + this.rand2 + 'deg) rotateY(180deg)';
       }
     }
+    this.ref.markForCheck();
   }
 
   subscribeToSettings() {

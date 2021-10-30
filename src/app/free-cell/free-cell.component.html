@@ -3,6 +3,7 @@
     (action)="doEvent($event)"
     heading="FreeCell"
     [hasStats]="hasStats"
+    [restartDisabled]="dealing"
     restart
   ></app-nav>
   <div class="container-xl height-100">
@@ -86,5 +87,6 @@
         </div>
       </div>
     </div>
+    <div *ngIf="dealing" class="mask"></div>
   </div>
 </div>

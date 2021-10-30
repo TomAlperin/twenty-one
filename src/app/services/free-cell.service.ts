@@ -46,7 +46,7 @@ export class FreeCellService {
     game = Object.assign({}, game);
 
     if (hasLocalStorage) {
-      localStorage['solitaire-gamestate'] = btoa(JSON.stringify(game));
+      localStorage['free-cell-gamestate'] = btoa(JSON.stringify(game));
     }
 
     this.game$.next(game);

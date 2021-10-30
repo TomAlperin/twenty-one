@@ -1,4 +1,13 @@
-import { Component, Input, OnChanges, OnDestroy, SimpleChanges, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnChanges,
+  OnDestroy,
+  SimpleChanges,
+  ViewChild
+} from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { WindowService } from '@services/window.service';
@@ -11,7 +20,8 @@ import { FreeCellService } from '@services/free-cell.service';
 @Component({
   selector: 'app-free-cell-group',
   templateUrl: './free-cell-group.component.html',
-  styleUrls: ['./free-cell-group.component.scss']
+  styleUrls: ['./free-cell-group.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FreeCellGroupComponent implements OnDestroy, OnChanges {
   dragging = false;
@@ -45,6 +55,7 @@ export class FreeCellGroupComponent implements OnDestroy, OnChanges {
     private freeCell: FreeCellService,
     private twentyone: TwentyOneService,
     private soundService: SoundService,
+    private ref: ChangeDetectorRef
   ) {
     this.window.mousetouchmove$
       .pipe(takeUntil(this.destroyed$))
@@ -104,6 +115,7 @@ export class FreeCellGroupComponent implements OnDestroy, OnChanges {
       }
       this.lastX = clientX;
       this.lastY = clientY;
+      this.ref.markForCheck();
     }
   }
 
@@ -197,10 +209,10 @@ export class FreeCellGroupComponent implements OnDestroy, OnChanges {
       this.posY = 0;
       this.lastX = 0;
       this.lastY = 0;
-
-      this.dragging = false;
-      this.dragged = false;
     }
+    this.dragging = false;
+    this.dragged = false;
+    this.ref.markForCheck();
   }
 
   resetDrag() {
@@ -212,7 +224,10 @@ export class FreeCellGroupComponent implements OnDestroy, OnChanges {
       this.posY = 0;
       this.lastX = 0;
       this.lastY = 0;
-      this.timeout = setTimeout(() => this.undoDrag = false, 180);
+      this.timeout = setTimeout(() => {
+        this.undoDrag = false;
+        this.ref.markForCheck();
+      }, 180);
     }, 0);
   }
 
@@ -257,6 +272,7 @@ export class FreeCellGroupComponent implements OnDestroy, OnChanges {
     if (playSound) {
       this.soundService.playSound('card-sound');
     }
+    this.ref.markForCheck();
   }
 
   ngOnDestroy() {

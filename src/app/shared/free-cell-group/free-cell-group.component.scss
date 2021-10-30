@@ -6,11 +6,15 @@
   app-free-cell-group {
     app-card {
       height: 3.5vh;
+      img {
+        transition: filter .2s ease-in-out;
+        will-change: filter;
+      }
       &:not(.select) {
-        > .flipper {
-          filter: brightness(0.75);
-          -webkit-filter: brightness(0.75);
-          -moz-filter: brightness(0.75);
+        img {
+          filter: brightness(0.9);
+          -webkit-filter: brightness(0.9);
+          -moz-filter: brightness(0.9);
         }
       }
       &.select {

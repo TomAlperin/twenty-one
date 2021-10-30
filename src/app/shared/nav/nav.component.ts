@@ -15,7 +15,7 @@ import { UpdateNotesComponent } from '@shared/update-notes/update-notes.componen
   templateUrl: './nav.component.html',
   styleUrls: ['./nav.component.scss']
 })
-export class NavComponent implements OnInit, OnDestroy {
+export class NavComponent implements OnDestroy {
   updateEvent: any;
   swUpdate = {
     name: 'Check For Update',
@@ -87,27 +87,12 @@ export class NavComponent implements OnInit, OnDestroy {
     private updates: SwUpdate,
   ) {
     if (this.updates.isEnabled) {
-      const appIsStable$ = appRef.isStable.pipe(first((isStable: boolean) => isStable === true));
+      this.options.push(this.swUpdate);
+      const appIsStable$ = this.appRef.isStable.pipe(first((isStable: boolean) => isStable === true));
       const everyHour$ = interval(6 * 60 * 60 * 1000);
       const everySixHoursOnceAppIsStable$ = concat(appIsStable$, everyHour$);
 
       everySixHoursOnceAppIsStable$.subscribe(() => updates.checkForUpdate());
-    }
-
-    this.subScribeToSettings();
-  }
-
-  update = () => {
-    setTimeout(() => {
-      this.updates.activateUpdate().then(() => document.location.reload());
-    }, 0);
-  }
-
-  async ngOnInit() {
-    if (this.updates.isEnabled) {
-      this.options.push(this.swUpdate);
-      interval(60 * 60 * 1000).subscribe(() => this.updates.checkForUpdate()
-        .then(() => { }));
 
       this.updates.available.subscribe((event) => {
         this.window.loadComponent(UpdateNotesComponent, Object.assign({ cb: this.update }, event));
@@ -118,6 +103,14 @@ export class NavComponent implements OnInit, OnDestroy {
         this.swUpdate.color = 'warn';
       });
     }
+
+    this.subScribeToSettings();
+  }
+
+  update = () => {
+    setTimeout(() => {
+      this.updates.activateUpdate().then(() => document.location.reload());
+    }, 0);
   }
 
   get url(): string {

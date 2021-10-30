@@ -2,11 +2,9 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FreeCellGame } from '@models/free-cell-game';
 import { FreeCellStats } from '@models/free-cell-stats';
 import { FreeCellService } from '@services/free-cell.service';
-import { SoundService } from '@services/sound.service';
 import { WindowService } from '@services/window.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { SolitaireStatsComponent } from '../solitaire/solitaire-stats/solitaire-stats.component';
 import * as _ from 'lodash';
 import { CardService } from '@services/card.service';
 import { FreeCellStatsComponent } from './free-cell-stats/free-cell-stats.component';
@@ -19,7 +17,6 @@ import { AnimatedCard } from '@models/animated-card';
 })
 export class FreeCellComponent implements OnInit, OnDestroy {
   hasStats = false;
-  restartDisabled = false;
   freeCells: number[] = [
     0,
     0,
@@ -46,11 +43,11 @@ export class FreeCellComponent implements OnInit, OnDestroy {
   animate = false;
   cardSound = false;
   won = false;
+  dealing = false;
   destroyed$ = new Subject();
 
   constructor(
     private freeCell: FreeCellService,
-    private soundService: SoundService,
     private cardService: CardService,
     private window: WindowService
   ) { }
@@ -69,12 +66,12 @@ export class FreeCellComponent implements OnInit, OnDestroy {
         Object.assign(this, _.omit(game, ['stock']));
 
         if (game.stock) {
+          this.dealing = true;
           const deck = game.stock;
           delete game.stock;
           this.animate = true;
 
           this.cardSound = true;
-          this.restartDisabled = true;
           this.save();
 
           for (let row = 0; row < 7; row++) {
@@ -90,12 +87,9 @@ export class FreeCellComponent implements OnInit, OnDestroy {
             }
           }
 
-          await new Promise((resolve) => setTimeout(resolve, 150));
-          this.soundService.playSound('card-sound');
-
           this.animate = false;
           this.save();
-          this.restartDisabled = false;
+          this.dealing = false;
         } else {
           this.animate = false;
           this.cardSound = false;

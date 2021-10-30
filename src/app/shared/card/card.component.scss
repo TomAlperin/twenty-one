@@ -22,11 +22,12 @@
   -webkit-perspective: 1000px;
   -moz-perspective: 1000px;
   transform-style: preserve-3d;
-  transition: 0.4s;
+  transition: all 0.4s;
   -webkit-transition: 0.4s;
   -moz-transition: 0.4s;
   transform-style: preserve-3d;
   -webkit-transform-style: preserve-3d;
+  will-change: transform, filter;
 }
 .flipper.flip {
   transform: rotateY(180deg) !important;
@@ -40,7 +41,7 @@
 }
 /* flip speed goes here */
 .flipper {
-  transition: 0.4s;
+  transition: all 0.4s;
   -webkit-transition: 0.4s;
   -moz-transition: 0.4s;
   transform-style: preserve-3d;

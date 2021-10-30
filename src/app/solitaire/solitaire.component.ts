@@ -25,7 +25,7 @@ export class SolitaireComponent implements OnInit, OnDestroy {
   cardSound = false;
   landscape = false;
   hasStats = false;
-  restartDisabled = false;
+  dealing = false;
   tableau: { card: number, flip: boolean }[][] = [
     [],
     [],
@@ -76,7 +76,7 @@ export class SolitaireComponent implements OnInit, OnDestroy {
         Object.assign(this, game);
 
         if (this.stock.length === 52) {
-          this.restartDisabled = true;
+          this.dealing = true;
           const cards = this.stock.splice(-28, 28);
           this.save();
           this.animate = true;
@@ -101,7 +101,7 @@ export class SolitaireComponent implements OnInit, OnDestroy {
 
           this.animate = false;
           this.save();
-          this.restartDisabled = false;
+          this.dealing = false;
         } else {
           this.animate = false;
           this.cardSound = false;
