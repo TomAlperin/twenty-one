@@ -25,6 +25,7 @@ import { LoadBarComponent } from './load-bar/load-bar.component';
 import { UpdateNotesComponent } from './update-notes/update-notes.component';
 import { FreeCellGroupComponent } from './free-cell-group/free-cell-group.component';
 import { CardCellComponent } from './card-cell/card-cell.component';
+import { FreeCellSelectPipe } from './free-cell-group/free-cell-select.pipe';
 
 @NgModule({
   imports: [
@@ -48,6 +49,7 @@ import { CardCellComponent } from './card-cell/card-cell.component';
     FadeInDirective,
     FocusDirective,
     FreeCellGroupComponent,
+    FreeCellSelectPipe,
     CardCellComponent,
     NavComponent,
     PercentBarPipe,

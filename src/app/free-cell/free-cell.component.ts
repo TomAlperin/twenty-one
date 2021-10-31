@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FreeCellGame } from '@models/free-cell-game';
 import { FreeCellStats } from '@models/free-cell-stats';
 import { FreeCellService } from '@services/free-cell.service';
@@ -49,7 +49,8 @@ export class FreeCellComponent implements OnInit, OnDestroy {
   constructor(
     private freeCell: FreeCellService,
     private cardService: CardService,
-    private window: WindowService
+    private window: WindowService,
+    private ref: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
@@ -72,7 +73,6 @@ export class FreeCellComponent implements OnInit, OnDestroy {
           this.animate = true;
 
           this.cardSound = true;
-          this.save();
 
           for (let row = 0; row < 7; row++) {
             for (let column = 0; column < 8; column++) {

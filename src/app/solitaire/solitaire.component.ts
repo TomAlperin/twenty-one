@@ -78,7 +78,6 @@ export class SolitaireComponent implements OnInit, OnDestroy {
         if (this.stock.length === 52) {
           this.dealing = true;
           const cards = this.stock.splice(-28, 28);
-          this.save();
           this.animate = true;
 
           this.cardSound = true;
@@ -101,7 +100,6 @@ export class SolitaireComponent implements OnInit, OnDestroy {
 
           this.animate = false;
           this.save();
-          this.dealing = false;
         } else {
           this.animate = false;
           this.cardSound = false;
@@ -110,6 +108,7 @@ export class SolitaireComponent implements OnInit, OnDestroy {
 
         await new Promise((resolve) => setTimeout(resolve, 100));
         this.cardSound = true;
+        this.dealing = false;
       });
   }
 

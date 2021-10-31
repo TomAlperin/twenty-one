@@ -19,10 +19,7 @@
     [column]="column"
     pos="relative"
     class="align-self-center"
-    [ngClass]="{
-      select:
-        index <= freeCellsLength && draggable && (!group || group?.draggable)
-    }"
+    [ngClass]="{ select: freeCells | appCellSelect: index:draggable:group }"
     [ngStyle]="{ 'z-index': 20 - cards.length }"
   ></app-card>
   <app-free-cell-group

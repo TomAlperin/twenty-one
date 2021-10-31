@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, ViewChild } from '@angular/core';
+import { Component, Input, OnDestroy, ViewChild } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { WindowService } from '@services/window.service';
@@ -11,8 +11,7 @@ import { SoundService } from '@services/sound.service';
 @Component({
   selector: 'app-card-group',
   templateUrl: './card-group.component.html',
-  styleUrls: ['./card-group.component.scss'],
-  // changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./card-group.component.scss']
 })
 export class CardGroupComponent implements OnDestroy {
   dragging = false;
@@ -41,8 +40,7 @@ export class CardGroupComponent implements OnDestroy {
     private window: WindowService,
     private solitaire: SolitaireService,
     private twentyone: TwentyOneService,
-    private soundService: SoundService,
-    private ref: ChangeDetectorRef
+    private soundService: SoundService
   ) {
     this.window.mousetouchmove$
       .pipe(takeUntil(this.destroyed$))
@@ -80,7 +78,6 @@ export class CardGroupComponent implements OnDestroy {
       this.lastX = clientX;
       this.lastY = clientY;
     }
-    this.ref.markForCheck();
   }
 
   async endDrag(event: MouseEvent & TouchEvent) {
@@ -170,7 +167,6 @@ export class CardGroupComponent implements OnDestroy {
     }
     this.dragging = false;
     this.dragged = false;
-    this.ref.markForCheck();
   }
 
   resetDrag() {
@@ -184,7 +180,6 @@ export class CardGroupComponent implements OnDestroy {
       this.lastY = 0;
       this.timeout = setTimeout(() => {
         this.undoDrag = false;
-        this.ref.markForCheck();
       }, 180);
     }, 0);
   }
@@ -230,7 +225,6 @@ export class CardGroupComponent implements OnDestroy {
     if (playSound) {
       this.soundService.playSound('card-sound');
     }
-    this.ref.markForCheck();
   }
 
   flipCard() {
