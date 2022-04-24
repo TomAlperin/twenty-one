@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1650841675797,
+  "timestamp": 1650842597322,
   "appData": {
     "version": "v1.1.5",
     "notes": "Smaller logo for better mobile friendly header."
@@ -27,8 +27,8 @@
         "https://tomalperin.github.io/twenty-one/common-es5.ce383eb7997f3b5282fa.js",
         "https://tomalperin.github.io/twenty-one/favicon.ico",
         "https://tomalperin.github.io/twenty-one/index.html",
-        "https://tomalperin.github.io/twenty-one/main-es2015.0d9add4e393e7e7677a9.js",
-        "https://tomalperin.github.io/twenty-one/main-es5.0d9add4e393e7e7677a9.js",
+        "https://tomalperin.github.io/twenty-one/main-es2015.2949289f3695972f7dbd.js",
+        "https://tomalperin.github.io/twenty-one/main-es5.2949289f3695972f7dbd.js",
         "https://tomalperin.github.io/twenty-one/manifest.webmanifest",
         "https://tomalperin.github.io/twenty-one/polyfills-es2015.306101d2123aadfb5861.js",
         "https://tomalperin.github.io/twenty-one/polyfills-es5.a09fc5f522fd95d3bee6.js",
@@ -173,10 +173,10 @@
     "https://tomalperin.github.io/twenty-one/felt.a4dde98dc3a5ebdef1f6.jpg": "00dbe5a611846212c7ad8e3b4b2a6b703d693bbe",
     "https://tomalperin.github.io/twenty-one/geebee-solitaire.f966b3e942f785aeb238.png": "3dfb0ea542aaf50ab2f36727f678beb016ba15f7",
     "https://tomalperin.github.io/twenty-one/geebee.01c63f246e5baab923ae.png": "a8bcbbf21c7977ca55f1838088191d9797b18a1d",
-    "https://tomalperin.github.io/twenty-one/index.html": "ec3addaf220de7c8e64dd4fbe6d4a983c31cfa5d",
+    "https://tomalperin.github.io/twenty-one/index.html": "cbec2540d72cc714f20c1a966a76b5bf9343dfe5",
     "https://tomalperin.github.io/twenty-one/kb.fb2b0bd5da22a5d78d52.jpg": "c170e6c86fad01c1835688171621d33922734396",
-    "https://tomalperin.github.io/twenty-one/main-es2015.0d9add4e393e7e7677a9.js": "def8d3b367e8711c3de4d69bfc13174ccfea8671",
-    "https://tomalperin.github.io/twenty-one/main-es5.0d9add4e393e7e7677a9.js": "de122f8ffd808086271bf3e29bde5f952f507066",
+    "https://tomalperin.github.io/twenty-one/main-es2015.2949289f3695972f7dbd.js": "8520c907473f4264d7d9cefb7896733d23ca0083",
+    "https://tomalperin.github.io/twenty-one/main-es5.2949289f3695972f7dbd.js": "ae94505b95f802e8898b95656a9bd39faf6c95fd",
     "https://tomalperin.github.io/twenty-one/manifest.webmanifest": "46c395f8afaa3c39ed4c9e806affd628dd0aa496",
     "https://tomalperin.github.io/twenty-one/polyfills-es2015.306101d2123aadfb5861.js": "7fcf852be9424602efe17ddea607e3ede4d0eefd",
     "https://tomalperin.github.io/twenty-one/polyfills-es5.a09fc5f522fd95d3bee6.js": "200e3eef3c5307349ad08ca924a4b03ff8351849",
