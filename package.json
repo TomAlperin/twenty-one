@@ -1,12 +1,12 @@
 {
   "name": "twenty-one",
-  "version": "1.1.5",
+  "version": "1.1.6",
   "author": "Tom Alperin",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
-    "build:production": "ng build --configuration=production",
+    "build": "ng build --prod --base-href https://blackjack.technicallytom.com/",
+    "deploy:production": "npx angular-cli-ghpages --dir=dist/twenty-one",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
