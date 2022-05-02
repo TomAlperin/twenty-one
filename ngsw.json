@@ -1,9 +1,9 @@
 {
   "configVersion": 1,
-  "timestamp": 1650847554888,
+  "timestamp": 1651470106171,
   "appData": {
-    "version": "v1.1.6",
-    "notes": "Moved to GH Pages hosting."
+    "version": "v1.1.7",
+    "notes": "Added 404 page to handle navigation better on gh pages."
   },
   "index": "https://blackjack.technicallytom.com/index.html",
   "assetGroups": [
