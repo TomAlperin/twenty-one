@@ -2,8 +2,8 @@
   "$schema": "./node_modules/@angular/service-worker/config/schema.json",
   "index": "/index.html",
   "appData": {
-    "version": "v1.1.6",
-    "notes": "Moved to GH Pages hosting."
+    "version": "v1.1.7",
+    "notes": "Added 404 page to handle navigation better on gh pages."
   },
   "assetGroups": [
     {
