@@ -29,7 +29,11 @@
               "src/google71d6994c1ca40153.html",
               "src/assets/img/blackjack.jpg",
               "src/assets",
-              "src/manifest.webmanifest"
+              "src/manifest.webmanifest",
+              "src/twenty-one.html",
+              "src/solitaire.html",
+              "src/free-cell.html",
+              "src/about.html"
             ],
             "styles": [
               "src/styles.scss"

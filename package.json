@@ -5,7 +5,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build --prod --base-href https://blackjack.technicallytom.com/",
+    "build": "ng build --configuration production --base-href https://blackjack.technicallytom.com/",
     "deploy:production": "npx angular-cli-ghpages --dir=dist/twenty-one",
     "test": "ng test",
     "lint": "ng lint",

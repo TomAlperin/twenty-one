@@ -536,3 +536,25 @@
     bottom: auto;
   }
 }
+@media only screen and (orientation: landscape) and  (max-height: 500px) {
+  .twenty-one-container {
+    ::ng-deep {
+      .card {
+        &:not(.hide) {
+          background-image: url("/assets/img/cards-small.png") !important;
+        }
+      }
+    }
+  }
+}
+@media only screen and (orientation: portrait) and  (max-height: 700px) {
+  .twenty-one-container {
+    ::ng-deep {
+      .card {
+        &:not(.hide) {
+          background-image: url("/assets/img/cards-small.png") !important;
+        }
+      }
+    }
+  }
+}

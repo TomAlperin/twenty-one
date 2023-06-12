@@ -38,8 +38,6 @@ export class FreeCellGroupComponent implements OnDestroy, OnChanges {
   @Input() column: number;
   @Input() animate: boolean;
   @Input() cardSound: boolean;
-  @Input() width: number;
-  @Input() offset: number;
   @Input() index: number;
   @Input() freeCells: number[] = [];
   @ViewChild('card') card: CardComponent;
