@@ -27,14 +27,12 @@
     <mat-menu #menu="matMenu" xPosition="before">
       <ng-container *ngFor="let option of options; trackBy: trackByFn">
         <button
-          *ngIf="
-            option.url !== url &&
-            !option.divider &&
-            (option.action !== 'stats' || hasStats)
-          "
+          *ngIf="!option.divider && (option.action !== 'stats' || hasStats)"
           type="buton"
           (click)="doEvent(option.action)"
           [routerLink]="option.url"
+          [routerLinkActive]="option.url ? 'active' : ''"
+          [routerLinkActiveOptions]="{ exact: true }"
           mat-menu-item
         >
           <mat-icon

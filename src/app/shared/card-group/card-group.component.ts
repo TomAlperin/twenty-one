@@ -30,8 +30,6 @@ export class CardGroupComponent implements OnDestroy {
   @Input() column: number;
   @Input() animate: boolean;
   @Input() cardSound: boolean;
-  @Input() width: number;
-  @Input() offset: number;
   @ViewChild('card') card: CardComponent;
 
   destroyed$ = new Subject();
