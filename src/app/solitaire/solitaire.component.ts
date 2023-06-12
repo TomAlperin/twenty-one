@@ -20,7 +20,6 @@ import { AnimatedCard } from '@models/animated-card';
 export class SolitaireComponent implements OnInit, OnDestroy {
   stock: number[] = [];
   talon: any[] = [];
-  width = 120;
   animate = true;
   cardSound = false;
   landscape = false;

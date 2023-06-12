@@ -11,7 +11,7 @@ const aboutRoutes: Routes = [
       seo: {
         title: 'About | Technically Tom',
         metaTags: [
-          { name: 'description', content: 'out page for Tom Alperin.' },
+          { name: 'description', content: 'About page for Tom Alperin.' },
           { property: 'og:title', content: 'About | Technically Tom | About Tom Alperin' },
           { proprety: 'og:description', content: 'About page for Tom Alperin.' },
           { property: 'og:image', content: environment.appUrl + 'assets/img/blackjack.jpg' },

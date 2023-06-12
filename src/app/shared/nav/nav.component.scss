@@ -43,10 +43,24 @@ nav {
 }
 
 ::ng-deep {
+  .mat-menu-item:hover:not([disabled]),
+  .mat-menu-item.cdk-program-focused:not([disabled]),
+  .mat-menu-item.cdk-keyboard-focused:not([disabled]),
+  .mat-menu-item-highlighted:not([disabled]) {
+    background: #fbffc14c;
+  }
+  .mat-menu-item {
+    &.active {
+      background: #fbffc132;
+      span {
+        color: #fff;
+      }
+    }
+  }
   .mat-menu-panel {
     background-color: rgba(0, 0, 0, 0.8);
     border: 1px solid #fff31a;
-
+    
     .mat-menu-item {
       img {
         vertical-align: middle;
