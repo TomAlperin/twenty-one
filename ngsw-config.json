@@ -2,8 +2,8 @@
   "$schema": "./node_modules/@angular/service-worker/config/schema.json",
   "index": "/index.html",
   "appData": {
-    "version": "v1.1.7",
-    "notes": "Added 404 page to handle navigation better on gh pages."
+    "version": "v1.1.8",
+    "notes": "Fixed display of small cards for Twenty One."
   },
   "assetGroups": [
     {
