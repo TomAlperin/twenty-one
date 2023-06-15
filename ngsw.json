@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1686796842630,
+  "timestamp": 1686798366240,
   "appData": {
     "version": "v1.2.0",
     "notes": "Fixes issue with multi touch and win count. Upgrade to Angular 14"
@@ -26,7 +26,7 @@
         "https://blackjack.technicallytom.com/manifest.webmanifest",
         "https://blackjack.technicallytom.com/polyfills.e64218fb799ee4fd.js",
         "https://blackjack.technicallytom.com/runtime.30f00e5ce215dd7a.js",
-        "https://blackjack.technicallytom.com/styles.d01f07d07d1acdeb.css"
+        "https://blackjack.technicallytom.com/styles.fb31ad9ec0577e73.css"
       ],
       "patterns": []
     },
@@ -142,12 +142,12 @@
     "https://blackjack.technicallytom.com/assets/snd/stanky.mp3": "fd9719479cc0447a83616b2d01a439512b8b9da2",
     "https://blackjack.technicallytom.com/common.f8f704ca361337dc.js": "89f323f2fbd2b48d8185078a253e17b3bc8b75a9",
     "https://blackjack.technicallytom.com/favicon.ico": "e714887724e9cd93d687165b2048169a001b90c9",
-    "https://blackjack.technicallytom.com/index.html": "1a09326524404acea516fb09f8a1f9d83ab60113",
+    "https://blackjack.technicallytom.com/index.html": "3f71d3cda502da1b31cffb07b806e05835d5ce3f",
     "https://blackjack.technicallytom.com/main.10d3d098f35fc1cb.js": "bb7dd76f04bc57e1e61ad6522a7002aed3d1dfad",
     "https://blackjack.technicallytom.com/manifest.webmanifest": "46c395f8afaa3c39ed4c9e806affd628dd0aa496",
     "https://blackjack.technicallytom.com/polyfills.e64218fb799ee4fd.js": "731554436c7ef1b29104e9771e38a2cc2ca54cc6",
     "https://blackjack.technicallytom.com/runtime.30f00e5ce215dd7a.js": "ddccfdb2f709cca97c31a0294b8b9db625693b91",
-    "https://blackjack.technicallytom.com/styles.d01f07d07d1acdeb.css": "9a8257625c4bfd743c7d3e2975054cba759a03cb"
+    "https://blackjack.technicallytom.com/styles.fb31ad9ec0577e73.css": "20ac80707f35127bdfcc2c62e1d8f39a2ae0c3f4"
   },
   "navigationUrls": [
     {
