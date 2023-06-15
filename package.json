@@ -11,7 +11,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "bundle-report": "webpack-bundle-analyzer dist/twenty-one/stats-es2015.json",
-    "angular-upgrade": "ng update @angular/core@14 @angular/cli@14"
+    "angular-upgrade": "ng update @angular/core@14 @angular/cli@14 --force"
   },
   "private": true,
   "dependencies": {
