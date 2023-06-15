@@ -3,7 +3,7 @@
   "index": "/index.html",
   "appData": {
     "version": "v1.2.0",
-    "notes": "Fixes issue with multi touch and win count."
+    "notes": "Fixes issue with multi touch and win count. Upgrade to Angular 14"
   },
   "assetGroups": [
     {
