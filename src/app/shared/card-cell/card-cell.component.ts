@@ -142,7 +142,7 @@ export class CardCellComponent implements OnDestroy {
             }
           }
 
-          this.freeCell.checkWin(this.foundation);
+          this.freeCell.checkWin();
         }
 
         if (reset) {
@@ -200,7 +200,7 @@ export class CardCellComponent implements OnDestroy {
           });
           playSound = false;
           this.freeCells[this.index] = 0;
-          this.freeCell.checkWin(this.foundation);
+          this.freeCell.checkWin();
           break;
         }
       }

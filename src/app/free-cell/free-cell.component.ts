@@ -149,7 +149,7 @@ export class FreeCellComponent implements OnInit, OnDestroy {
       foundation: this.foundation.map(
         stack => stack.map(
           card => _.get(card, 'card', card)
-        )
+        ) as number[]
       ),
       won: this.won
     });

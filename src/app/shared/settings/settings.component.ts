@@ -10,7 +10,7 @@ import {
   ViewChild,
   ViewChildren
 } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { MatRadioButton } from '@angular/material/radio';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -32,7 +32,7 @@ import { FreeCellService } from '@services/free-cell.service';
 })
 export class SettingsComponent implements OnInit, AfterViewInit, OnDestroy {
   show = false;
-  form: FormGroup;
+  form: UntypedFormGroup;
   currentDeckCount: number;
   currentDrawCount: number;
   destroyed$ = new Subject();
@@ -47,7 +47,7 @@ export class SettingsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private appRef: ApplicationRef,
     private twentyone: TwentyOneService,
     private solitaire: SolitaireService,

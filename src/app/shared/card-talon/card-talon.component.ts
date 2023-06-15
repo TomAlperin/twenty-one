@@ -121,7 +121,7 @@ export class CardTalonComponent implements OnDestroy {
             this.lastX = 0;
             this.lastY = 0;
 
-            this.solitaire.checkWin(this.foundation);
+            this.solitaire.checkWin();
           } else {
             const dropCard = this.tableau[column][this.tableau[column].length - 1];
 
@@ -140,7 +140,7 @@ export class CardTalonComponent implements OnDestroy {
               const card = this.cards.pop();
               this.tableau[column].push({ card, flip: false });
               this.tableau[column] = [...this.tableau[column]];
-              this.solitaire.checkWin(this.foundation);
+              this.solitaire.checkWin();
               reset = false;
             }
           }
@@ -199,7 +199,7 @@ export class CardTalonComponent implements OnDestroy {
             scale: 1.1
           });
           playSound = false;
-          this.solitaire.checkWin(this.foundation);
+          this.solitaire.checkWin();
           break;
         }
       }

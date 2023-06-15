@@ -8,17 +8,14 @@ import { SolitaireStatsComponent } from './solitaire-stats/solitaire-stats.compo
 
 
 @NgModule({
-  declarations: [
-    SolitaireComponent,
-    SolitaireStatsComponent
-  ],
-  imports: [
-    CommonModule,
-    SharedModule,
-    SolitaireRouting
-  ],
-  entryComponents: [
-    SolitaireStatsComponent
-  ]
+    declarations: [
+        SolitaireComponent,
+        SolitaireStatsComponent
+    ],
+    imports: [
+        CommonModule,
+        SharedModule,
+        SolitaireRouting
+    ]
 })
 export class SolitaireModule { }
