@@ -11,23 +11,19 @@ import { FlipMaskPipe } from './flip-mask.pipe';
 import { TwentyOneHelpComponent } from './twenty-one-help/twenty-one-help.component';
 
 @NgModule({
-  declarations: [
-    TwentyOneComponent,
-    ActionCheckPipe,
-    FlipMaskPipe,
-    SettingsComponent,
-    TwentyoneStatsComponent,
-    TwentyOneHelpComponent,
-  ],
-  imports: [
-    CommonModule,
-    TwentyOneRouting,
-    SharedModule,
-    ReactiveFormsModule,
-  ],
-  entryComponents: [
-    SettingsComponent,
-    TwentyoneStatsComponent,
-  ],
+    declarations: [
+        TwentyOneComponent,
+        ActionCheckPipe,
+        FlipMaskPipe,
+        SettingsComponent,
+        TwentyoneStatsComponent,
+        TwentyOneHelpComponent,
+    ],
+    imports: [
+        CommonModule,
+        TwentyOneRouting,
+        SharedModule,
+        ReactiveFormsModule,
+    ]
 })
 export class TwentyOneModule { }
