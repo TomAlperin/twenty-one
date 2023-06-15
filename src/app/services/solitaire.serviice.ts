@@ -107,19 +107,19 @@ export class SolitaireService {
     }
   }
 
-  checkWin(foundation: number[][]) {
+  checkWin() {
     setTimeout(() => {
-      const totalCards = foundation.reduce((prev: number, curr: number[]) => {
+      const totalCards = this.game$.getValue().foundation.reduce((prev: number, curr: number[]) => {
         return prev + curr.length;
       }, 0);
 
-      if (totalCards === 52) {
+      if (!this.game.won && totalCards === 52) {
         this.soundService.playSound('win');
         this.window.loadComponent(WinComponent, { winImage: 'geebee-solitaire.png' });
         this.game = Object.assign({}, this.game, { won: true });
         this.gameResult = 'win';
+        this.triggerSave$.next();
       }
-      this.triggerSave$.next();
     }, 200);
   }
 }

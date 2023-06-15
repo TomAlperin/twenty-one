@@ -121,7 +121,7 @@ export class CardGroupComponent implements OnDestroy {
                   this.tableau[this.column] = [...this.tableau[this.column]];
                   this.foundation[column - 7].push(card.card);
                   this.flipCard();
-                  this.solitaire.checkWin(this.foundation);
+                  this.solitaire.checkWin();
                   reset = false;
                 }
               }
@@ -147,7 +147,7 @@ export class CardGroupComponent implements OnDestroy {
               this.tableau[column].push(...cards);
               this.tableau[column] = [...this.tableau[column]];
               this.flipCard();
-              this.solitaire.checkWin(this.foundation);
+              this.solitaire.checkWin();
               reset = false;
             }
           }
@@ -212,7 +212,7 @@ export class CardGroupComponent implements OnDestroy {
               scale: 1.4
             });
             this.flipCard();
-            this.solitaire.checkWin(this.foundation);
+            this.solitaire.checkWin();
             playSound = false;
             break;
           }
