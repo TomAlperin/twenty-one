@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1686784484648,
+  "timestamp": 1686789002235,
   "appData": {
     "version": "v1.1.8",
     "notes": "Fixed display of small cards for Twenty One."
@@ -27,8 +27,8 @@
         "https://blackjack.technicallytom.com/common-es5.ce383eb7997f3b5282fa.js",
         "https://blackjack.technicallytom.com/favicon.ico",
         "https://blackjack.technicallytom.com/index.html",
-        "https://blackjack.technicallytom.com/main-es2015.9661bd84c2e4e3f7ff13.js",
-        "https://blackjack.technicallytom.com/main-es5.9661bd84c2e4e3f7ff13.js",
+        "https://blackjack.technicallytom.com/main-es2015.e2723efb5efbe9bd30d2.js",
+        "https://blackjack.technicallytom.com/main-es5.e2723efb5efbe9bd30d2.js",
         "https://blackjack.technicallytom.com/manifest.webmanifest",
         "https://blackjack.technicallytom.com/polyfills-es2015.306101d2123aadfb5861.js",
         "https://blackjack.technicallytom.com/polyfills-es5.a09fc5f522fd95d3bee6.js",
@@ -155,9 +155,9 @@
     "https://blackjack.technicallytom.com/common-es2015.ce383eb7997f3b5282fa.js": "bd8db8ffb52a48bb5f3a43f5267747b815365fdd",
     "https://blackjack.technicallytom.com/common-es5.ce383eb7997f3b5282fa.js": "6c002a156ce2d109487c75d65a4b8798421e3f8d",
     "https://blackjack.technicallytom.com/favicon.ico": "e714887724e9cd93d687165b2048169a001b90c9",
-    "https://blackjack.technicallytom.com/index.html": "d5d6c7c92a6acd994cd86d545cb3d11b04f7b020",
-    "https://blackjack.technicallytom.com/main-es2015.9661bd84c2e4e3f7ff13.js": "e37c50513df446bdcbca4505be4a35ef14105257",
-    "https://blackjack.technicallytom.com/main-es5.9661bd84c2e4e3f7ff13.js": "b371b400592aab56209deab322877c7b4777ccbb",
+    "https://blackjack.technicallytom.com/index.html": "99fdf77f2ef6e5756bec49a660b142b8b45787b8",
+    "https://blackjack.technicallytom.com/main-es2015.e2723efb5efbe9bd30d2.js": "1bf6098dee34c918ba60589b0f5aa14ea0b29386",
+    "https://blackjack.technicallytom.com/main-es5.e2723efb5efbe9bd30d2.js": "b72b2b7daf11ed86e53e1d13170abcbfd1212844",
     "https://blackjack.technicallytom.com/manifest.webmanifest": "46c395f8afaa3c39ed4c9e806affd628dd0aa496",
     "https://blackjack.technicallytom.com/polyfills-es2015.306101d2123aadfb5861.js": "7fcf852be9424602efe17ddea607e3ede4d0eefd",
     "https://blackjack.technicallytom.com/polyfills-es5.a09fc5f522fd95d3bee6.js": "200e3eef3c5307349ad08ca924a4b03ff8351849",
