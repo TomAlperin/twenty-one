@@ -220,13 +220,19 @@ body::after {
     // border: 1px solid #fff31a;
     color: #fff;
     table {
-      color: #fff;
+      color: #fff ;
       border-color: rgba(255, 255, 255, 0.603);
+      th, td {
+        color: #fff;
+      }
     }
     h2,
     h3,
     h4 {
       color: #ffff00;
+    }
+    td {
+      background: unset;
     }
   }
 
