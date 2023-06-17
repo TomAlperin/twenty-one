@@ -154,7 +154,7 @@ export class FreeCellGroupComponent implements OnDestroy, OnChanges {
                   const card = this.tableau[this.column].pop();
                   this.tableau[this.column] = [...this.tableau[this.column]];
                   this.foundation[column - 8].push(card.card);
-                  this.freeCell.checkWin(this.foundation);
+                  this.freeCell.checkWin();
                   reset = false;
                 }
               }
@@ -167,7 +167,7 @@ export class FreeCellGroupComponent implements OnDestroy, OnChanges {
               this.tableau[this.column] = [...this.tableau[this.column]];
               this.freeCells[-column - 1] = card.card;
             }
-            this.freeCell.checkWin(this.foundation);
+            this.freeCell.checkWin();
           } else {
             const dropCard = this.tableau[column][this.tableau[column].length - 1];
 
@@ -188,7 +188,7 @@ export class FreeCellGroupComponent implements OnDestroy, OnChanges {
 
               this.tableau[column].push(...cards);
               this.tableau[column] = [...this.tableau[column]];
-              this.freeCell.checkWin(this.foundation);
+              this.freeCell.checkWin();
               reset = false;
             }
           }
@@ -252,7 +252,7 @@ export class FreeCellGroupComponent implements OnDestroy, OnChanges {
               deg: this.twentyone.gameSettings.alignment === 'neat' ? 0 : this.card.rand2,
               scale: 1.4
             });
-            this.freeCell.checkWin(this.foundation);
+            this.freeCell.checkWin();
             playSound = false;
             break;
           }

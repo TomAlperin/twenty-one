@@ -2,8 +2,8 @@
   "$schema": "./node_modules/@angular/service-worker/config/schema.json",
   "index": "/index.html",
   "appData": {
-    "version": "v1.1.8",
-    "notes": "Fixed display of small cards for Twenty One."
+    "version": "v1.2.0",
+    "notes": "Fixes issue with multi touch and win count. Upgrade to Angular 14"
   },
   "assetGroups": [
     {
