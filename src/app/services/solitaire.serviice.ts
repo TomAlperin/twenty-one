@@ -48,10 +48,7 @@ export class SolitaireService {
   public set game(game) {
     game = Object.assign({}, game);
 
-    if (hasLocalStorage) {
-      localStorage['solitaire-gamestate'] = btoa(JSON.stringify(game));
-    }
-
+    this.saveGame(game);
     this.game$.next(game);
   }
 
@@ -119,6 +116,8 @@ export class SolitaireService {
         this.game = Object.assign({}, this.game, { won: true });
         this.gameResult = 'win';
         this.triggerSave$.next();
+      } else {
+        this.saveGame(this.game);
       }
     }, 200);
   }
