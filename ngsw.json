@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1689042264663,
+  "timestamp": 1689042542157,
   "appData": {
     "version": "v1.2.0",
     "notes": "Fixes issue with multi touch and win count. Upgrade to Angular 14"
@@ -18,14 +18,14 @@
         "https://blackjack.technicallytom.com/10.44007327b3892e24.js",
         "https://blackjack.technicallytom.com/213.78b264e538ed47c5.js",
         "https://blackjack.technicallytom.com/904.bff19e523bf15124.js",
-        "https://blackjack.technicallytom.com/956.67d79d991b86e453.js",
+        "https://blackjack.technicallytom.com/956.6a7d77d662a90649.js",
         "https://blackjack.technicallytom.com/common.f8f704ca361337dc.js",
         "https://blackjack.technicallytom.com/favicon.ico",
         "https://blackjack.technicallytom.com/index.html",
         "https://blackjack.technicallytom.com/main.0798a5f0f2468b3e.js",
         "https://blackjack.technicallytom.com/manifest.webmanifest",
         "https://blackjack.technicallytom.com/polyfills.e64218fb799ee4fd.js",
-        "https://blackjack.technicallytom.com/runtime.7a196a888e6ff882.js",
+        "https://blackjack.technicallytom.com/runtime.449ce19aada4bfb9.js",
         "https://blackjack.technicallytom.com/styles.fb31ad9ec0577e73.css"
       ],
       "patterns": []
@@ -93,7 +93,7 @@
     "https://blackjack.technicallytom.com/10.44007327b3892e24.js": "ea139ecd156eb5b278b31393546104e2d8d84beb",
     "https://blackjack.technicallytom.com/213.78b264e538ed47c5.js": "d2e4a22212c5b01805aba761e455b560f90e610a",
     "https://blackjack.technicallytom.com/904.bff19e523bf15124.js": "15eebb8a58d765251a414b661e40b2def3ceb93e",
-    "https://blackjack.technicallytom.com/956.67d79d991b86e453.js": "907a8a75467da177c40d65da8cba9c1167edc928",
+    "https://blackjack.technicallytom.com/956.6a7d77d662a90649.js": "5a1f357f09a9cdbc2bc0649c5b65734ded697e88",
     "https://blackjack.technicallytom.com/assets/icons/icon-128x128.png": "c4c15ae81f0dadc0d4421824a6880191f2c54f03",
     "https://blackjack.technicallytom.com/assets/icons/icon-144x144.png": "eab1f217aebff895f994ff4db6bc6e97cf388d77",
     "https://blackjack.technicallytom.com/assets/icons/icon-152x152.png": "e2821d6e7f1bd013617e216af28c224ac6514551",
@@ -142,11 +142,11 @@
     "https://blackjack.technicallytom.com/assets/snd/stanky.mp3": "fd9719479cc0447a83616b2d01a439512b8b9da2",
     "https://blackjack.technicallytom.com/common.f8f704ca361337dc.js": "89f323f2fbd2b48d8185078a253e17b3bc8b75a9",
     "https://blackjack.technicallytom.com/favicon.ico": "e714887724e9cd93d687165b2048169a001b90c9",
-    "https://blackjack.technicallytom.com/index.html": "88ac3c2bef3bc144e274c8cbf3f8687c05314a38",
+    "https://blackjack.technicallytom.com/index.html": "76ea1c9fea8e977c34c2aca1643327fedc4a1a7e",
     "https://blackjack.technicallytom.com/main.0798a5f0f2468b3e.js": "4d3efc99130af0bff913ffaa3b06a361f6e99b03",
     "https://blackjack.technicallytom.com/manifest.webmanifest": "46c395f8afaa3c39ed4c9e806affd628dd0aa496",
     "https://blackjack.technicallytom.com/polyfills.e64218fb799ee4fd.js": "731554436c7ef1b29104e9771e38a2cc2ca54cc6",
-    "https://blackjack.technicallytom.com/runtime.7a196a888e6ff882.js": "c038f361e906c5007029b0c0b30c9a3fc22dfb70",
+    "https://blackjack.technicallytom.com/runtime.449ce19aada4bfb9.js": "8d06e527e7f5d6616178f4f9bf20bf16542af707",
     "https://blackjack.technicallytom.com/styles.fb31ad9ec0577e73.css": "20ac80707f35127bdfcc2c62e1d8f39a2ae0c3f4"
   },
   "navigationUrls": [
