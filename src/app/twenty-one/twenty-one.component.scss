@@ -245,6 +245,11 @@
   font-size: 12px;
   border-radius: 60px;
   margin: 7px 7px;
+  border-top-color: #767676;
+  border-left-color: #767676;
+  border-bottom-color: #464646;
+  border-right-color: #464646;
+  border-style: solid;
   background: repeating-linear-gradient(
     135deg,
     #8585c7,
@@ -264,7 +269,8 @@
   &:hover {
     &:not([disabled]) {
       &:not(:active) {
-        border: 3px inset #60a3e2c5;
+        border-width: 3px;
+        filter: brightness(1.1);
       }
     }
   }
@@ -277,7 +283,11 @@
   &:active {
     &:not([disabled]) {
       border-width: 5px;
-      border-style: inset;
+      border-bottom-color: #767676;
+      border-right-color: #767676;
+      border-top-color: #464646;
+      border-left-color: #464646;
+      border-style: solid;    
     }
   }
 }
